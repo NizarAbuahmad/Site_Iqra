@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>اقرأ — رفيقك في تحضير الحصص</title>
+<meta name="description" content="مساعد عربي بالذكاء الاصطناعي يحضّر خطط الدروس وأوراق العمل والاختبارات لمعلمي الأردن، وفق منهاج الوزارة للصف العاشر.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#081B3A; --teal:#00A99D; --aqua:#34D6C6;
+    --bg:#F5F7FA; --card:#fff; --muted:#6B7A8D; --border:#DDE6E8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--navy);
+    font-family:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+    line-height:1.75; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  a{color:inherit}
+
+  /* header */
+  header{padding:20px 0; position:sticky; top:0; background:rgba(245,247,250,.9); backdrop-filter:blur(8px); z-index:10; border-bottom:1px solid transparent}
+  header .wrap{display:flex; align-items:center; gap:16px}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:22px}
+  nav{margin-inline-start:auto; display:flex; gap:24px; font-size:15px; color:var(--muted)}
+  nav a{text-decoration:none}
+  nav a:hover{color:var(--teal)}
+  @media(max-width:640px){nav{display:none}}
+
+  /* buttons */
+  .btn{display:inline-block; padding:14px 28px; border-radius:12px; font-weight:600; font-size:16px; text-decoration:none; border:1px solid transparent}
+  .btn-primary{background:var(--teal); color:#fff}
+  .btn-primary:hover{background:#008f85}
+  .btn-ghost{border-color:var(--border); color:var(--navy); background:var(--card)}
+
+  /* hero */
+  .hero{padding:72px 0 64px; text-align:center; background:
+    radial-gradient(60% 70% at 50% 0%, rgba(52,214,198,.18), transparent 70%);}
+  .eyebrow{display:inline-block; background:#E6F7F6; color:var(--teal); font-size:14px; font-weight:600; padding:6px 14px; border-radius:999px; margin-bottom:20px}
+  h1{font-size:clamp(32px,5.5vw,52px); line-height:1.3; margin:0 0 20px; letter-spacing:-.5px}
+  .hero p{font-size:clamp(17px,2.2vw,20px); color:var(--muted); max-width:620px; margin:0 auto 32px}
+  .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+  .note{margin-top:24px; font-size:14px; color:var(--muted)}
+
+  /* sections */
+  section{padding:64px 0}
+  h2{font-size:clamp(24px,3.5vw,34px); margin:0 0 12px; text-align:center}
+  .sub{text-align:center; color:var(--muted); margin:0 auto 44px; max-width:560px}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px}
+  .card h3{margin:14px 0 8px; font-size:19px}
+  .card p{margin:0; color:var(--muted); font-size:15.5px}
+  .ico{width:44px; height:44px; border-radius:12px; background:#E6F7F6; display:grid; place-items:center; font-size:22px}
+
+  /* steps */
+  .steps{counter-reset:s; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px}
+  .step{padding:24px; border-radius:16px; background:var(--card); border:1px solid var(--border)}
+  .step::before{counter-increment:s; content:counter(s,arabic-indic); display:grid; place-items:center; width:36px; height:36px; border-radius:50%; background:var(--navy); color:var(--aqua); font-weight:700; margin-bottom:14px}
+  .step h3{margin:0 0 6px; font-size:18px}
+  .step p{margin:0; color:var(--muted); font-size:15.5px}
+
+  /* closing */
+  .closing{background:var(--navy); color:#E8F4F2; border-radius:24px; padding:56px 32px; text-align:center; margin:24px 0 72px}
+  .closing h2{color:#fff}
+  .closing p{color:#8BA0B8; max-width:520px; margin:0 auto 28px}
+  .closing .btn-primary{background:var(--aqua); color:var(--navy)}
+
+  footer{border-top:1px solid var(--border); padding:28px 0 48px; color:var(--muted); font-size:14px; text-align:center}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">
+      <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" style="background:var(--teal);border-radius:9px;padding:4px">
+        <path d="M4.6 20.2c-.6-6.6 2.2-12.2 8.4-15.6 2.1-1.2 4.3-1.9 6.4-2.1.5 6.9-2.2 12.4-8 16.1-2.1 1.3-4.4 2-6.8 1.6z" fill="#fff"/>
+        <circle cx="17.8" cy="20.4" r="2.05" fill="#34D6C6"/>
+      </svg>
+      اقرأ
+    </span>
+    <nav>
+      <a href="#features">المزايا</a>
+      <a href="#how">كيف يعمل</a>
+      <a href="#try">جرّبه</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">للمعلمين والمدارس في الأردن</span>
+    <h1>حضّر حصّتك بالعربي،<br>وفق المنهاج الأردني</h1>
+    <p>
+      اقرأ مساعد عربي يبني لك خطة الدرس وورقة العمل والاختبار القصير —
+      مربوطة بأهداف منهاج الوزارة للصف العاشر، وجاهزة للطباعة أو العرض خلال دقائق.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://iqraa-web.onrender.com">جرّب النسخة التجريبية</a>
+      <a class="btn btn-ghost" href="#how">كيف يعمل؟</a>
+    </div>
+    <p class="note">رياضيات الصف العاشر · الفصلان الأول والثاني — والكيمياء قريبًا</p>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>لماذا اقرأ؟</h2>
+    <p class="sub">لأن المعلّم في الأردن لا يحتاج نصًّا عامًّا مترجمًا، بل مادة تصلح لحصّة الغد.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="ico">📚</div>
+        <h3>مبني على المنهاج نفسه</h3>
+        <p>كل مادة تُبنى من وحدات ودروس وأهداف منهاج الوزارة (NCCD) — لا من محتوى عام مُترجَم عن مناهج أخرى.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🧭</div>
+        <h3>رحلة درس كاملة</h3>
+        <p>الأهداف، التهيئة، النشاط، التدريبات، ورقة العمل، وتذكرة الخروج — لا فقرة واحدة تُعيد صياغتها بنفسك.</p>
+      </div>
+      <div class="card">
+        <div class="ico">✅</div>
+        <h3>إجابات رياضية مُتحقَّق منها</h3>
+        <p>محرّك رياضي مستقل يحلّ كل سؤال ويقارن ناتجه بمفتاح الإجابة قبل أن يصلك. ما لا يجتاز التحقق يُحذف.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🕌</div>
+        <h3>عربي أوّلًا، لا ترجمة</h3>
+        <p>الواجهة والمحتوى بالعربية ومن اليمين إلى اليسار، بالرموز والأرقام التي يكتبها طلابك على الدفتر.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>ثلاث خطوات، لا أكثر</h2>
+    <p class="sub">من فتح التطبيق إلى مادة جاهزة بين يديك.</p>
+    <div class="steps">
+      <div class="step">
+        <h3>اختر الدرس</h3>
+        <p>من شجرة المنهاج: الصف، المادة، الوحدة، ثم الدرس بأهدافه.</p>
+      </div>
+      <div class="step">
+        <h3>اطلب ما تحتاجه</h3>
+        <p>خطة درس، ورقة عمل، اختبار قصير، أو واجب منزلي — بالعربية وبطلب واحد.</p>
+      </div>
+      <div class="step">
+        <h3>عدّل واطبع</h3>
+        <p>راجع المحتوى، عدّل ما تشاء، ثم اطبعه أو اعرضه على شاشة الصف.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" id="try">
+  <div class="closing">
+    <h2>ابدأ بأول حصّة اليوم</h2>
+    <p>افتح النسخة التجريبية وحضّر درسًا كاملًا للصف العاشر في أقل من خمس دقائق.</p>
+    <a class="btn btn-primary" href="https://iqraa-web.onrender.com">جرّب النسخة التجريبية</a>
+  </div>
+</div>
+
+<footer>
+  اقرأ · مساعد المعلّم العربي · الأردن ٢٠٢٦
+</footer>
+
+</body>
+</html>
