@@ -93,6 +93,18 @@
   /* 220px, not 260px: at 260 the four cards only fit three per row and the
      fourth is orphaned on a row of its own. */
   .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px}
+  /* Evidence beside the claims: the curriculum screen proves the first card.
+     Cards fall to 2x2 on their own in the narrower column. */
+  .features-split{display:grid; grid-template-columns:minmax(0,300px) minmax(0,1fr); gap:clamp(24px,4vw,48px); align-items:center}
+  /* 540/810 crops the empty lower third of the screen but keeps the
+     "المركز الوطني لتطوير المناهج" line, which is the whole point of showing it. */
+  /* height:auto is load-bearing — the height="1200" attribute would otherwise
+     win over aspect-ratio and render the still 300x1200. */
+  .shot-still{width:100%; height:auto; aspect-ratio:540/810; object-fit:cover; object-position:top center;
+    border:1px solid var(--border); border-radius:24px; background:var(--card);
+    box-shadow:0 20px 50px rgba(8,27,58,.14)}
+  @media(max-width:820px){.features-split{grid-template-columns:1fr} .shot-still{max-width:300px; margin:0 auto 8px}}
+
   .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px}
   .card h3{margin:14px 0 8px; font-size:19px}
   .card p{margin:0; color:var(--muted); font-size:15.5px}
@@ -160,6 +172,9 @@
   <div class="wrap">
     <h2>لماذا اقرأ؟</h2>
     <p class="sub">لأن المعلّم في الأردن لا يحتاج نصًّا عامًّا مترجمًا، بل مادة تصلح لحصّة الغد.</p>
+    <div class="features-split">
+    <img class="shot-still" src="img/chemistry.jpg" width="540" height="1200" loading="lazy"
+         alt="شاشة الكيمياء للصف العاشر داخل التطبيق: الفصل الأول ثلاث وحدات وتسعة دروس، والفصل الثاني وحدتان وثمانية دروس، مع الكتاب ودليل المعلم من المركز الوطني لتطوير المناهج، طبعة ٢٠٢٤–٢٠٢٥.">
     <div class="grid">
       <div class="card">
         <div class="ico">📚</div>
@@ -181,6 +196,7 @@
         <h3>عربي أوّلًا، لا ترجمة</h3>
         <p>الواجهة والمحتوى بالعربية ومن اليمين إلى اليسار، بالرموز والأرقام التي يكتبها طلابك على الدفتر.</p>
       </div>
+    </div>
     </div>
   </div>
 </section>
