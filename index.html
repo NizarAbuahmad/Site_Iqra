@@ -8,14 +8,18 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
 <!-- Share card. Teachers pass this link around on WhatsApp; without these it
-     renders as a bare URL. Add og:image once a screenshot is in img/. -->
+     renders as a bare URL. -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://nizarabuahmad.github.io/Site_Iqra/">
 <meta property="og:locale" content="ar_JO">
 <meta property="og:site_name" content="اقرأ">
 <meta property="og:title" content="اقرأ — حضّر حصّتك بالعربي، وفق المنهاج الأردني">
 <meta property="og:description" content="مساعد عربي يبني خطة الدرس وورقة العمل والاختبار القصير، مربوطة بأهداف منهاج الوزارة وجاهزة للطباعة خلال دقائق.">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://nizarabuahmad.github.io/Site_Iqra/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="اقرأ — حضّر حصّتك بالعربي، وفق المنهاج الأردني.">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,6 +64,26 @@
   h1{font-size:clamp(32px,5.5vw,52px); line-height:1.45; margin:0 0 20px}
   .hero p{font-size:clamp(17px,2.2vw,20px); color:var(--muted); max-width:620px; margin:0 auto 32px}
   .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+
+  /* Screens are 540x1200; shown full they'd be ~600px tall each and bury the
+     page. Fixed-height window + top crop + a fade at the bottom instead. */
+  .shots{
+    margin-top:56px; display:flex; justify-content:center; align-items:flex-start;
+    gap:clamp(10px,2.6vw,26px); height:clamp(290px,40vw,420px); overflow:hidden;
+    -webkit-mask-image:linear-gradient(to bottom,#000 66%,transparent);
+    mask-image:linear-gradient(to bottom,#000 66%,transparent);
+  }
+  .shots img{
+    width:clamp(146px,20vw,214px); height:100%; margin-top:22px;
+    object-fit:cover; object-position:top center;
+    border:1px solid var(--border); border-bottom:0; border-radius:24px 24px 0 0;
+    background:var(--card); box-shadow:0 18px 44px rgba(8,27,58,.14);
+  }
+  .shots .lead{width:clamp(172px,24vw,250px); margin-top:0; box-shadow:0 26px 60px rgba(8,27,58,.2)}
+  @media(max-width:560px){
+    .shots img:not(.lead){display:none}
+    .shots .lead{width:min(64vw,230px)}
+  }
 
   /* sections */
   section{padding:64px 0}
@@ -120,6 +144,14 @@
     <div class="cta-row">
       <a class="btn btn-primary" href="https://iqraa-web.onrender.com">جرّب النسخة التجريبية</a>
       <a class="btn btn-ghost" href="#how">كيف يعمل؟</a>
+    </div>
+    <div class="shots">
+      <img src="img/curriculum.jpg" width="540" height="1200"
+           alt="شاشة المنهاج في التطبيق: ثماني مواد للصف العاشر وفق المنهاج الأردني.">
+      <img class="lead" src="img/tools.jpg" width="540" height="1200"
+           alt="أدوات التدريس: شرائح الدرس، خطة درس، تبسيط الشرح، ورقة عمل، والفصل التفاعلي.">
+      <img src="img/chat.jpg" width="540" height="1200"
+           alt="مساعد اقرأ يحضّر خطة الدرس ويقترح الأفكار ويعدّ الاختبارات.">
     </div>
   </div>
 </div>
