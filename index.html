@@ -5,13 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>اقرأ — رفيقك في تحضير الحصص</title>
 <meta name="description" content="مساعد عربي بالذكاء الاصطناعي يحضّر خطط الدروس وأوراق العمل والاختبارات لمعلمي الأردن، وفق منهاج الوزارة للصف العاشر.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<!-- Share card. Teachers pass this link around on WhatsApp; without these it
+     renders as a bare URL. Add og:image once a screenshot is in img/. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nizarabuahmad.github.io/Site_Iqra/">
+<meta property="og:locale" content="ar_JO">
+<meta property="og:site_name" content="اقرأ">
+<meta property="og:title" content="اقرأ — حضّر حصّتك بالعربي، وفق المنهاج الأردني">
+<meta property="og:description" content="مساعد عربي يبني خطة الدرس وورقة العمل والاختبار القصير، مربوطة بأهداف منهاج الوزارة وجاهزة للطباعة خلال دقائق.">
+<meta name="twitter:card" content="summary">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#081B3A; --teal:#00A99D; --aqua:#34D6C6;
-    --bg:#F5F7FA; --card:#fff; --muted:#6B7A8D; --border:#DDE6E8;
+    --bg:#F5F7FA; --card:#fff; --muted:#5A6A7D; --border:#DDE6E8;
   }
   *{box-sizing:border-box}
   body{
@@ -36,12 +48,16 @@
   .btn-primary{background:var(--teal); color:#fff}
   .btn-primary:hover{background:#008f85}
   .btn-ghost{border-color:var(--border); color:var(--navy); background:var(--card)}
+  .btn:focus-visible, nav a:focus-visible{outline:3px solid var(--teal); outline-offset:3px}
+  .closing .btn:focus-visible{outline-color:var(--aqua)}
 
   /* hero */
   .hero{padding:72px 0 64px; text-align:center; background:
     radial-gradient(60% 70% at 50% 0%, rgba(52,214,198,.18), transparent 70%);}
   .eyebrow{display:inline-block; background:#E6F7F6; color:var(--teal); font-size:14px; font-weight:600; padding:6px 14px; border-radius:999px; margin-bottom:20px}
-  h1{font-size:clamp(32px,5.5vw,52px); line-height:1.3; margin:0 0 20px; letter-spacing:-.5px}
+  /* No negative tracking: Arabic is a connected script and it crowds the joins.
+     1.45 leaves room for the shadda/damma in headings like حضّر حصّتك. */
+  h1{font-size:clamp(32px,5.5vw,52px); line-height:1.45; margin:0 0 20px}
   .hero p{font-size:clamp(17px,2.2vw,20px); color:var(--muted); max-width:620px; margin:0 auto 32px}
   .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
 
@@ -50,7 +66,9 @@
   h2{font-size:clamp(24px,3.5vw,34px); margin:0 0 12px; text-align:center}
   .sub{text-align:center; color:var(--muted); margin:0 auto 44px; max-width:560px}
 
-  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px}
+  /* 220px, not 260px: at 260 the four cards only fit three per row and the
+     fourth is orphaned on a row of its own. */
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px}
   .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px}
   .card h3{margin:14px 0 8px; font-size:19px}
   .card p{margin:0; color:var(--muted); font-size:15.5px}
