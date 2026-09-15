@@ -1,0 +1,96 @@
+/* Curriculum pages. One shared stylesheet rather than the inline <style> the
+   homepage uses: there are fifty of these, and inlining would repeat ~6KB in
+   every one of them. A second request is the cheaper trade at that count. */
+
+:root{
+  --navy:#081B3A; --teal:#00A99D; --aqua:#34D6C6;
+  --bg:#F5F7FA; --card:#fff; --muted:#5A6A7D; --border:#DDE6E8;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--navy);
+  font-family:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--teal); outline-offset:3px; border-radius:3px}
+
+/* header — same furniture as the homepage, minus the section nav, which would
+   point at anchors these pages do not have. */
+header{padding:20px 0; background:rgba(245,247,250,.9); backdrop-filter:blur(8px);
+       position:sticky; top:0; z-index:10; border-bottom:1px solid var(--border)}
+header .wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.brand{display:flex; align-items:center; gap:9px; font-weight:700; font-size:21px; text-decoration:none}
+.head-cta{margin-inline-start:auto; display:flex; gap:10px; flex-wrap:wrap}
+.btn-sm{display:inline-block; padding:8px 14px; border-radius:9px; font-size:14px;
+        font-weight:600; text-decoration:none; border:1px solid var(--border); background:var(--card)}
+.btn-sm-primary{background:var(--teal); border-color:var(--teal); color:#fff}
+
+/* breadcrumbs */
+.crumbs{font-size:14px; color:var(--muted); padding:22px 0 0}
+.crumbs a{text-decoration:none; border-bottom:1px solid var(--border)}
+.crumbs a:hover{border-color:var(--navy)}
+.crumbs .here{color:var(--navy); font-weight:600}
+
+h1{font-size:clamp(28px,4.4vw,42px); line-height:1.35; margin:18px 0 14px}
+.lede{font-size:clamp(16px,1.8vw,18px); color:var(--muted); max-width:62ch; margin:0 0 22px}
+.cta-inline{margin:0 0 34px}
+
+.btn{display:inline-block; padding:13px 24px; border-radius:11px; font-weight:600;
+     text-decoration:none; border:1px solid var(--border); background:var(--card); margin-inline-end:10px}
+.btn-primary{background:var(--teal); border-color:var(--teal); color:#fff}
+
+/* semesters and units */
+.sem{margin:0 0 10px}
+.sem > h2{font-size:clamp(20px,2.6vw,26px); margin:34px 0 4px; padding-bottom:10px;
+          border-bottom:2px solid var(--teal); display:inline-block}
+.unit{background:var(--card); border:1px solid var(--border); border-radius:14px;
+      padding:20px 22px; margin:18px 0}
+.unit > h3{font-size:19px; margin:0 0 6px; color:var(--navy)}
+
+/* lessons. Numbered because NCCD orders them and a teacher looking for
+   "the third lesson" is a real way this gets read. */
+ol.lessons{margin:0; padding-inline-start:22px}
+ol.lessons > li{margin:16px 0; padding-inline-start:4px}
+ol.lessons > li::marker{color:var(--teal); font-weight:700}
+.ltitle{font-weight:600; display:block}
+
+.lbl{display:block; font-size:12.5px; font-weight:600; color:var(--teal);
+     letter-spacing:.01em; margin:8px 0 2px}
+.obj ul{margin:0; padding-inline-start:20px; color:var(--muted); font-size:15px}
+.obj li{margin:2px 0}
+
+.terms{margin-top:8px; font-size:14px; color:var(--muted)}
+.term{display:inline-block; background:var(--bg); border:1px solid var(--border);
+      border-radius:999px; padding:1px 10px; margin:3px 3px 0 0; font-size:13px; color:var(--navy)}
+
+/* sibling subjects + index cards */
+.siblings{margin:40px 0 0}
+.siblings h2, .grade h2{font-size:20px; margin:0 0 12px}
+ul.pills{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px}
+ul.pills a{display:inline-block; background:var(--card); border:1px solid var(--border);
+           border-radius:999px; padding:7px 15px; text-decoration:none; font-size:14.5px; font-weight:500}
+ul.pills a:hover{border-color:var(--teal)}
+
+.grade{margin:0 0 34px}
+.gmeta{color:var(--muted); font-size:14px; margin:0 0 14px}
+ul.cards{list-style:none; margin:0; padding:0;
+         display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px}
+ul.cards a{display:block; background:var(--card); border:1px solid var(--border);
+           border-radius:13px; padding:16px 18px; text-decoration:none; height:100%}
+ul.cards a:hover{border-color:var(--teal)}
+.cname{display:block; font-weight:600; font-size:17px; margin-bottom:3px}
+.cmeta{display:block; color:var(--muted); font-size:13.5px}
+
+.closing{margin:46px 0 0; padding:28px 24px; background:var(--card);
+         border:1px solid var(--border); border-radius:16px}
+.closing h2{margin:0 0 8px; font-size:21px}
+.closing p{margin:0 0 14px; color:var(--muted)}
+.closing p:last-child{margin:0}
+
+footer{margin-top:56px; padding:28px 24px 40px; text-align:center;
+       color:var(--muted); font-size:14px; border-top:1px solid var(--border)}
+.mail{color:var(--teal)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
