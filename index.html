@@ -139,10 +139,10 @@
         },
         {
           "@type": "Question",
-          "name": "ما الصفوف والمواد المتاحة الآن؟",
+          "name": "هل صفّي ومادتي متوفّران؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "النسخة التجريبية تغطي الصف العاشر بثماني مواد، مع بدء التركيز على الرياضيات والكيمياء، وتُضاف صفوف ومواد أخرى تباعًا."
+            "text": "افتح شجرة المنهاج داخل اقرأ وابحث عن صفّك ومادتك. ونحن نضيف باستمرار، فإن لم تجد ما تدرّسه اكتب لنا في نموذج التواصل وسنعمل عليه."
           }
         },
         {
@@ -277,7 +277,8 @@
   .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px}
   .card h3{margin:14px 0 8px; font-size:19px}
   .card p{margin:0; color:var(--muted); font-size:15.5px}
-  .ico{width:44px; height:44px; border-radius:12px; background:#E6F7F6; display:grid; place-items:center; font-size:22px}
+  .ico{width:44px; height:44px; border-radius:12px; background:#E6F7F6; display:grid; place-items:center; color:var(--teal)}
+  .ico svg{width:23px; height:23px}
 
   /* steps */
   .steps{counter-reset:s; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px}
@@ -390,7 +391,7 @@
     <p class="note">نسخة المتصفح تعمل على أي جهاز · تطبيق أندرويد متاح الآن، وتطبيق آيفون قيد التطوير</p>
     <div class="shots">
       <img src="img/curriculum.jpg" width="540" height="1200"
-           alt="شاشة المنهاج في التطبيق: ثماني مواد للصف العاشر وفق المنهاج الأردني.">
+           alt="شاشة المنهاج في التطبيق: المواد مرتّبة حسب الصف، وفق المنهاج الأردني.">
       <img class="lead" src="img/tools.jpg" width="540" height="1200"
            alt="أدوات التدريس: شرائح الدرس، خطة درس، تبسيط الشرح، ورقة عمل، والفصل التفاعلي.">
       <img src="img/chat.jpg" width="540" height="1200"
@@ -405,25 +406,25 @@
     <p class="sub">لأن المعلّم في الأردن لا يحتاج نصًّا عامًّا مترجمًا، بل مادة تصلح لحصّة الغد.</p>
     <div class="features-split">
     <img class="shot-still" src="img/chemistry.jpg" width="540" height="1200" loading="lazy"
-         alt="شاشة الكيمياء للصف العاشر داخل التطبيق: الفصل الأول ثلاث وحدات وتسعة دروس، والفصل الثاني وحدتان وثمانية دروس، مع الكتاب ودليل المعلم من المركز الوطني لتطوير المناهج، طبعة ٢٠٢٤–٢٠٢٥.">
+         alt="شاشة مادة داخل التطبيق: الفصلان الدراسيان بعدد وحداتهما ودروسهما، مع الكتاب ودليل المعلم من المركز الوطني لتطوير المناهج.">
     <div class="grid">
       <div class="card">
-        <div class="ico">📚</div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.6A2.6 2.6 0 0 1 6.6 3H19v14.4H6.6A2.6 2.6 0 0 0 4 20z"/><path d="M4 20a2.6 2.6 0 0 1 2.6-2.6H19V21H6.6A2.6 2.6 0 0 1 4 20z"/><path d="M8.6 7.6h6.2M8.6 11h4.2"/></svg></div>
         <h3>مبني على المنهاج نفسه</h3>
         <p>كل مادة تُبنى من وحدات ودروس ونتاجات التعلّم في منهاج الوزارة (NCCD) — لا من محتوى عام مُترجَم عن مناهج أخرى.</p>
       </div>
       <div class="card">
-        <div class="ico">🧭</div>
-        <h3>رحلة درس كاملة</h3>
-        <p>النتاجات، التهيئة، النشاط، التدريبات، ورقة العمل، وتذكرة الخروج — لا فقرة واحدة تُعيد صياغتها بنفسك.</p>
-      </div>
-      <div class="card">
-        <div class="ico">✅</div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.6 14.5 5l3.4.3.3 3.4L20.6 12l-2.4 3.3-.3 3.4-3.4.3L12 21.4 9.5 19l-3.4-.3-.3-3.4L3.4 12l2.4-3.3.3-3.4L9.5 5z"/><path d="M8.9 12.2 11.2 14.5l3.9-4.6"/></svg></div>
         <h3>إجابات رياضية مُتحقَّق منها</h3>
         <p>محرّك رياضي مستقل يحلّ كل سؤال ويقارن ناتجه بمفتاح الإجابة قبل أن يصلك. ما لا يجتاز التحقق يُحذف.</p>
       </div>
       <div class="card">
-        <div class="ico">🕌</div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5h10M9.5 12h10M9.5 18.5h10"/><circle cx="4.8" cy="5.5" r="1.7"/><circle cx="4.8" cy="12" r="1.7"/><circle cx="4.8" cy="18.5" r="1.7"/></svg></div>
+        <h3>رحلة درس كاملة</h3>
+        <p>النتاجات، التهيئة، النشاط، التدريبات، ورقة العمل، وتذكرة الخروج — لا فقرة واحدة تُعيد صياغتها بنفسك.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 4.8h17v10.4a2 2 0 0 1-2 2H9.2L4.6 21v-3.8H3.5z"/><path d="M17.4 8.6h-6.8M17.4 12.2h-3.6"/></svg></div>
         <h3>عربي أوّلًا، لا ترجمة</h3>
         <p>الواجهة والمحتوى بالعربية ومن اليمين إلى اليسار، بالرموز والأرقام التي يكتبها طلابك على الدفتر.</p>
       </div>
@@ -490,8 +491,8 @@
         <p>محرّك رياضي مستقل يحلّ كل سؤال ويقارن ناتجه بمفتاح الإجابة قبل أن يصل إليك، وما لا يجتاز هذا التحقق يُحذف بدل أن يُعرض.</p>
       </div>
       <div class="card">
-        <h3>ما الصفوف والمواد المتاحة الآن؟</h3>
-        <p>النسخة التجريبية تغطي الصف العاشر بثماني مواد، مع بدء التركيز على الرياضيات والكيمياء، وتُضاف صفوف ومواد أخرى تباعًا.</p>
+        <h3>هل صفّي ومادتي متوفّران؟</h3>
+        <p>افتح شجرة المنهاج داخل اقرأ وابحث عن صفّك ومادتك. ونحن نضيف باستمرار، فإن لم تجد ما تدرّسه اكتب لنا في نموذج التواصل وسنعمل عليه.</p>
       </div>
       <div class="card">
         <h3>على أي أجهزة يعمل اقرأ؟</h3>
