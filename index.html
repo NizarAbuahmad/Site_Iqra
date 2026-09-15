@@ -291,6 +291,18 @@
   .faq .card{padding:22px 26px}
   .faq h3{margin:0 0 8px}
 
+  /* Click-to-play facade, not a bare iframe: an embed pulls YouTube's player
+     on every page load, and these teachers open the site on mobile data.
+     Nothing from YouTube is fetched until the poster is clicked. */
+  .video{max-width:760px; margin:40px auto 0}
+  .video-play{display:block; width:100%; padding:0; border:0; background:none; cursor:pointer; position:relative; border-radius:20px; overflow:hidden; line-height:0}
+  .video-play img{width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; display:block; background:var(--card)}
+  .video-play .play{position:absolute; inset:0; display:grid; place-items:center; background:rgba(8,27,58,.28); transition:background .15s}
+  .video-play:hover .play{background:rgba(8,27,58,.42)}
+  .video-play:focus-visible{outline:3px solid var(--teal); outline-offset:3px}
+  .video iframe{width:100%; aspect-ratio:16/9; border:0; border-radius:20px; display:block}
+  .video-cap{text-align:center; color:var(--muted); font-size:15px; margin:14px 0 0}
+
   /* closing */
   .closing{background:var(--navy); color:#E8F4F2; border-radius:24px; padding:56px 32px; text-align:center; margin:24px 0 72px}
   .closing h2{color:#fff}
@@ -438,6 +450,21 @@
         <p>راجع المحتوى، عدّل ما تشاء، ثم اطبعه أو اعرضه على شاشة الصف.</p>
       </div>
     </div>
+    <div class="video">
+      <button type="button" class="video-play" id="video-play"
+              aria-label="شغّل الفيديو: شرح منصة اقرأ للمعلمين">
+        <img src="https://i.ytimg.com/vi/MT67Oh7TySk/maxresdefault.jpg" alt=""
+             width="1280" height="720" loading="lazy"
+             onerror="this.src='https://i.ytimg.com/vi/MT67Oh7TySk/hqdefault.jpg'">
+        <span class="play" aria-hidden="true">
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+            <circle cx="36" cy="36" r="34" fill="#00A99D"/>
+            <path d="M29 24.5 49 36 29 47.5z" fill="#fff"/>
+          </svg>
+        </span>
+      </button>
+      <p class="video-cap">شرح منصة اقرأ للمعلمين — تحضير الدروس وفق المنهاج الأردني</p>
+    </div>
   </div>
 </section>
 
@@ -548,6 +575,23 @@
     </a>
   </p>
 </footer>
+
+<script>
+  // Swap the poster for the real player only on click. nocookie host so
+  // nothing is set until someone actually chooses to watch.
+  (function () {
+    var b = document.getElementById('video-play');
+    if (!b) return;
+    b.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/MT67Oh7TySk?autoplay=1&rel=0';
+      f.title = 'شرح منصة اقرأ للمعلمين';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture';
+      f.allowFullscreen = true;
+      b.replaceWith(f);
+    });
+  })();
+</script>
 
 <script>
   // Submits without leaving the page. On any failure the text the teacher
