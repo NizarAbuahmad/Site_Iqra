@@ -4,8 +4,27 @@ The marketing site. Static HTML, no build step. Vercel serves it; a push to
 `main` deploys.
 
 - `index.html` — the live page
+- `download.html` — served at `/download`
 - `editorial.html` — an alternate layout, kept for comparison
+- `api/feedback.js` — receives the contact form
 - `tools-make-favicon.py` — regenerates the raster icons from `favicon.svg`
+
+## The contact form needs two environment variables
+
+Set both on the Vercel project (Settings → Environment Variables), or the form
+answers 500 and every message a teacher writes is lost:
+
+| | |
+|---|---|
+| `RESEND_API_KEY` | the same key the app uses |
+| `FEEDBACK_TO` | the inbox that receives the messages |
+
+`FEEDBACK_TO` is an environment variable rather than a line of code because
+**this repository is public** and the destination is a personal address.
+
+Sending works without further DNS — `iqrra.com` is already a verified Resend
+sender. Receiving does not: the domain has no MX records, so mail addressed to
+anything `@iqrra.com` bounces. The form's from-address only sends.
 
 ## After every Android build, change one line
 

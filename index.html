@@ -300,6 +300,27 @@
   .btn-download{border-color:#33506F; color:#E8F4F2}
   .btn-download:hover{border-color:var(--aqua); color:#fff}
 
+  /* feedback */
+  .ask{background:var(--card); border:1px solid var(--border); border-radius:24px; padding:clamp(28px,4vw,44px); max-width:720px; margin:0 auto}
+  .ask h2{text-align:center}
+  .ask .sub{margin-bottom:28px}
+  .field{display:block; margin-bottom:16px}
+  .field span{display:block; font-size:14px; font-weight:600; margin-bottom:6px}
+  .field .opt{font-weight:400; color:var(--muted)}
+  .field input, .field textarea{
+    width:100%; font:inherit; font-size:16px; color:var(--navy);
+    background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:12px 14px;
+  }
+  .field textarea{min-height:130px; resize:vertical}
+  .field input:focus, .field textarea:focus{outline:3px solid var(--teal); outline-offset:2px; border-color:var(--teal)}
+  .ask button{font:inherit; cursor:pointer; width:100%}
+  .ask button[disabled]{opacity:.6; cursor:default}
+  /* Bots fill what they cannot see; people never reach it. */
+  .trap{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+  .say{margin-top:16px; text-align:center; font-size:15px; min-height:24px}
+  .say.ok{color:var(--teal); font-weight:600}
+  .say.bad{color:#B4232A}
+
   footer{border-top:1px solid var(--border); padding:28px 0 48px; color:var(--muted); font-size:14px; text-align:center}
 </style>
 </head>
@@ -445,6 +466,40 @@
   </div>
 </section>
 
+<section id="feedback">
+  <div class="wrap">
+    <div class="ask">
+      <h2>قل لنا ما ينقصك</h2>
+      <p class="sub">اقرأ ما زال نسخة تجريبية، وما نبنيه بعدها يحدّده المعلّمون الذين يستعملونه. اكتب لنا ملاحظتك، أو الصف أو المادة التي تحتاجها، وسنعمل على إضافتها.</p>
+      <form id="ask-form" novalidate>
+        <label class="field">
+          <span>ملاحظتك أو ما تحتاجه</span>
+          <textarea name="message" required maxlength="4000"
+                    placeholder="مثال: أحتاج مادة الأحياء للصف الحادي عشر، أو أوراق عمل أقصر."></textarea>
+        </label>
+        <label class="field">
+          <span>الاسم <span class="opt">(اختياري)</span></span>
+          <input name="name" maxlength="200" autocomplete="name">
+        </label>
+        <label class="field">
+          <span>المدرسة أو المادة التي تدرّسها <span class="opt">(اختياري)</span></span>
+          <input name="context" maxlength="300">
+        </label>
+        <label class="field">
+          <span>بريدك أو رقمك، إن أحببت أن نرد عليك <span class="opt">(اختياري)</span></span>
+          <input name="contact" maxlength="200" autocomplete="email">
+        </label>
+        <label class="trap" aria-hidden="true">
+          لا تملأ هذا الحقل
+          <input name="website" tabindex="-1" autocomplete="off">
+        </label>
+        <button class="btn btn-primary" type="submit">أرسل</button>
+        <p class="say" id="ask-say" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <div class="wrap" id="try">
   <div class="closing">
     <h2>ابدأ بأول حصّة اليوم</h2>
@@ -461,6 +516,48 @@
        there is no room for it beside the two buttons. -->
   اقرأ · نسخة تجريبية · مساعد المعلّم العربي · الأردن ٢٠٢٦
 </footer>
+
+<script>
+  // Submits without leaving the page. On any failure the text the teacher
+  // wrote stays in the box — losing it to a network blip is the one outcome
+  // that guarantees they do not write it again.
+  (function () {
+    var form = document.getElementById('ask-form');
+    var say = document.getElementById('ask-say');
+    var button = form.querySelector('button');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = Object.fromEntries(new FormData(form).entries());
+      if (!data.message || data.message.trim().length < 5) {
+        say.className = 'say bad';
+        say.textContent = 'اكتب ملاحظتك أولًا.';
+        return;
+      }
+
+      button.disabled = true;
+      say.className = 'say';
+      say.textContent = 'جارٍ الإرسال…';
+
+      fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error(r.status);
+          form.reset();
+          say.className = 'say ok';
+          say.textContent = 'وصلتنا رسالتك، شكرًا لك. سنرد إن تركت وسيلة للتواصل.';
+        })
+        .catch(function () {
+          say.className = 'say bad';
+          say.textContent = 'تعذّر الإرسال. حاول مرة أخرى بعد قليل — ما كتبته ما زال موجودًا.';
+        })
+        .then(function () { button.disabled = false; });
+    });
+  })();
+</script>
 
 </body>
 </html>
