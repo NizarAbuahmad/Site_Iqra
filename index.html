@@ -71,6 +71,7 @@
   h1{font-size:clamp(32px,5.5vw,52px); line-height:1.45; margin:0 0 20px}
   .hero p{font-size:clamp(17px,2.2vw,20px); color:var(--muted); max-width:620px; margin:0 auto 32px}
   .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+  .note{margin-top:20px; font-size:14px; color:var(--muted)}
 
   /* Screens are 540x1200; shown full they'd be ~600px tall each and bury the
      page. Fixed-height window + top crop + a fade at the bottom instead. */
@@ -129,6 +130,10 @@
   .closing h2{color:#fff}
   .closing p{color:#8BA0B8; max-width:520px; margin:0 auto 28px}
   .closing .btn-primary{background:var(--aqua); color:var(--navy)}
+  /* Ghost buttons are bordered for the light page; on the navy panel the
+     border has to come from the panel's own palette instead. */
+  .btn-download{border-color:#33506F; color:#E8F4F2}
+  .btn-download:hover{border-color:var(--aqua); color:#fff}
 
   footer{border-top:1px solid var(--border); padding:28px 0 48px; color:var(--muted); font-size:14px; text-align:center}
 </style>
@@ -161,9 +166,10 @@
       مربوطة بأهداف مناهج الوزارة، وجاهزة للطباعة أو العرض خلال دقائق.
     </p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="https://app.iqrra.com">جرّب النسخة التجريبية</a>
-      <a class="btn btn-ghost" href="#how">كيف يعمل؟</a>
+      <a class="btn btn-primary" href="https://app.iqrra.com">جرّب من المتصفح</a>
+      <a class="btn btn-ghost" href="https://expo.dev/artifacts/eas/NjlAR0VFVTImx9eIiVbxAgtq403T_NZ55LsVwg5Ljfo.apk">نزّل تطبيق أندرويد</a>
     </div>
+    <p class="note">نسخة المتصفح تعمل على أي جهاز · التطبيق متاح حاليًا لأندرويد</p>
     <div class="shots">
       <img src="img/curriculum.jpg" width="540" height="1200"
            alt="شاشة المنهاج في التطبيق: ثماني مواد للصف العاشر وفق المنهاج الأردني.">
@@ -232,8 +238,11 @@
 <div class="wrap" id="try">
   <div class="closing">
     <h2>ابدأ بأول حصّة اليوم</h2>
-    <p>افتح النسخة التجريبية وحضّر درسًا كاملًا في أقل من خمس دقائق.</p>
-    <a class="btn btn-primary" href="https://app.iqrra.com">جرّب النسخة التجريبية</a>
+    <p>افتح اقرأ وحضّر درسًا كاملًا في أقل من خمس دقائق.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://app.iqrra.com">جرّب من المتصفح</a>
+      <a class="btn btn-download" href="https://expo.dev/artifacts/eas/NjlAR0VFVTImx9eIiVbxAgtq403T_NZ55LsVwg5Ljfo.apk">نزّل تطبيق أندرويد</a>
+    </div>
   </div>
 </div>
 
