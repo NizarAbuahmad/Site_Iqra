@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  One page, because there is one indexable page. /download and /editorial are
+  noindex, and a sitemap listing a noindex URL is a contradiction Search
+  Console reports as an error rather than resolving.
+
+  No <priority> and no <changefreq>: Google ignores both, and they only rot.
+  <lastmod> is read, but only when it is honest — bumping it on every deploy
+  teaches Google to stop trusting it, so change it when the page content
+  actually changes.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.iqrra.com/</loc>
+    <lastmod>2026-09-15</lastmod>
+  </url>
+</urlset>

@@ -1,0 +1,12 @@
+# Everything here is meant to be found. The only pages kept out of the index
+# carry their own <meta name="robots" content="noindex">, which is the right
+# tool for it: a Disallow here would stop crawlers from ever READING that tag,
+# and a page Google cannot crawl can still be indexed URL-only from an inbound
+# link. Blocking and de-indexing are different jobs — do not move one here.
+
+User-agent: *
+Allow: /
+
+# Absolute URL, on the www host the canonical points at. A sitemap listed on a
+# host that redirects elsewhere is ignored.
+Sitemap: https://www.iqrra.com/sitemap.xml

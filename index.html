@@ -28,6 +28,112 @@
 <meta property="og:image:alt" content="اقرأ — حضّر حصّتك بالعربي، وفق المنهاج الأردني.">
 <meta name="twitter:card" content="summary_large_image">
 
+<!-- Structured data. Three things, one graph, because they refer to each other
+     and separate blocks would repeat the same publisher inline three times.
+
+     Why it is here at all: «اقرأ» is an ordinary Arabic verb. Searched alone it
+     means "read", not this product, and nothing on the page tells a search
+     engine which sense it is. @id gives the organisation a stable identity to
+     attach the app, the Play listing, and anything said about it elsewhere to.
+
+     Every claim below must stay true on the page itself — structured data that
+     describes content a visitor cannot see is a manual-action risk, not a
+     shortcut. If the FAQ answers here drift from the "لماذا اقرأ؟" section,
+     fix this block or drop the FAQPage; do not leave them disagreeing. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.iqrra.com/#organization",
+      "name": "اقرأ",
+      "alternateName": "Iqraa",
+      "url": "https://www.iqrra.com/",
+      "logo": "https://www.iqrra.com/icon-192.png",
+      "description": "مساعد عربي بالذكاء الاصطناعي يحضّر خطط الدروس وأوراق العمل والاختبارات لمعلمي الأردن، وفق مناهج الوزارة.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "الأردن"
+      },
+      "knowsLanguage": "ar"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.iqrra.com/#website",
+      "url": "https://www.iqrra.com/",
+      "name": "اقرأ",
+      "inLanguage": "ar",
+      "publisher": { "@id": "https://www.iqrra.com/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://www.iqrra.com/#app",
+      "name": "اقرأ",
+      "applicationCategory": "EducationalApplication",
+      "applicationSubCategory": "تحضير الحصص",
+      "operatingSystem": "Android, Web",
+      "url": "https://app.iqrra.com",
+      "inLanguage": "ar",
+      "publisher": { "@id": "https://www.iqrra.com/#organization" },
+      "description": "يبني خطة الدرس وورقة العمل والاختبار القصير من وحدات وأهداف منهاج الوزارة الأردني، بالعربية ومن اليمين إلى اليسار.",
+      "screenshot": "https://www.iqrra.com/img/curriculum.jpg",
+      "featureList": [
+        "خطة درس كاملة مبنية على أهداف المنهاج",
+        "أوراق عمل واختبارات قصيرة جاهزة للطباعة",
+        "إجابات رياضية متحقَّق منها بمحرّك مستقل",
+        "واجهة ومحتوى بالعربية من اليمين إلى اليسار"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JOD",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.iqrra.com/#faq",
+      "inLanguage": "ar",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "هل المحتوى مبني على المنهاج الأردني؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نعم. كل مادة تُبنى من وحدات ودروس وأهداف منهاج الوزارة (NCCD)، لا من محتوى عام مُترجَم عن مناهج أخرى."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما الذي يحضّره التطبيق في الحصّة الواحدة؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "الأهداف، التهيئة، النشاط، التدريبات، ورقة العمل، وتذكرة الخروج — رحلة درس كاملة لا فقرة واحدة تُعيد صياغتها بنفسك."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف يتم التأكد من صحة الإجابات الرياضية؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "محرّك رياضي مستقل يحلّ كل سؤال ويقارن ناتجه بمفتاح الإجابة قبل أن يصلك، وما لا يجتاز التحقق يُحذف."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل يعمل على الآيفون؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نسخة المتصفح تعمل على أي جهاز، وتطبيق أندرويد متاح الآن. تطبيق آيفون قيد التطوير."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
