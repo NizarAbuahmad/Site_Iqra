@@ -53,7 +53,8 @@
       },
       "knowsLanguage": "ar",
       "sameAs": [
-        "https://www.facebook.com/profile.php?id=61594207419902"
+        "https://www.facebook.com/profile.php?id=61594207419902",
+        "https://www.youtube.com/@IQRRA_ME"
       ]
     },
     {
@@ -324,6 +325,20 @@
   .step-label .n{font-size:1.15rem;color:var(--red-ink);flex:none}
   .step-label h3{font-size:1.05rem;font-weight:700}
   .step p{color:var(--ink-2);font-size:.93rem;margin-top:.2rem}
+  /* Click-to-play facade, not a bare iframe: an embed pulls YouTube's player
+     on every page load, and these teachers open the site on mobile data.
+     Nothing from YouTube is fetched until the poster is clicked. */
+  .video{max-width:700px;margin:2.4rem auto 0}
+  .video-play{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;
+    position:relative;overflow:hidden;line-height:0}
+  .video-play img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;display:block;
+    background:var(--paper);border:1px solid var(--hair)}
+  .video-play .play{position:absolute;inset:0;display:grid;place-items:center;
+    background:rgba(27,36,48,.26);transition:background .15s}
+  .video-play:hover .play{background:rgba(27,36,48,.4)}
+  .video-play:focus-visible{outline:2px solid var(--teal-ink);outline-offset:2px}
+  .video iframe{width:100%;aspect-ratio:16/9;border:1px solid var(--hair);display:block}
+  .video-cap{text-align:center;color:var(--ink-2);font-size:.9rem;margin-top:.8rem}
   .arrow{position:absolute;top:34%;color:var(--ink-3);pointer-events:none}
   .arrow.a1{inset-inline-start:33%}
   .arrow.a2{inset-inline-start:66.5%}
@@ -549,6 +564,22 @@
           <p>راجع المحتوى، عدّل ما تشاء، ثم اطبعه أو اعرضه على شاشة الصف.</p>
         </article>
       </div>
+
+      <div class="video">
+        <button type="button" class="video-play" id="video-play"
+                aria-label="شغّل الفيديو: شرح منصة اقرأ للمعلمين">
+          <img src="https://i.ytimg.com/vi/MT67Oh7TySk/maxresdefault.jpg" alt=""
+               width="1280" height="720" loading="lazy"
+               onerror="this.src='https://i.ytimg.com/vi/MT67Oh7TySk/hqdefault.jpg'">
+          <span class="play" aria-hidden="true">
+            <svg width="66" height="66" viewBox="0 0 72 72" fill="none">
+              <circle cx="36" cy="36" r="34" fill="#00A99D"/>
+              <path d="M29 24.5 49 36 29 47.5z" fill="#fff"/>
+            </svg>
+          </span>
+        </button>
+        <p class="video-cap">شرح منصة اقرأ للمعلمين — تحضير الدروس وفق المنهاج الأردني</p>
+      </div>
     </section>
 
     <section class="sec" id="sample">
@@ -671,6 +702,12 @@
           <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/>
         </svg>
       </a>
+      <a class="social" href="https://www.youtube.com/@IQRRA_ME"
+         aria-label="قناة اقرأ على يوتيوب" title="يوتيوب" rel="me noopener" target="_blank">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2C0 8.07 0 12 0 12s0 3.93.5 5.8a3.02 3.02 0 0 0 2.12 2.14c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.8zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/>
+        </svg>
+      </a>
     </footer>
 
   </div>
@@ -719,6 +756,23 @@
           say.textContent = 'تعذّر الإرسال. حاول مرة أخرى بعد قليل — ما كتبته ما زال موجودًا.';
         })
         .then(function () { button.disabled = false; });
+    });
+  })();
+</script>
+
+<script>
+  // Swap the poster for the real player only on click. nocookie host so
+  // nothing is set until someone actually chooses to watch.
+  (function () {
+    var b = document.getElementById('video-play');
+    if (!b) return;
+    b.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/MT67Oh7TySk?autoplay=1&rel=0';
+      f.title = 'شرح منصة اقرأ للمعلمين';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture';
+      f.allowFullscreen = true;
+      b.replaceWith(f);
     });
   })();
 </script>
