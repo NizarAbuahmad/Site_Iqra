@@ -322,6 +322,9 @@
   .say.bad{color:#B4232A}
 
   footer{border-top:1px solid var(--border); padding:28px 0 48px; color:var(--muted); font-size:14px; text-align:center}
+  footer a.mail{color:var(--teal); font-weight:600; text-decoration:none}
+  footer a.mail:hover{text-decoration:underline}
+
 </style>
 </head>
 <body>
@@ -470,7 +473,7 @@
   <div class="wrap">
     <div class="ask">
       <h2>قل لنا ما ينقصك</h2>
-      <p class="sub">اقرأ ما زال نسخة تجريبية، وما نبنيه بعدها يحدّده المعلّمون الذين يستعملونه. اكتب لنا ملاحظتك، أو الصف أو المادة التي تحتاجها، وسنعمل على إضافتها.</p>
+      <p class="sub">اقرأ ما زال نسخة تجريبية، وما نبنيه بعدها يحدّده المعلّمون الذين يستعملونه. اكتب لنا ملاحظتك، أو الصف أو المادة التي تحتاجها، وسنعمل على إضافتها.<br>أو راسلنا مباشرة على <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a></p>
       <form id="ask-form" novalidate>
         <label class="field">
           <span>ملاحظتك أو ما تحتاجه</span>
@@ -515,6 +518,7 @@
   <!-- Also in the footer because the header badge is hidden on phones, where
        there is no room for it beside the two buttons. -->
   اقرأ · نسخة تجريبية · مساعد المعلّم العربي · الأردن ٢٠٢٦
+  <br>للتواصل: <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
 </footer>
 
 <script>
