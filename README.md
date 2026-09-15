@@ -10,8 +10,9 @@ The marketing site. Static HTML, no build step. Vercel serves it; a push to
 ## After every Android build, change one line
 
 `/download` is the only Android link that should ever appear anywhere — on
-this site, in a message to a teacher, on a slide. It redirects to the APK
-named in `vercel.json`.
+this site, in a message to a teacher, on a slide. It serves `download.html`,
+which starts the download and explains how to install it. The file itself
+comes from `/app.apk`, a redirect to the APK named in `vercel.json`.
 
 EAS gives each build a **new artifact URL**, so that line goes stale on every
 `eas build`. Nothing breaks visibly when it does: the page keeps serving the
