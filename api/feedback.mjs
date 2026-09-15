@@ -47,13 +47,45 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "server" });
   }
 
-  const rows = [
-    ["الاسم", name || "—"],
-    ["المدرسة أو المادة", context || "—"],
-    ["للرد", contact || "—"],
-  ]
-    .map(([k, v]) => `<p><strong>${k}:</strong> ${escapeHtml(v)}</p>`)
-    .join("");
+  // Table layout and inline styles throughout: Gmail strips <style> blocks and
+  // most clients ignore flex/grid. This is the shape that survives them.
+  const row = (label, value, mono) => `
+        <tr>
+          <td style="padding:10px 0;border-bottom:1px solid #EDF1F4;color:#5A6A7D;font-size:13px;width:150px;vertical-align:top">${label}</td>
+          <td style="padding:10px 0;border-bottom:1px solid #EDF1F4;color:#081B3A;font-size:15px;${mono ? "direction:ltr;text-align:right;" : ""}">${escapeHtml(value) || "—"}</td>
+        </tr>`;
+
+  const html = `<!doctype html>
+<html lang="ar" dir="rtl"><body style="margin:0;padding:24px 12px;background:#F5F7FA;font-family:'Segoe UI',Tahoma,Arial,sans-serif">
+  <table role="presentation" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;width:100%;background:#fff;border:1px solid #DDE6E8;border-radius:16px;overflow:hidden">
+    <tr>
+      <td style="background:#081B3A;padding:20px 24px">
+        <span style="color:#fff;font-size:18px;font-weight:700">اقرأ</span>
+        <span style="color:#34D6C6;font-size:13px;padding-right:8px">رسالة من الموقع</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:24px">
+        <div style="background:#F5F7FA;border-right:3px solid #00A99D;border-radius:10px;padding:16px 18px;color:#081B3A;font-size:16px;line-height:1.8;white-space:pre-wrap">${escapeHtml(message)}</div>
+        <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin-top:22px">
+          ${row("الاسم", name)}
+          ${row("المدرسة أو المادة", context)}
+          ${row("للرد", contact, true)}
+        </table>
+        ${
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)
+            ? `<p style="margin:20px 0 0;font-size:13px;color:#5A6A7D">اضغط «رد» ليصل جوابك إلى المُرسل مباشرة.</p>`
+            : `<p style="margin:20px 0 0;font-size:13px;color:#5A6A7D">لم يترك وسيلة للتواصل، فلا يمكن الرد على هذه الرسالة.</p>`
+        }
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#F5F7FA;padding:14px 24px;color:#5A6A7D;font-size:12px;text-align:center">
+        أُرسلت من نموذج التواصل في iqrra.com
+      </td>
+    </tr>
+  </table>
+</body></html>`;
 
   try {
     const r = await fetch("https://api.resend.com/emails", {
@@ -66,7 +98,16 @@ export default async function handler(req, res) {
         // request on a malformed reply_to, which would lose the message.
         ...(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact) ? { reply_to: contact } : {}),
         subject: `رسالة من معلّم عبر الموقع${name ? ` — ${name}` : ""}`,
-        html: `${rows}<hr><div style="white-space:pre-wrap">${escapeHtml(message)}</div>`,
+        // A plain-text alternative: readable where HTML is off, and an
+        // HTML-only message scores worse with spam filters.
+        text: [
+          message,
+          "",
+          `الاسم: ${name || "—"}`,
+          `المدرسة أو المادة: ${context || "—"}`,
+          `للرد: ${contact || "—"}`,
+        ].join("\n"),
+        html,
       }),
     });
 
