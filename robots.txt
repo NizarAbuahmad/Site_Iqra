@@ -1,0 +1,10 @@
+# Nothing here is private and answer engines quote this page, so the whole
+# site is open — including to GPTBot, ClaudeBot, PerplexityBot and
+# Google-Extended, which are opt-out-by-blocking and therefore need no rule.
+# /download carries its own <meta name="robots" content="noindex">; it is not
+# disallowed here on purpose, because a crawler that cannot fetch the page
+# never reads the noindex.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.iqrra.com/sitemap.xml

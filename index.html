@@ -25,8 +25,146 @@
 <meta property="og:image" content="https://www.iqrra.com/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:alt" content="اقرأ — حضّر حصّتك بالعربي، وفق المنهاج الأردني.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#00A99D">
+
+<!-- Structured data. Search results read it for the sitelinks and the app
+     card; answer engines (Google AI Overviews, ChatGPT, Perplexity) read the
+     FAQPage entries and quote them. Every Q&A below is also visible on the
+     page in #faq — schema that describes hidden content is a manual-action
+     risk, so the two must be edited together. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.iqrra.com/#org",
+      "name": "اقرأ",
+      "alternateName": "IQRA",
+      "url": "https://www.iqrra.com/",
+      "logo": "https://www.iqrra.com/icon-192.png",
+      "description": "مساعد تدريس عربي بالذكاء الاصطناعي لمعلّمي الأردن، مبني على مناهج وزارة التربية والتعليم.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Jordan"
+      },
+      "knowsLanguage": "ar"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.iqrra.com/#website",
+      "url": "https://www.iqrra.com/",
+      "name": "اقرأ",
+      "inLanguage": "ar",
+      "publisher": {
+        "@id": "https://www.iqrra.com/#org"
+      }
+    },
+    {
+      "@type": [
+        "SoftwareApplication",
+        "EducationalApplication"
+      ],
+      "@id": "https://www.iqrra.com/#app",
+      "name": "اقرأ — مساعد تحضير الحصص",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Android, Web",
+      "inLanguage": "ar",
+      "url": "https://www.iqrra.com/",
+      "publisher": {
+        "@id": "https://www.iqrra.com/#org"
+      },
+      "audience": {
+        "@type": "EducationalAudience",
+        "educationalRole": "teacher",
+        "geographicArea": {
+          "@type": "Country",
+          "name": "Jordan"
+        }
+      },
+      "featureList": [
+        "خطة درس مبنية على أهداف المنهاج الأردني",
+        "ورقة عمل واختبار قصير جاهزان للطباعة",
+        "شرائح عرض للحصة",
+        "تحقّق رياضي مستقل من مفاتيح الإجابة",
+        "واجهة عربية من اليمين إلى اليسار"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JOD",
+        "description": "نسخة تجريبية مجانية للمعلّمين"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.iqrra.com/#faq",
+      "inLanguage": "ar",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "ما هو تطبيق اقرأ؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "اقرأ مساعد تدريس عربي بالذكاء الاصطناعي، يحضّر للمعلّم في الأردن خطة الدرس وورقة العمل والاختبار القصير، مبنية على وحدات ودروس وأهداف مناهج وزارة التربية والتعليم."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل المحتوى مبني على المنهاج الأردني فعلًا؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نعم. كل مادة تُبنى من شجرة المنهاج الرسمي الصادر عن المركز الوطني لتطوير المناهج (NCCD): الصف، ثم المادة، ثم الوحدة، ثم الدرس بأهدافه — لا من محتوى عام مُترجَم عن مناهج أخرى."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما الذي يستطيع اقرأ تحضيره؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "خطة درس كاملة بالأهداف والتهيئة والنشاط والتدريبات، وورقة عمل، واختبارًا قصيرًا، وواجبًا منزليًا، وشرائح للعرض على شاشة الصف، وتذكرة خروج — جاهزة للتعديل ثم الطباعة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف تتأكدون من صحة الإجابات الرياضية؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "محرّك رياضي مستقل يحلّ كل سؤال ويقارن ناتجه بمفتاح الإجابة قبل أن يصل إليك، وما لا يجتاز هذا التحقق يُحذف بدل أن يُعرض."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما الصفوف والمواد المتاحة الآن؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "النسخة التجريبية تغطي الصف العاشر بثماني مواد، مع بدء التركيز على الرياضيات والكيمياء، وتُضاف صفوف ومواد أخرى تباعًا."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "على أي أجهزة يعمل اقرأ؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "من المتصفح على أي جهاز — حاسوب أو لوح أو هاتف — أو كتطبيق أندرويد يُنزَّل من الموقع مباشرة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل استخدام اقرأ مجاني؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "اقرأ اليوم في نسخة تجريبية مجانية للمعلّمين: جرّبه من المتصفح أو نزّل تطبيق أندرويد دون رسوم."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,6 +285,11 @@
   .step h3{margin:0 0 6px; font-size:18px}
   .step p{margin:0; color:var(--muted); font-size:15.5px}
 
+  /* faq — answers run long, so one column rather than the .grid used above */
+  .faq{display:grid; gap:14px; max-width:780px; margin:0 auto}
+  .faq .card{padding:22px 26px}
+  .faq h3{margin:0 0 8px}
+
   /* closing */
   .closing{background:var(--navy); color:#E8F4F2; border-radius:24px; padding:56px 32px; text-align:center; margin:24px 0 72px}
   .closing h2{color:#fff}
@@ -175,6 +318,7 @@
     <nav>
       <a href="#features">المزايا</a>
       <a href="#how">كيف يعمل</a>
+      <a href="#faq">أسئلة شائعة</a>
     </nav>
     <div class="head-cta">
       <!-- "التطبيق" drops on phones: the full label needs 424px of header and
@@ -259,6 +403,43 @@
       <div class="step">
         <h3>عدّل واطبع</h3>
         <p>راجع المحتوى، عدّل ما تشاء، ثم اطبعه أو اعرضه على شاشة الصف.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>أسئلة يسألها المعلّمون</h2>
+    <p class="sub">الإجابات نفسها مُعلَّمة بـ FAQPage في رأس الصفحة، ليقتبسها محرّك البحث ومحرّكات الإجابة.</p>
+    <div class="faq">
+      <div class="card">
+        <h3>ما هو تطبيق اقرأ؟</h3>
+        <p>اقرأ مساعد تدريس عربي بالذكاء الاصطناعي، يحضّر للمعلّم في الأردن خطة الدرس وورقة العمل والاختبار القصير، مبنية على وحدات ودروس وأهداف مناهج وزارة التربية والتعليم.</p>
+      </div>
+      <div class="card">
+        <h3>هل المحتوى مبني على المنهاج الأردني فعلًا؟</h3>
+        <p>نعم. كل مادة تُبنى من شجرة المنهاج الرسمي الصادر عن المركز الوطني لتطوير المناهج (NCCD): الصف، ثم المادة، ثم الوحدة، ثم الدرس بأهدافه — لا من محتوى عام مُترجَم عن مناهج أخرى.</p>
+      </div>
+      <div class="card">
+        <h3>ما الذي يستطيع اقرأ تحضيره؟</h3>
+        <p>خطة درس كاملة بالأهداف والتهيئة والنشاط والتدريبات، وورقة عمل، واختبارًا قصيرًا، وواجبًا منزليًا، وشرائح للعرض على شاشة الصف، وتذكرة خروج — جاهزة للتعديل ثم الطباعة.</p>
+      </div>
+      <div class="card">
+        <h3>كيف تتأكدون من صحة الإجابات الرياضية؟</h3>
+        <p>محرّك رياضي مستقل يحلّ كل سؤال ويقارن ناتجه بمفتاح الإجابة قبل أن يصل إليك، وما لا يجتاز هذا التحقق يُحذف بدل أن يُعرض.</p>
+      </div>
+      <div class="card">
+        <h3>ما الصفوف والمواد المتاحة الآن؟</h3>
+        <p>النسخة التجريبية تغطي الصف العاشر بثماني مواد، مع بدء التركيز على الرياضيات والكيمياء، وتُضاف صفوف ومواد أخرى تباعًا.</p>
+      </div>
+      <div class="card">
+        <h3>على أي أجهزة يعمل اقرأ؟</h3>
+        <p>من المتصفح على أي جهاز — حاسوب أو لوح أو هاتف — أو كتطبيق أندرويد يُنزَّل من الموقع مباشرة.</p>
+      </div>
+      <div class="card">
+        <h3>هل استخدام اقرأ مجاني؟</h3>
+        <p>اقرأ اليوم في نسخة تجريبية مجانية للمعلّمين: جرّبه من المتصفح أو نزّل تطبيق أندرويد دون رسوم.</p>
       </div>
     </div>
   </div>
