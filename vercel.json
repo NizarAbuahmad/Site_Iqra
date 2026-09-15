@@ -7,6 +7,12 @@
       "permanent": false
     },
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "site-iqra.vercel.app" }],
+      "destination": "https://www.iqrra.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "site-iqra.vercel.app" }],
       "destination": "https://www.iqrra.com/:path*",
