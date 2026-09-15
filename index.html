@@ -574,6 +574,11 @@
           form.reset();
           say.className = 'say ok';
           say.textContent = 'وصلتنا رسالتك، شكرًا لك. سنرد إن تركت وسيلة للتواصل.';
+          // The fields have done their job — swap them for the confirmation
+          // rather than leaving an empty form under it. `say` moves out of
+          // the form first, or hiding the form would hide it too.
+          form.after(say);
+          form.hidden = true;
         })
         .catch(function () {
           say.className = 'say bad';
