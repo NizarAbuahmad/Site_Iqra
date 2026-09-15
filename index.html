@@ -47,7 +47,9 @@
 
   /* header */
   header{padding:20px 0; position:sticky; top:0; background:rgba(245,247,250,.9); backdrop-filter:blur(8px); z-index:10; border-bottom:1px solid transparent}
-  header .wrap{display:flex; align-items:center; gap:16px}
+  /* wrap so a screen narrower than ~350px pushes the buttons onto a second
+     row instead of giving the whole page a horizontal scrollbar. */
+  header .wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
   .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:22px}
   .beta{background:#E6F7F6; color:var(--teal); font-size:12px; font-weight:700; padding:3px 10px; border-radius:999px; letter-spacing:.5px}
   nav{margin-inline-start:auto; display:flex; gap:24px; font-size:15px; color:var(--muted)}
@@ -67,6 +69,11 @@
     nav{display:none}
     .head-cta{margin-inline-start:auto}
     .beta{display:none}
+    .wide-only{display:none}
+    /* 10px, not 12: at 12 the header wants 363px and a 360px-wide Android
+       screen — one of the most common there is — clips it. */
+    .btn-sm{padding:8px 10px}
+    .head-cta{gap:6px}
   }
 
   /* buttons */
@@ -170,7 +177,10 @@
       <a href="#how">كيف يعمل</a>
     </nav>
     <div class="head-cta">
-      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">نسخة المتصفح</a>
+      <!-- "التطبيق" drops on phones: the full label needs 424px of header and
+           a 375px screen has not got it. "افتح في المتصفح" still reads
+           unambiguously next to تحميل التطبيق. -->
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">افتح<span class="wide-only"> التطبيق</span> في المتصفح</a>
       <a class="btn-sm" href="/download">تحميل التطبيق</a>
     </div>
   </div>
