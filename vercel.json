@@ -5,6 +5,12 @@
       "source": "/app.apk",
       "destination": "https://expo.dev/artifacts/eas/NjlAR0VFVTImx9eIiVbxAgtq403T_NZ55LsVwg5Ljfo.apk",
       "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "site-iqra.vercel.app" }],
+      "destination": "https://www.iqrra.com/:path*",
+      "permanent": true
     }
   ]
 }
