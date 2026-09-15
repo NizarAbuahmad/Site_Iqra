@@ -250,9 +250,14 @@
   }
   .brand{display:flex;align-items:center;gap:.55rem;font-size:1.18rem;font-weight:700}
   .masthead .date{font-size:1.02rem;color:var(--red-ink)}
-  .masthead .go{background:var(--teal);color:#fff;font-size:.86rem;font-weight:600;
-    padding:.5rem 1.15rem;border-radius:2px;transition:background .12s linear}
+  .masthead .cta-pair{display:flex;gap:.5rem;flex-wrap:wrap}
+  .masthead .go,.masthead .go-line{font-size:.86rem;font-weight:600;
+    padding:.5rem 1.15rem;border-radius:2px;white-space:nowrap;
+    transition:background .12s linear,color .12s linear,border-color .12s linear}
+  .masthead .go{background:var(--teal);color:#fff}
   .masthead .go:hover{background:var(--teal-ink)}
+  .masthead .go-line{border:1.5px solid var(--hair);color:var(--ink)}
+  .masthead .go-line:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
 
   /* ---------- hero ---------- */
   /* position:relative so .gutter resolves against the hero, not .inner — against
@@ -287,7 +292,11 @@
     transform:rotate(-2.6deg);z-index:2}
   .photo{border:1px solid rgba(27,36,48,.14);background:#fff;padding:8px 8px 10px;
     box-shadow:0 10px 22px -14px rgba(27,36,48,.6);transform:rotate(1.1deg)}
-  .photo img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top}
+  /* height:auto is load-bearing. The width/height attributes on the <img> reserve
+     space against layout shift, but they make both dimensions definite, and
+     aspect-ratio only applies when one of them is auto — without this the crop is
+     ignored and every screenshot renders its full 1200px. */
+  .photo img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;object-position:top}
   .photo .cap{font-size:.8rem;color:var(--ink-2);padding-top:.5rem;text-align:center;line-height:1.5}
   .margin-note{font-size:1rem;color:var(--red-ink);line-height:1.5;transform:rotate(-4deg);
     writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap}
@@ -426,7 +435,10 @@
         اقرأ
       </div>
       <div class="date hand tnum">نسخة تجريبية · ٢٠٢٦</div>
-      <a class="go" href="https://app.iqrra.com">افتح التطبيق في المتصفح</a>
+      <div class="cta-pair">
+        <a class="go" href="https://app.iqrra.com">افتح التطبيق في المتصفح</a>
+        <a class="go-line" href="/download">نزّل تطبيق أندرويد</a>
+      </div>
     </header>
 
     <section class="hero">
