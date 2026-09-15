@@ -321,6 +321,9 @@
   footer{border-top:1px solid var(--border); padding:28px 0 48px; color:var(--muted); font-size:14px; text-align:center}
   footer a.mail{color:var(--teal); font-weight:600; text-decoration:none}
   footer a.mail:hover{text-decoration:underline}
+  .foot-nav{margin:0 0 16px}
+  .foot-nav a{color:var(--teal); font-weight:600; text-decoration:none; border-bottom:1px solid var(--border)}
+  .foot-nav a:hover{border-color:var(--teal)}
 
 </style>
 </head>
@@ -337,6 +340,7 @@
     </span>
     <span class="beta">نسخة تجريبية</span>
     <nav>
+      <a href="/manhaj">المناهج</a>
       <a href="#features">المزايا</a>
       <a href="#how">كيف يعمل</a>
       <a href="#faq">أسئلة شائعة</a>
@@ -512,6 +516,11 @@
 </div>
 
 <footer>
+  <!-- /manhaj is linked here as well as in the header because `nav` is
+       display:none under 720px, and Google indexes this site from its mobile
+       rendering. A link only a desktop reader can see is a thin thread to hang
+       thirty-eight pages on; the footer shows at every width. -->
+  <p class="foot-nav"><a href="/manhaj">تصفّح المناهج الأردنية — الوحدات والدروس ونتاجات التعلّم</a></p>
   <!-- Also in the footer because the header badge is hidden on phones, where
        there is no room for it beside the two buttons. -->
   اقرأ · نسخة تجريبية · مساعد المعلّم العربي · الأردن ٢٠٢٦
