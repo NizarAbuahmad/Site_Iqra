@@ -140,20 +140,12 @@ const crumbs = (items) => ({
 });
 
 /**
- * Arabic counted nouns take four different forms, and a template that
- * interpolates one of them gets three of the four wrong. 1 and 2 have words of
- * their own, 3-10 take the plural, and 11 upward takes the singular in the
- * accusative. "4 وحدة" is the shape an English-built string leaves behind.
+ * Counts are labelled rather than agreed: "الوحدات: 8", never "8 وحدات".
+ * Arabic counted nouns take four forms depending on the number, so any
+ * template interpolating the noun gets most of them wrong. A label carries no
+ * number agreement at all, so nothing here can drift out of grammar.
  */
-function ar(n, { one, two, few, many }) {
-  if (n === 1) return one;
-  if (n === 2) return two;
-  if (n >= 3 && n <= 10) return `${n} ${few}`;
-  return `${n} ${many}`;
-}
-const UNITS = { one: 'وحدة واحدة', two: 'وحدتان', few: 'وحدات', many: 'وحدةً' };
-const LESSONS = { one: 'درس واحد', two: 'درسان', few: 'دروس', many: 'درسًا' };
-const SUBJECTS = { one: 'مادة واحدة', two: 'مادتان', few: 'مواد', many: 'مادةً' };
+const countPair = (units, lessons) => `الوحدات: ${units} · الدروس: ${lessons}`;
 
 function subjectPage(p) {
   // "لكل درس" only when it is true. Coverage runs from 66% to 100%, and a lede
@@ -163,8 +155,8 @@ function subjectPage(p) {
   const outcomesPhrase = everyLesson ? 'نتاجات التعلّم لكل درس' : 'نتاجات التعلّم';
 
   const title = `منهاج ${p.subjectAr} ${p.gradeAr} — الوحدات والدروس ونتاجات التعلّم`;
-  const desc = `وحدات ودروس منهاج ${p.subjectAr} ${p.gradeAr} في الأردن (${ar(p.counts.units, UNITS)}، `
-    + `${ar(p.counts.lessons, LESSONS)}) مع ${outcomesPhrase}، وفق مناهج وزارة التربية والتعليم.`;
+  const desc = `وحدات ودروس منهاج ${p.subjectAr} ${p.gradeAr} في الأردن (${countPair(p.counts.units, p.counts.lessons)}) `
+    + `مع ${outcomesPhrase}، وفق مناهج وزارة التربية والتعليم.`;
   const path = `/manhaj/${slug(p)}`;
 
   const ld = crumbs([
@@ -180,7 +172,7 @@ function subjectPage(p) {
 <h1>منهاج ${esc(p.subjectAr)} ${esc(p.gradeAr)}</h1>
 <p class="lede">
   شجرة منهاج ${esc(p.subjectAr)} ${esc(p.gradeAr)} كما يصدرها المركز الوطني لتطوير المناهج:
-  ${ar(p.counts.units, UNITS)} و${ar(p.counts.lessons, LESSONS)}، مع ${outcomesPhrase} والمفاهيم الأساسية.
+  ${countPair(p.counts.units, p.counts.lessons)}، مع ${outcomesPhrase} والمفاهيم الأساسية.
   يبني اقرأ من هذه النتاجات نفسها خطة الدرس وورقة العمل والاختبار القصير.
 </p>
 <p class="cta-inline"><a class="btn btn-primary" href="https://app.iqrra.com">حضّر درسًا من هذا المنهاج</a></p>
@@ -234,9 +226,9 @@ function subjectPage(p) {
 }
 
 function indexPage() {
-  const title = 'مناهج وزارة التربية والتعليم الأردنية — الوحدات والدروس';
-  const desc = `وحدات ودروس المناهج الأردنية من الصف السادس إلى العاشر: ${data.length} منهاجًا `
-    + `بنتاجات التعلّم لكل درس، وفق المركز الوطني لتطوير المناهج.`;
+  const title = 'المناهج الأردنية: الصفوف والمواد والوحدات | اقرأ';
+  const desc = 'تصفّح الصفوف والمواد والوحدات والدروس ونتاجات التعلّم المتاحة في المنهاج الأردني، '
+    + 'وابدأ تحضير مواد حصّتك باستخدام اقرأ.';
   const ld = crumbs([{ name: 'اقرأ', path: '/' }, { name: 'المناهج', path: '/manhaj' }]);
 
   const grades = [...new Set(data.map((p) => p.gradeId))]
@@ -246,10 +238,10 @@ function indexPage() {
 <nav class="crumbs" aria-label="مسار التنقل">
   <a href="/">الرئيسية</a> <span aria-hidden="true">←</span> <span class="here">المناهج</span>
 </nav>
-<h1>المناهج الأردنية</h1>
+<h1>تصفّح المناهج الأردنية</h1>
 <p class="lede">
-  شجرة الوحدات والدروس ونتاجات التعلّم كما يصدرها المركز الوطني لتطوير المناهج،
-  من الصف السادس إلى الصف العاشر. اختر المادة لتصفّح وحداتها ودروسها.
+  اختر الصف، ثم المادة، لتصل إلى الوحدات والدروس ونتاجات التعلّم في المنهاج الأردني.
+  المواد المتاحة حاليًا تغطي عددًا من مواد الصفوف من السادس إلى العاشر، ونعمل على إضافة المزيد باستمرار.
 </p>
 `;
   for (const g of grades) {
@@ -258,16 +250,19 @@ function indexPage() {
     const lessons = subs.reduce((n, p) => n + p.counts.lessons, 0);
     b += `\n<section class="grade">
 <h2>${esc(subs[0].gradeAr)}</h2>
-<p class="gmeta">${ar(subs.length, SUBJECTS)} · ${ar(units, UNITS)} · ${ar(lessons, LESSONS)}</p>
+<p class="gmeta">المواد: ${subs.length} · ${countPair(units, lessons)}</p>
 <ul class="cards">\n`;
     for (const p of subs) {
       b += `<li><a href="/manhaj/${slug(p)}">
   <span class="cname">${esc(p.subjectAr)}</span>
-  <span class="cmeta">${ar(p.counts.units, UNITS)} · ${ar(p.counts.lessons, LESSONS)}</span>
+  <span class="cmeta">${countPair(p.counts.units, p.counts.lessons)}</span>
 </a></li>\n`;
     }
     b += `</ul>\n</section>\n`;
   }
+  // Eleven grade/subject pairs are withheld as too thin to publish, so a
+  // reader whose subject is missing needs somewhere to go other than away.
+  b += `\n<p class="missing">لم تجد صفّك أو مادتك؟ <a href="/#feedback">أخبرنا بما تحتاجه</a> وسنضعه ضمن أولويات الإضافة.</p>\n`;
   b += `</main>`;
   return head(title, desc, '/manhaj', ld) + b + foot;
 }
