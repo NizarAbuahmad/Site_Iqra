@@ -139,6 +139,22 @@ const crumbs = (items) => ({
   })),
 });
 
+/**
+ * Arabic counted nouns take four different forms, and a template that
+ * interpolates one of them gets three of the four wrong. 1 and 2 have words of
+ * their own, 3-10 take the plural, and 11 upward takes the singular in the
+ * accusative. "4 وحدة" is the shape an English-built string leaves behind.
+ */
+function ar(n, { one, two, few, many }) {
+  if (n === 1) return one;
+  if (n === 2) return two;
+  if (n >= 3 && n <= 10) return `${n} ${few}`;
+  return `${n} ${many}`;
+}
+const UNITS = { one: 'وحدة واحدة', two: 'وحدتان', few: 'وحدات', many: 'وحدةً' };
+const LESSONS = { one: 'درس واحد', two: 'درسان', few: 'دروس', many: 'درسًا' };
+const SUBJECTS = { one: 'مادة واحدة', two: 'مادتان', few: 'مواد', many: 'مادةً' };
+
 function subjectPage(p) {
   // "لكل درس" only when it is true. Coverage runs from 66% to 100%, and a lede
   // promising outcomes on every lesson of a 66% page is a claim the reader can
@@ -147,8 +163,8 @@ function subjectPage(p) {
   const outcomesPhrase = everyLesson ? 'نتاجات التعلّم لكل درس' : 'نتاجات التعلّم';
 
   const title = `منهاج ${p.subjectAr} ${p.gradeAr} — الوحدات والدروس ونتاجات التعلّم`;
-  const desc = `وحدات ودروس منهاج ${p.subjectAr} ${p.gradeAr} في الأردن (${p.counts.units} وحدة، `
-    + `${p.counts.lessons} درسًا) مع ${outcomesPhrase}، وفق مناهج وزارة التربية والتعليم.`;
+  const desc = `وحدات ودروس منهاج ${p.subjectAr} ${p.gradeAr} في الأردن (${ar(p.counts.units, UNITS)}، `
+    + `${ar(p.counts.lessons, LESSONS)}) مع ${outcomesPhrase}، وفق مناهج وزارة التربية والتعليم.`;
   const path = `/manhaj/${slug(p)}`;
 
   const ld = crumbs([
@@ -164,8 +180,8 @@ function subjectPage(p) {
 <h1>منهاج ${esc(p.subjectAr)} ${esc(p.gradeAr)}</h1>
 <p class="lede">
   شجرة منهاج ${esc(p.subjectAr)} ${esc(p.gradeAr)} كما يصدرها المركز الوطني لتطوير المناهج:
-  ${p.counts.units} وحدة و${p.counts.lessons} درسًا، مع ${outcomesPhrase} والمفاهيم الأساسية.
-  يبني اقرأ من هذه الأهداف نفسها خطة الدرس وورقة العمل والاختبار القصير.
+  ${ar(p.counts.units, UNITS)} و${ar(p.counts.lessons, LESSONS)}، مع ${outcomesPhrase} والمفاهيم الأساسية.
+  يبني اقرأ من هذه النتاجات نفسها خطة الدرس وورقة العمل والاختبار القصير.
 </p>
 <p class="cta-inline"><a class="btn btn-primary" href="https://app.iqrra.com">حضّر درسًا من هذا المنهاج</a></p>
 `;
@@ -242,12 +258,12 @@ function indexPage() {
     const lessons = subs.reduce((n, p) => n + p.counts.lessons, 0);
     b += `\n<section class="grade">
 <h2>${esc(subs[0].gradeAr)}</h2>
-<p class="gmeta">${subs.length} مواد · ${units} وحدة · ${lessons} درسًا</p>
+<p class="gmeta">${ar(subs.length, SUBJECTS)} · ${ar(units, UNITS)} · ${ar(lessons, LESSONS)}</p>
 <ul class="cards">\n`;
     for (const p of subs) {
       b += `<li><a href="/manhaj/${slug(p)}">
   <span class="cname">${esc(p.subjectAr)}</span>
-  <span class="cmeta">${p.counts.units} وحدة · ${p.counts.lessons} درسًا</span>
+  <span class="cmeta">${ar(p.counts.units, UNITS)} · ${ar(p.counts.lessons, LESSONS)}</span>
 </a></li>\n`;
     }
     b += `</ul>\n</section>\n`;
