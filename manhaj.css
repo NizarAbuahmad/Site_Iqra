@@ -3,7 +3,9 @@
    every one of them. A second request is the cheaper trade at that count. */
 
 :root{
-  --navy:#081B3A; --teal:#00A99D; --aqua:#34D6C6;
+  /* --teal-ink: see docs/landing rationale (5.22:1 white-on-fill, 4.72:1 on
+     #E6F7F6 chips). --teal stays for decorative/border-only/logo use. */
+  --navy:#081B3A; --teal:#00A99D; --teal-ink:#007A72; --aqua:#34D6C6;
   --bg:#F5F7FA; --card:#fff; --muted:#5A6A7D; --border:#DDE6E8;
 }
 *{box-sizing:border-box}
@@ -14,7 +16,7 @@ body{
 }
 .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--teal); outline-offset:3px; border-radius:3px}
+:focus-visible{outline:2px solid var(--teal-ink); outline-offset:3px; border-radius:3px}
 
 /* header — same furniture as the homepage, minus the section nav, which would
    point at anchors these pages do not have. */
@@ -25,7 +27,7 @@ header .wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
 .head-cta{margin-inline-start:auto; display:flex; gap:10px; flex-wrap:wrap}
 .btn-sm{display:inline-block; padding:8px 14px; border-radius:9px; font-size:14px;
         font-weight:600; text-decoration:none; border:1px solid var(--border); background:var(--card)}
-.btn-sm-primary{background:var(--teal); border-color:var(--teal); color:#fff}
+.btn-sm-primary{background:var(--teal-ink); border-color:var(--teal-ink); color:#fff}
 
 /* breadcrumbs */
 .crumbs{font-size:14px; color:var(--muted); padding:22px 0 0}
@@ -39,7 +41,7 @@ h1{font-size:clamp(28px,4.4vw,42px); line-height:1.35; margin:18px 0 14px}
 
 .btn{display:inline-block; padding:13px 24px; border-radius:11px; font-weight:600;
      text-decoration:none; border:1px solid var(--border); background:var(--card); margin-inline-end:10px}
-.btn-primary{background:var(--teal); border-color:var(--teal); color:#fff}
+.btn-primary{background:var(--teal-ink); border-color:var(--teal-ink); color:#fff}
 
 /* semesters and units */
 .sem{margin:0 0 10px}
@@ -53,10 +55,10 @@ h1{font-size:clamp(28px,4.4vw,42px); line-height:1.35; margin:18px 0 14px}
    "the third lesson" is a real way this gets read. */
 ol.lessons{margin:0; padding-inline-start:22px}
 ol.lessons > li{margin:16px 0; padding-inline-start:4px}
-ol.lessons > li::marker{color:var(--teal); font-weight:700}
+ol.lessons > li::marker{color:var(--teal-ink); font-weight:700}
 .ltitle{font-weight:600; display:block}
 
-.lbl{display:block; font-size:12.5px; font-weight:600; color:var(--teal);
+.lbl{display:block; font-size:12.5px; font-weight:600; color:var(--teal-ink);
      letter-spacing:.01em; margin:8px 0 2px}
 .obj ul{margin:0; padding-inline-start:20px; color:var(--muted); font-size:15px}
 .obj li{margin:2px 0}
@@ -77,7 +79,7 @@ ul.pills a:hover{border-color:var(--teal)}
 .gmeta{color:var(--muted); font-size:14px; margin:0 0 14px}
 /* The way out for a reader whose subject is not published yet. */
 .missing{margin:36px 0 8px; padding:18px 20px; border:1px solid var(--border); border-radius:14px; background:var(--card); color:var(--muted); font-size:15px}
-.missing a{color:var(--teal); font-weight:600}
+.missing a{color:var(--teal-ink); font-weight:600}
 ul.cards{list-style:none; margin:0; padding:0;
          display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px}
 ul.cards a{display:block; background:var(--card); border:1px solid var(--border);
@@ -94,6 +96,6 @@ ul.cards a:hover{border-color:var(--teal)}
 
 footer{margin-top:56px; padding:28px 24px 40px; text-align:center;
        color:var(--muted); font-size:14px; border-top:1px solid var(--border)}
-.mail{color:var(--teal)}
+.mail{color:var(--teal-ink)}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}

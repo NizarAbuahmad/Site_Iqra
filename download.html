@@ -16,7 +16,9 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#081B3A; --teal:#00A99D; --aqua:#34D6C6;
+    /* --teal-ink: see index.html for the contrast rationale (5.22:1 white-on-
+       fill, 4.72:1 on the #E6F7F6 chip bg). --teal stays for decorative/logo use. */
+    --navy:#081B3A; --teal:#00A99D; --teal-ink:#007A72; --aqua:#34D6C6;
     --bg:#F5F7FA; --card:#fff; --muted:#5A6A7D; --border:#DDE6E8;
   }
   *{box-sizing:border-box}
@@ -31,22 +33,22 @@
   header{padding:20px 0}
   header .wrap{display:flex; align-items:center; gap:10px}
   .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:22px; text-decoration:none}
-  .beta{background:#E6F7F6; color:var(--teal); font-size:12px; font-weight:700; padding:3px 10px; border-radius:999px; letter-spacing:.5px}
+  .beta{background:#E6F7F6; color:var(--teal-ink); font-size:12px; font-weight:700; padding:3px 10px; border-radius:999px; letter-spacing:.5px}
 
   .btn{display:inline-block; padding:14px 28px; border-radius:12px; font-weight:600; font-size:16px; text-decoration:none; border:1px solid transparent}
-  .btn-primary{background:var(--teal); color:#fff}
-  .btn-primary:hover{background:#008f85}
+  .btn-primary{background:var(--teal-ink); color:#fff}
+  .btn-primary:hover{background:#00605A}
   .btn-ghost{border-color:var(--border); color:var(--navy); background:var(--card)}
-  .btn:focus-visible, a:focus-visible{outline:3px solid var(--teal); outline-offset:3px}
+  .btn:focus-visible, a:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
 
   /* started */
   .started{text-align:center; padding:48px 0 8px; background:
     radial-gradient(60% 70% at 50% 0%, rgba(52,214,198,.18), transparent 70%);}
-  .tick{width:64px; height:64px; border-radius:50%; background:var(--teal); display:grid; place-items:center; margin:0 auto 20px}
+  .tick{width:64px; height:64px; border-radius:50%; background:var(--teal-ink); display:grid; place-items:center; margin:0 auto 20px}
   h1{font-size:clamp(28px,5vw,40px); line-height:1.45; margin:0 0 12px}
   .started p{font-size:17px; color:var(--muted); max-width:520px; margin:0 auto 24px}
   .manual{font-size:14px; color:var(--muted); margin-top:20px}
-  .manual a{color:var(--teal); font-weight:600}
+  .manual a{color:var(--teal-ink); font-weight:600}
 
   section{padding:44px 0}
   h2{font-size:clamp(21px,3vw,28px); margin:0 0 6px}
@@ -88,9 +90,9 @@
   footer{border-top:1px solid var(--border); padding:24px 0 40px; color:var(--muted); font-size:14px; text-align:center}
   footer .social{margin:14px 0 0}
   footer .social a{display:inline-grid; place-items:center; width:38px; height:38px; border-radius:10px; color:var(--muted); border:1px solid var(--border); background:var(--card); margin:0 3px}
-  footer .social a:hover{color:var(--teal); border-color:var(--teal)}
-  footer .social a:focus-visible{outline:3px solid var(--teal); outline-offset:3px}
-  footer a.mail{color:var(--teal); font-weight:600; text-decoration:none}
+  footer .social a:hover{color:var(--teal-ink); border-color:var(--teal-ink)}
+  footer .social a:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
+  footer a.mail{color:var(--teal-ink); font-weight:600; text-decoration:none}
   footer a.mail:hover{text-decoration:underline}
 
 </style>
