@@ -182,7 +182,7 @@
   }
   *{box-sizing:border-box}
   body{
-    margin:0; background:var(--bg); color:var(--navy);
+    margin:0; background:var(--bg); color:var(--navy); overflow-x:hidden;
     font-family:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
     line-height:1.75; -webkit-font-smoothing:antialiased;
   }
@@ -334,7 +334,12 @@
   .ask button{font:inherit; cursor:pointer; width:100%}
   .ask button[disabled]{opacity:.6; cursor:default}
   /* Bots fill what they cannot see; people never reach it. */
-  .trap{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+  /* Visually hidden without an off-canvas position: a large negative `left`
+     still extends the page's scrollable area to include it (position:absolute
+     is out of flow, but its origin is still real geometry the browser must
+     scroll to) — this field alone was adding ~10,000px of horizontal scroll.
+     clip-path + a 1px box removes it from the visual and the scrollable canvas. */
+  .trap{position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap}
   .say{margin-top:16px; text-align:center; font-size:15px; min-height:24px}
   .say.ok{color:var(--teal-ink); font-weight:600}
   .say.bad{color:#B4232A}
