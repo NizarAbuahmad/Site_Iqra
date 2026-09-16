@@ -68,7 +68,11 @@
   }
   ol.steps h3{margin:4px 0 4px; font-size:17px}
   ol.steps p{margin:0; color:var(--muted); font-size:15.5px}
-  .warn{background:#FFF7E6; border-color:#F0DCB4}
+  /* Was plain .warn{...} — a single class loses to ol.steps li's compound
+     selector (specificity 0,1,2 beats 0,1,0) regardless of source order, so
+     this never actually painted: background/border silently fell through to
+     the plain-card values, and only the unopposed h3 color came through. */
+  ol.steps li.warn{background:#FFF7E6; border-color:#F0DCB4}
   .warn h3{color:#8A6100}
 
   /* tour */
