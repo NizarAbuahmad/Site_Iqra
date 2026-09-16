@@ -111,8 +111,8 @@ ${JSON.stringify(ld, null, 1)}
       اقرأ
     </a>
     <div class="head-cta">
-      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">افتح في المتصفح</a>
-      <a class="btn-sm" href="/download">تحميل أندرويد</a>
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ من المتصفح</a>
+      <a class="btn-sm" href="/download">حمّل لأندرويد</a>
     </div>
   </div>
 </header>
@@ -120,7 +120,7 @@ ${JSON.stringify(ld, null, 1)}
 
 const foot = `
 <footer>
-  اقرأ · نسخة تجريبية · مساعد المعلّم العربي · الأردن ٢٠٢٦
+  اقرأ · نسخة تجريبية · مساعد المعلم العربي · الأردن 2026
   <br>للتواصل: <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
   <br><a href="/privacy">سياسة الخصوصية</a>
 </footer>
@@ -155,7 +155,7 @@ function subjectPage(p) {
   const everyLesson = coverage(p) > 0.95;
   const outcomesPhrase = everyLesson ? 'نتاجات التعلّم لكل درس' : 'نتاجات التعلّم';
 
-  const title = `منهاج ${p.subjectAr} ${p.gradeAr} — الوحدات والدروس ونتاجات التعلّم`;
+  const title = `منهاج ${p.subjectAr} ${p.gradeAr} — الوحدات والدروس ونتاجات التعلّم | اقرأ`;
   const desc = `وحدات ودروس منهاج ${p.subjectAr} ${p.gradeAr} في الأردن (${countPair(p.counts.units, p.counts.lessons)}) `
     + `مع ${outcomesPhrase}، وفق مناهج وزارة التربية والتعليم.`;
   const path = `/manhaj/${slug(p)}`;
@@ -174,7 +174,7 @@ function subjectPage(p) {
 <p class="lede">
   شجرة منهاج ${esc(p.subjectAr)} ${esc(p.gradeAr)} كما يصدرها المركز الوطني لتطوير المناهج:
   ${countPair(p.counts.units, p.counts.lessons)}، مع ${outcomesPhrase} والمفاهيم الأساسية.
-  يبني اقرأ من هذه النتاجات نفسها خطة الدرس وورقة العمل والاختبار القصير.
+  يبني اقرأ من هذه النتاجات نفسها خطة درس وورقة عمل واختبار قصير.
 </p>
 <p class="cta-inline"><a class="btn btn-primary" href="https://app.iqrra.com">حضّر درسًا من هذا المنهاج</a></p>
 `;
@@ -219,7 +219,7 @@ function subjectPage(p) {
 <h2>حضّر حصّة من منهاج ${esc(p.subjectAr)}</h2>
 <p>اختر الدرس من شجرة المنهاج، واطلب خطة درس أو ورقة عمل أو اختبارًا قصيرًا — بالعربية، جاهزًا للطباعة.</p>
 <p><a class="btn btn-primary" href="https://app.iqrra.com">ابدأ من المتصفح</a>
-   <a class="btn" href="/download">تحميل تطبيق أندرويد</a></p>
+   <a class="btn" href="/download">حمّل تطبيق أندرويد</a></p>
 </section>
 </main>`;
 
@@ -242,7 +242,7 @@ function indexPage() {
 <h1>تصفّح المناهج الأردنية</h1>
 <p class="lede">
   اختر الصف، ثم المادة، لتصل إلى الوحدات والدروس ونتاجات التعلّم في المنهاج الأردني.
-  المواد المتاحة حاليًا تغطي عددًا من مواد الصفوف من السادس إلى العاشر، ونعمل على إضافة المزيد باستمرار.
+  نضيف صفوفًا ومواد جديدة باستمرار.
 </p>
 `;
   for (const g of grades) {
@@ -263,7 +263,7 @@ function indexPage() {
   }
   // Eleven grade/subject pairs are withheld as too thin to publish, so a
   // reader whose subject is missing needs somewhere to go other than away.
-  b += `\n<p class="missing">لم تجد صفّك أو مادتك؟ <a href="/#feedback">أخبرنا بما تحتاجه</a> وسنضعه ضمن أولويات الإضافة.</p>\n`;
+  b += `\n<p class="missing">لم تجد صفّك أو مادتك؟ <a href="/#feedback">أخبرنا بما تحتاجه</a> وسنعمل على إضافته.</p>\n`;
   b += `</main>`;
   return head(title, desc, '/manhaj', ld) + b + foot;
 }
