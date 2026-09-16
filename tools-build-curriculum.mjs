@@ -122,6 +122,7 @@ const foot = `
 <footer>
   اقرأ · نسخة تجريبية · مساعد المعلّم العربي · الأردن ٢٠٢٦
   <br>للتواصل: <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
+  <br><a href="/privacy">سياسة الخصوصية</a>
 </footer>
 </body>
 </html>
@@ -278,7 +279,10 @@ for (const p of data) {
 // The sitemap is generated here so it cannot drift from what was written.
 // /download and /editorial stay out: both are noindex, and listing a noindex
 // URL in a sitemap is a contradiction Search Console reports as an error.
-const urls = ['/', '/manhaj', ...data.map((p) => `/manhaj/${slug(p)}`)];
+// /privacy is hand-written rather than generated, but it belongs in the
+// sitemap: Google Play requires a reachable privacy URL, and a page nothing
+// links to from a crawlable path is a page Google may never confirm exists.
+const urls = ['/', '/manhaj', '/privacy', ...data.map((p) => `/manhaj/${slug(p)}`)];
 writeFileSync(new URL('./sitemap.xml', root),
   `<?xml version="1.0" encoding="UTF-8"?>
 <!--
