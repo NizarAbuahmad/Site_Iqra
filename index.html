@@ -293,6 +293,32 @@
 
   /* faq — answers run long, so one column rather than the .grid used above */
   .faq{display:grid; gap:14px; max-width:780px; margin:0 auto}
+  /* Native <details>/<summary>: free keyboard support and screen-reader
+     semantics, no JS. All 7 answers used to render open always -- the
+     longest continuous scroll on the mobile homepage for a section whose
+     job is letting someone find their one question. */
+  .faq-item{background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden}
+  .faq-item summary{
+    list-style:none; cursor:pointer; padding:20px 24px; font-weight:600; font-size:16px;
+    display:flex; justify-content:space-between; align-items:center; gap:16px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none}
+  /* A real element, not ::after: tested and found that at least one rendering
+     engine does not reliably re-run style for a pseudo-element generated on a
+     descendant when an ancestor's [open] attribute changes. A plain element
+     reacting to the same [open] selector was verified to work. */
+  .faq-item .chevron{
+    flex:0 0 auto; width:11px; height:11px;
+    border-inline-end:2px solid var(--muted); border-bottom:2px solid var(--muted);
+    transform:rotate(45deg); transition:transform .2s ease; margin-top:-4px;
+  }
+  .faq-item[open] .chevron{transform:rotate(225deg); margin-top:4px}
+  .faq-item summary:focus-visible{outline:3px solid var(--teal-ink); outline-offset:-3px; border-radius:12px}
+  .faq-item p{margin:0; padding:0 24px 20px; color:var(--muted); font-size:15.5px}
+  /* Declared explicitly rather than trusted to the UA stylesheet's own
+     details:not([open]) rule: tested and found NOT reliably applied across
+     rendering engines -- the answer stayed display:block while closed. */
+  .faq-item:not([open]) p{display:none}
   .faq .card{padding:22px 26px}
   .faq h3{margin:0 0 8px}
 
@@ -346,7 +372,9 @@
 
   footer{border-top:1px solid var(--border); padding:28px 0 48px; color:var(--muted); font-size:14px; text-align:center}
   footer .social{margin:14px 0 0}
-  footer .social a{display:inline-grid; place-items:center; width:38px; height:38px; border-radius:10px; color:var(--muted); border:1px solid var(--border); background:var(--card); margin:0 3px}
+  /* 44px, not 38: the icon glyph stays 20px, only the tappable area grows --
+     38px was under the 44x44 minimum touch-target guideline. */
+  footer .social a{display:inline-grid; place-items:center; width:44px; height:44px; border-radius:10px; color:var(--muted); border:1px solid var(--border); background:var(--card); margin:0 3px}
   footer .social a:hover{color:var(--teal-ink); border-color:var(--teal-ink)}
   footer .social a:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
   footer a.mail{color:var(--teal-ink); font-weight:600; text-decoration:none}
@@ -484,34 +512,34 @@
     <h2>أسئلة شائعة</h2>
     <p class="sub">إجابات واضحة عن أكثر ما يهم المعلمين قبل استخدام اقرأ.</p>
     <div class="faq">
-      <div class="card">
-        <h3>ما هو اقرأ؟</h3>
+      <details class="faq-item">
+        <summary>ما هو اقرأ؟<span class="chevron" aria-hidden="true"></span></summary>
         <p>اقرأ مساعد ذكي للمعلمين في الأردن، يساعدهم على تحضير مواد الحصص باللغة العربية ووفق المنهاج الأردني.</p>
-      </div>
-      <div class="card">
-        <h3>هل المحتوى مرتبط بالمنهاج الأردني؟</h3>
+      </details>
+      <details class="faq-item">
+        <summary>هل المحتوى مرتبط بالمنهاج الأردني؟<span class="chevron" aria-hidden="true"></span></summary>
         <p>نعم. يرتبط المحتوى بالصف، والمادة، والوحدة، والدرس، ونتاجات التعلّم الواردة في مناهج المركز الوطني لتطوير المناهج.</p>
-      </div>
-      <div class="card">
-        <h3>ما الذي يمكنني تحضيره باستخدام اقرأ؟</h3>
+      </details>
+      <details class="faq-item">
+        <summary>ما الذي يمكنني تحضيره باستخدام اقرأ؟<span class="chevron" aria-hidden="true"></span></summary>
         <p>يمكنك تحضير خطة درس، وورقة عمل، واختبار قصير، وواجب منزلي، وأنشطة صفية، وشرائح عرض، وتذكرة خروج.</p>
-      </div>
-      <div class="card">
-        <h3>كيف يتم التحقق من الإجابات الرياضية؟</h3>
+      </details>
+      <details class="faq-item">
+        <summary>كيف يتم التحقق من الإجابات الرياضية؟<span class="chevron" aria-hidden="true"></span></summary>
         <p>تُراجع الإجابات الرياضية آليًا وتُقارن بمفتاح الإجابة قبل عرضها، لتقليل احتمال وجود أخطاء فيها.</p>
-      </div>
-      <div class="card">
-        <h3>هل صفّي ومادتي متوفران؟</h3>
+      </details>
+      <details class="faq-item">
+        <summary>هل صفّي ومادتي متوفران؟<span class="chevron" aria-hidden="true"></span></summary>
         <p>تصفّح صفحة المناهج وابحث عن صفّك ومادتك. نضيف مواد وصفوفًا جديدة باستمرار، ويمكنك إخبارنا بما تحتاجه.</p>
-      </div>
-      <div class="card">
-        <h3>على أي أجهزة يعمل اقرأ؟</h3>
+      </details>
+      <details class="faq-item">
+        <summary>على أي أجهزة يعمل اقرأ؟<span class="chevron" aria-hidden="true"></span></summary>
         <p>يعمل اقرأ من المتصفح على الحاسوب والهاتف والجهاز اللوحي، كما يتوفر تطبيق أندرويد للتحميل المباشر.</p>
-      </div>
-      <div class="card">
-        <h3>هل استخدام اقرأ مجاني؟</h3>
+      </details>
+      <details class="faq-item">
+        <summary>هل استخدام اقرأ مجاني؟<span class="chevron" aria-hidden="true"></span></summary>
         <p>يتوفر اقرأ حاليًا بنسخة تجريبية مجانية للمعلمين، ويمكنك استخدامه من المتصفح أو تحميل تطبيق أندرويد.</p>
-      </div>
+      </details>
     </div>
   </div>
 </section>

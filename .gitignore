@@ -1,0 +1,3 @@
+# Local state for the impeccable design skill (critique snapshots, live-mode
+# config) — a per-machine record of tool runs, not something the site ships.
+.impeccable/

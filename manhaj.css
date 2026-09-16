@@ -75,6 +75,14 @@ ul.pills a{display:inline-block; background:var(--card); border:1px solid var(--
            border-radius:999px; padding:7px 15px; text-decoration:none; font-size:14.5px; font-weight:500}
 ul.pills a:hover{border-color:var(--teal)}
 
+/* Jump-nav: only rendered past 6 units (see the generator). A 40-unit page
+   had no way to reach a specific unit except scrolling past every one before
+   it, despite units being the one addressable structure the page already has. */
+.jump{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px 20px; margin:28px 0}
+.jump-sem + .jump-sem{margin-top:14px}
+.jump-label{display:block; font-size:13px; font-weight:600; color:var(--muted); margin-bottom:8px}
+.jump .pills a{font-size:13.5px; padding:5px 12px}
+
 .grade{margin:0 0 34px}
 .gmeta{color:var(--muted); font-size:14px; margin:0 0 14px}
 /* The way out for a reader whose subject is not published yet. */

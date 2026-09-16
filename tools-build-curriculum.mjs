@@ -179,10 +179,31 @@ function subjectPage(p) {
 <p class="cta-inline"><a class="btn btn-primary" href="https://app.iqrra.com">حضّر درسًا من هذا المنهاج</a></p>
 `;
 
-  for (const bk of p.books) {
+  // Unit ids are assigned once, up front, so the jump-nav below and the
+  // sections further down agree without recomputing a counter twice.
+  let unitIndex = 0;
+  const unitIds = p.books.map((bk) => bk.units.map(() => `unit-${unitIndex++}`));
+
+  // Only past a threshold: on a 4-unit page a reader has already seen every
+  // unit by the time they'd reach a jump-nav, and it would be chrome with no
+  // job to do. Past it, this is the only way to reach a specific unit on a
+  // page with no other addressable structure.
+  if (p.counts.units > 6) {
+    b += `<nav class="jump" aria-label="الانتقال إلى وحدة">\n`;
+    p.books.forEach((bk, bi) => {
+      b += `<div class="jump-sem"><span class="jump-label">${esc(bk.semester)}</span><ul class="pills">\n`;
+      bk.units.forEach((u, ui) => {
+        b += `<li><a href="#${unitIds[bi][ui]}">${esc(u.nameAr)}</a></li>\n`;
+      });
+      b += `</ul></div>\n`;
+    });
+    b += `</nav>\n`;
+  }
+
+  p.books.forEach((bk, bi) => {
     b += `\n<section class="sem">\n<h2>${esc(bk.semester)}</h2>\n`;
-    for (const u of bk.units) {
-      b += `<article class="unit">\n<h3>${esc(u.nameAr)}</h3>\n`;
+    bk.units.forEach((u, ui) => {
+      b += `<article class="unit" id="${unitIds[bi][ui]}">\n<h3>${esc(u.nameAr)}</h3>\n`;
       if (u.lessons.length) {
         b += `<ol class="lessons">\n`;
         for (const l of u.lessons) {
@@ -202,9 +223,9 @@ function subjectPage(p) {
         b += `</ol>\n`;
       }
       b += `</article>\n`;
-    }
+    });
     b += `</section>\n`;
-  }
+  });
 
   // Sideways links. Without these every page is a dead end reachable only from
   // /manhaj, and a crawler has to return to the index between each one.
