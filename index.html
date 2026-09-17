@@ -236,7 +236,10 @@
   h1{font-size:clamp(32px,5.5vw,52px); line-height:1.45; margin:0 0 20px}
   .hero p{font-size:clamp(17px,2.2vw,20px); color:var(--muted); max-width:620px; margin:0 auto 32px}
   .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
-  .note{margin-top:20px; font-size:14px; color:var(--muted)}
+  /* .hero .note, not .note: ".hero p{margin:0 auto 32px}" outranks a bare
+     .note on specificity (0,1,1) vs (0,1,0) and was winning regardless of
+     source order, zeroing out this margin-top. */
+  .hero .note{margin-top:28px; font-size:14px; color:var(--muted)}
 
   /* Screens are 540x1200; shown full they'd be ~600px tall each and bury the
      page. Fixed-height window + top crop + a fade at the bottom instead. */
