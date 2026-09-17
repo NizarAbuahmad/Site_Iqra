@@ -89,7 +89,10 @@
   .tour img{
     width:100%; height:auto; aspect-ratio:540/1000; object-fit:cover; object-position:top center;
     border:1px solid var(--border); border-radius:20px; background:var(--card);
-    box-shadow:0 16px 40px rgba(8,27,58,.12);
+    /* Tucked, not diffuse: matches the same shadow treatment on iqrra.com's
+       proof screenshots (.shots img / .shot-still) — a negative spread pulls
+       the blur in instead of haloing outward. */
+    box-shadow:0 13px 26px -6px rgba(8,27,58,.2);
   }
   .tour figcaption{margin-top:12px; font-size:15px; color:var(--muted)}
   .tour strong{display:block; color:var(--navy); font-size:16px; margin-bottom:2px}
