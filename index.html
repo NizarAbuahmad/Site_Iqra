@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>اقرأ — رفيقك في تحضير الحصص</title>
-<meta name="description" content="جهّز خطط الدروس، وأوراق العمل، والاختبارات القصيرة، والواجبات، والأنشطة الصفية، مبنية على نتاجات التعلّم في المنهاج الأردني، وجاهزة للطباعة والعرض.">
+<meta name="description" content="جهّز خطط الدروس، وأوراق العمل، والاختبارات القصيرة، والأنشطة الصفية، مبنية على نتاجات التعلّم في المنهاج الأردني، وجاهزة للطباعة والعرض.">
 <!-- SVG for browsers that take it; .ico for Safari and crawlers that ask for
      /favicon.ico regardless; PNG for the iOS home screen. -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -135,7 +135,7 @@
           "name": "ما الذي يمكنني تحضيره باستخدام اقرأ؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "يمكنك تحضير خطة درس، وورقة عمل، واختبار قصير، وواجب منزلي، وأنشطة صفية، وشرائح عرض، وتذكرة خروج."
+            "text": "يمكنك تحضير خطة درس، وورقة عمل، واختبار قصير، وأنشطة صفية، وشرائح عرض، وتقييمات تشاركها برابط وتصحّح إجابات طلبتك."
           }
         },
         {
@@ -252,24 +252,71 @@
   /* Screens are 540x1200; shown full they'd be ~600px tall each and bury the
      page. Fixed-height window + top crop + a fade at the bottom instead. */
   .shots{
+    --shot-h:clamp(290px,40vw,420px); --shot-drop:22px;
     margin-top:56px; display:flex; justify-content:center; align-items:flex-start;
-    gap:clamp(10px,2.6vw,26px); height:clamp(290px,40vw,420px); overflow:hidden;
-    -webkit-mask-image:linear-gradient(to bottom,#000 66%,transparent);
-    mask-image:linear-gradient(to bottom,#000 66%,transparent);
+    gap:clamp(10px,2.6vw,26px);
   }
+  .shots figure{margin:0; width:clamp(146px,20vw,214px)}
   .shots img{
-    width:clamp(146px,20vw,214px); height:100%; margin-top:22px;
+    display:block; width:100%;
+    height:calc(var(--shot-h) - var(--shot-drop)); margin-top:var(--shot-drop);
     object-fit:cover; object-position:top center;
     border:1px solid var(--border); border-bottom:0; border-radius:24px 24px 0 0;
     /* Tucked, not diffuse: a negative spread pulls the blur in from the edges
        instead of haloing outward, so the depth reads as a deliberate choice
        rather than the wide-soft-shadow default every generated UI reaches for. */
     background:var(--card); box-shadow:0 14px 26px -6px rgba(8,27,58,.22);
+    /* The fade used to sit on the row and clip all three phones at one line.
+       Per image it travels with the card, so the mobile strip keeps it and
+       each caption stays outside the mask, at full contrast. Shorter than the
+       old 66% because a caption now follows: the phone should dissolve just
+       above its label, not a third of the way up it. */
+    -webkit-mask-image:linear-gradient(to bottom,#000 86%,transparent);
+    mask-image:linear-gradient(to bottom,#000 86%,transparent);
   }
-  .shots .lead{width:clamp(172px,24vw,250px); margin-top:0; box-shadow:0 20px 36px -8px rgba(8,27,58,.3)}
+  .shots .lead{width:clamp(172px,24vw,250px)}
+  .shots .lead img{height:var(--shot-h); margin-top:0; box-shadow:0 20px 36px -8px rgba(8,27,58,.3)}
+  .shots figcaption{margin-top:10px; font-size:14px; line-height:1.6; color:var(--muted)}
+  .shots figcaption b{display:block; color:var(--navy); font-weight:600}
+
+  /* Mobile: the row used to hide two of the three phones outright. The same
+     markup becomes a snap strip instead, so every screen stays reachable. No
+     auto-advance -- the peeking next card is the affordance, and nothing moves
+     under a teacher who is reading. */
   @media(max-width:560px){
-    .shots img:not(.lead){display:none}
-    .shots .lead{width:min(64vw,230px)}
+    .shots{
+      --shot-drop:0px;
+      display:grid; grid-auto-flow:column; justify-content:start; align-items:start;
+      gap:16px;
+      /* .wrap's gutter is a known 24px, so cancel it and re-add it as padding
+         plus scroll padding: the strip runs edge to edge, and the first card
+         still lines up with the text above it. */
+      margin-inline:-24px; padding-inline:24px; scroll-padding-inline-start:24px;
+      overflow-x:auto; overscroll-behavior-x:contain;
+      scroll-snap-type:x mandatory; scrollbar-width:none;
+    }
+    .shots::-webkit-scrollbar{display:none}
+    .shots figure,.shots .lead{width:min(62vw,220px); scroll-snap-align:start}
+    .shots img,.shots .lead img{height:clamp(280px,72vw,340px)}
+    /* A peeking phone invites the swipe; a peeking sentence just looks cut in
+       half. Hold the neighbours' captions back so only one is being read.
+       No .is-near means no JS, and then every caption stays at full strength. */
+    .shots figure figcaption{transition:opacity .25s}
+    .shots:has(.is-near) figure:not(.is-near) figcaption{opacity:.3}
+  }
+  /* Built by script, so a strip with no JS simply has no rail under it. */
+  .shot-dots{display:none}
+  @media(max-width:560px){
+    .shot-dots{display:flex; justify-content:center; gap:2px; margin-top:16px}
+    .shot-dots button{
+      width:30px; height:30px; padding:0; border:0; background:none; cursor:pointer;
+      display:grid; place-items:center;
+    }
+    .shot-dots button::before{
+      content:""; width:8px; height:8px; border-radius:999px;
+      background:var(--border); transition:width .2s,background .2s;
+    }
+    .shot-dots button[aria-current="true"]::before{width:22px; background:var(--teal-ink)}
   }
 
   /* sections */
@@ -437,7 +484,7 @@
     <span class="eyebrow">للمعلمين والمدارس في الأردن</span>
     <h1>من تحضير الدرس إلى إعداد الاختبار،<br>اقرأ معك في كل خطوة</h1>
     <p>
-      جهّز خطط الدروس، وأوراق العمل، والاختبارات القصيرة، والواجبات، والأنشطة الصفية،
+      جهّز خطط الدروس، وأوراق العمل، والاختبارات القصيرة، والأنشطة الصفية،
       وبسّط المفاهيم الصعبة لطلابك. كلّها مبنية على نتاجات التعلّم في المنهاج الأردني،
       وقابلة للتعديل بما يناسب صفّك، وجاهزة للطباعة والعرض.
     </p>
@@ -447,13 +494,23 @@
     </div>
     <p class="note">يعمل اقرأ مباشرة من المتصفح على الحاسوب والهاتف والجهاز اللوحي. تطبيق أندرويد متاح الآن، وتطبيق آيفون قيد التطوير.</p>
     <div class="shots">
-      <img src="img/curriculum.jpg" width="540" height="1200"
-           alt="شاشة المنهاج في التطبيق: المواد مرتّبة حسب الصف، وفق المنهاج الأردني.">
-      <img class="lead" src="img/tools.jpg" width="540" height="1200"
-           alt="أدوات التدريس: شرائح الدرس، خطة درس، تبسيط الشرح، ورقة عمل، والفصل التفاعلي.">
-      <img src="img/chat.jpg" width="540" height="1200"
-           alt="مساعد اقرأ يحضّر خطة الدرس ويقترح الأفكار ويعدّ الاختبارات.">
+      <figure>
+        <img src="img/curriculum.jpg" width="540" height="1200"
+             alt="شاشة المنهاج في التطبيق: المواد مرتّبة حسب الصف، وفق المنهاج الأردني.">
+        <figcaption><b>المنهاج</b>اختر الصف والمادة، والمنهاج الأردني كاملًا أمامك</figcaption>
+      </figure>
+      <figure class="lead">
+        <img src="img/tools.jpg" width="540" height="1200"
+             alt="أدوات التدريس: شرائح الدرس، خطة درس، تبسيط الشرح، ورقة عمل، والفصل التفاعلي.">
+        <figcaption><b>أدوات التدريس</b>خطة درس، ورقة عمل، اختبار قصير، شرائح عرض</figcaption>
+      </figure>
+      <figure>
+        <img src="img/chat.jpg" width="540" height="1200"
+             alt="مساعد اقرأ يحضّر خطة الدرس ويقترح الأفكار ويعدّ الاختبارات.">
+        <figcaption><b>مساعد اقرأ</b>اطلب ما تحتاجه، واحصل عليه جاهزًا للتعديل</figcaption>
+      </figure>
     </div>
+    <div class="shot-dots" aria-label="شاشات التطبيق" hidden></div>
   </div>
 </div>
 
@@ -478,7 +535,7 @@
       <div class="feat">
         <span class="feat-num" aria-hidden="true">٣</span>
         <h3>كل ما تحتاجه للحصّة</h3>
-        <p>خطة درس، وورقة عمل، واختبار قصير، وواجب منزلي، وأنشطة صفية، وشرائح عرض، وتذكرة خروج.</p>
+        <p>خطة درس، وورقة عمل، واختبار قصير، وأنشطة صفية، وشرائح عرض — وتقييمات تشاركها برابط وتصحّحها لطلبتك.</p>
       </div>
       <div class="feat">
         <span class="feat-num" aria-hidden="true">٤</span>
@@ -501,7 +558,7 @@
       </div>
       <div class="step">
         <h3>اختر ما تريد تحضيره</h3>
-        <p>خطة درس، أو ورقة عمل، أو اختبار قصير، أو واجب منزلي — بحسب احتياج حصّتك.</p>
+        <p>خطة درس، أو ورقة عمل، أو اختبار قصير، أو نشاط صفي — بحسب احتياج حصّتك.</p>
       </div>
       <div class="step">
         <h3>راجع واستخدم</h3>
@@ -541,7 +598,7 @@
       </details>
       <details class="faq-item">
         <summary>ما الذي يمكنني تحضيره باستخدام اقرأ؟<span class="chevron" aria-hidden="true"></span></summary>
-        <p>يمكنك تحضير خطة درس، وورقة عمل، واختبار قصير، وواجب منزلي، وأنشطة صفية، وشرائح عرض، وتذكرة خروج.</p>
+        <p>يمكنك تحضير خطة درس، وورقة عمل، واختبار قصير، وأنشطة صفية، وشرائح عرض، وتقييمات تشاركها برابط وتصحّح إجابات طلبتك.</p>
       </details>
       <details class="faq-item">
         <summary>كيف يتم التحقق من الإجابات الرياضية؟<span class="chevron" aria-hidden="true"></span></summary>
@@ -704,6 +761,80 @@
         })
         .then(function () { button.disabled = false; });
     });
+  })();
+</script>
+
+<script>
+  // Dots for the mobile screenshot strip. Built here rather than in the markup
+  // so that without JS the strip is still swipeable and simply has no rail
+  // under it, instead of a rail that never lights up.
+  (function () {
+    var strip = document.querySelector('.shots');
+    var rail = document.querySelector('.shot-dots');
+    if (!strip || !rail) return;
+
+    var figures = Array.prototype.slice.call(strip.querySelectorAll('figure'));
+    if (figures.length < 2) return;
+
+    // Matches scroll-padding-inline-start in the stylesheet, so a tapped card
+    // lands exactly where a swiped one snaps.
+    var SNAP_INSET = 24;
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var motion = still.matches ? 'auto' : 'smooth';
+    still.addEventListener('change', function (e) { motion = e.matches ? 'auto' : 'smooth'; });
+
+    var dots = figures.map(function (figure) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      // The caption's own heading, so the control names the screen it goes to
+      // instead of announcing a slide number.
+      dot.setAttribute('aria-label', figure.querySelector('figcaption b').textContent);
+      dot.addEventListener('click', function () {
+        // scrollIntoView drags the whole page up to meet the card. Scrolling
+        // the strip by a relative amount moves only the strip, and a delta
+        // needs no view on whether RTL scroll offsets count up or down.
+        var delta = figure.getBoundingClientRect().left
+                  - strip.getBoundingClientRect().left - SNAP_INSET;
+        strip.scrollBy({ left: delta, behavior: motion });
+      });
+      rail.appendChild(dot);
+      return dot;
+    });
+    rail.hidden = false;
+
+    // Whichever card sits nearest the middle of the strip is the current one.
+    // Measuring geometry rather than scrollLeft keeps this clear of the RTL
+    // scroll-origin mess, where the value is 0 at the start in one browser
+    // and negative in the next.
+    function sync() {
+      var middle = strip.getBoundingClientRect().left + strip.clientWidth / 2;
+      var nearest = 0, shortest = Infinity;
+      figures.forEach(function (figure, i) {
+        var box = figure.getBoundingClientRect();
+        var gap = Math.abs(box.left + box.width / 2 - middle);
+        if (gap < shortest) { shortest = gap; nearest = i; }
+      });
+      dots.forEach(function (dot, i) {
+        dot.setAttribute('aria-current', i === nearest ? 'true' : 'false');
+      });
+      figures.forEach(function (figure, i) {
+        figure.classList.toggle('is-near', i === nearest);
+      });
+    }
+
+    // Reading boxes flushes layout, so do it once a frame at most: a swipe on
+    // a cheap Android phone should not pay for it on every scroll tick.
+    var queued = false;
+    function schedule() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; sync(); });
+    }
+
+    strip.addEventListener('scroll', schedule, { passive: true });
+    // Rotating the phone resizes the cards without scrolling them.
+    window.addEventListener('resize', schedule);
+    sync();
   })();
 </script>
 
