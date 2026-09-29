@@ -1,0 +1,233 @@
+/**
+ * Builds /blog and its posts from data/blog-*.json.
+ *
+ * Run it by hand after editing the data, then commit what it writes:
+ *
+ *   node tools-build-blog.mjs
+ *
+ * Same contract as tools-build-curriculum.mjs: no build step on deploy, the
+ * generated HTML is committed, and a broken generator cannot take the site
+ * down. The sitemap is NOT written here — tools-build-curriculum.mjs owns that
+ * one file and reads data/blog-posts.json for the blog URLs, so there is only
+ * ever one writer.
+ *
+ * ## Why the cards are rendered here and not by the page's JS
+ *
+ * A blog post is a page we want indexed. Rendering a hundred cards client-side
+ * would leave the crawler an empty shell and the filter chips would be the only
+ * content in the HTML. So the cards ship as markup; the JS on the page only
+ * filters, searches and copies what is already there.
+ */
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+
+const root = new URL('./', import.meta.url);
+const SITE = 'https://www.iqrra.com';
+const read = (f) => JSON.parse(readFileSync(new URL(`./data/${f}`, root), 'utf8'));
+
+const { posts } = read('blog-posts.json');
+const general = read('blog-prompts-general.json').items;
+const iqraa = read('blog-prompts-iqraa.json').items;
+
+/** HTML-escape text destined for markup or an attribute value. */
+const esc = (s) =>
+  String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    // Prompts are multi-line. A literal newline inside an attribute is legal
+    // but survives minifiers and editors badly; the entity always round-trips.
+    .replace(/\n/g, '&#10;');
+
+/** Arabic-indic numerals — the site already numbers feature cards this way. */
+const arabicNum = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
+
+const uniqueCats = (items) => [...new Set(items.map((i) => i.cat))];
+
+function card(item, i, kind) {
+  const copy = kind === 'iqraa' ? item.ask : item.prompt;
+  // data-find is what the search box matches against: code + description +
+  // the payload itself, so a teacher can search by a word they remember from
+  // the prompt rather than only by its title.
+  const find = `${item.code} ${item.desc} ${copy}`;
+  return `        <li class="pc" data-cat="${esc(item.cat)}" data-find="${esc(find)}">
+          <span class="pc-n" aria-hidden="true">${arabicNum(i + 1)}</span>
+          <div class="pc-body">
+            <code class="pc-code">${esc(item.code)}</code>
+            <p class="pc-desc">${esc(item.desc)}</p>
+          </div>
+          <div class="pc-actions">
+            <button type="button" class="pc-copy" data-copy="${esc(copy)}">${
+              kind === 'iqraa' ? 'نسخ الأمر' : 'نسخ البرومبت'
+            }</button>${
+              kind === 'iqraa'
+                ? `\n            <a class="pc-open" href="https://app.iqrra.com" target="_blank" rel="noopener">جرّبه في اقرأ</a>`
+                : ''
+            }
+          </div>
+        </li>`;
+}
+
+function section(id, kind, items, intro) {
+  const cats = uniqueCats(items);
+  return `<section class="pset" id="${id}" ${id === 'set-general' ? '' : 'hidden'}>
+  <p class="pset-intro">${intro}</p>
+  <div class="filters">
+    <div class="chips" role="group" aria-label="تصفية حسب النوع">
+      <button type="button" class="chip is-on" data-cat="">الكل</button>
+      ${cats.map((c) => `<button type="button" class="chip" data-cat="${esc(c)}">${esc(c)}</button>`).join('\n      ')}
+    </div>
+    <label class="search">
+      <span class="sr-only">ابحث في الأوامر</span>
+      <input type="search" placeholder="ابحث بكلمة من الأمر…" autocomplete="off">
+    </label>
+  </div>
+  <p class="count" aria-live="polite">عرض <b>${items.length}</b> من ${items.length} أمر</p>
+  <ol class="pcards">
+${items.map((it, i) => card(it, i, kind)).join('\n')}
+  </ol>
+  <p class="empty" hidden>لا يوجد أمر يطابق بحثك. جرّب كلمة أقصر.</p>
+</section>`;
+}
+
+const head = (title, description, path, extraCss = '') => `<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="${SITE}${path}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="${SITE}${path}">
+<meta property="og:locale" content="ar_JO">
+<meta property="og:site_name" content="اقرأ">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(description)}">
+<meta property="og:image" content="${SITE}/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#00A99D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/manhaj.css">
+<link rel="stylesheet" href="/blog.css">${extraCss}
+<script src="/ph.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" style="background:var(--teal);border-radius:9px;padding:4px">
+        <path d="M4.6 20.2c-.6-6.6 2.2-12.2 8.4-15.6 2.1-1.2 4.3-1.9 6.4-2.1.5 6.9-2.2 12.4-8 16.1-2.1 1.3-4.4 2-6.8 1.6z" fill="#fff"/>
+        <circle cx="17.8" cy="20.4" r="2.05" fill="#34D6C6"/>
+      </svg>
+      اقرأ
+    </a>
+    <div class="head-cta">
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ من المتصفح</a>
+      <a class="btn-sm" href="/manhaj">المناهج</a>
+    </div>
+  </div>
+</header>
+`;
+
+const footer = (script = false) => `
+<footer>
+  <div class="wrap">
+    <p><a href="/">اقرأ</a> · مساعد المعلم العربي · الأردن ٢٠٢٦</p>
+    <p><a href="/blog">المدونة</a> · <a href="/manhaj">المناهج</a> · <a href="/privacy">سياسة الخصوصية</a></p>
+  </div>
+</footer>
+${script ? '\n<script src="/blog.js" defer></script>\n' : ''}
+</body>
+</html>
+`;
+
+// ── /blog ───────────────────────────────────────────────────────────────────
+const indexPage = () => `${head(
+  'مدونة اقرأ — أدوات وأفكار للمعلم',
+  'مقالات وأدوات عملية لمعلمي الأردن: أوامر جاهزة، أفكار تحضير، وطرق تقويم — من فريق اقرأ.',
+  '/blog',
+)}
+<main class="wrap blog-index">
+  <h1>مدونة اقرأ</h1>
+  <p class="lede">أدوات وأفكار عملية للمعلم — مكتوبة للصف الأردني، لا مترجمة عنه.</p>
+
+  <ul class="posts">
+${posts
+  .map(
+    (p) => `    <li class="post-card">
+      <a href="/blog/${p.slug}">
+        <span class="post-kicker">${esc(p.kicker)}</span>
+        <h2>${esc(p.title)}</h2>
+        <p>${esc(p.description)}</p>
+        <span class="post-meta"><time datetime="${p.date}">${esc(p.dateLabel)}</time> · ${arabicNum(p.minutes)} دقائق قراءة</span>
+      </a>
+    </li>`,
+  )
+  .join('\n')}
+  </ul>
+</main>
+${footer()}`;
+
+// ── /blog/100-prompts-for-teachers ──────────────────────────────────────────
+const promptsPost = (p) => `${head(p.title, p.description, `/blog/${p.slug}`)}
+<main class="wrap post">
+  <article>
+    <span class="post-kicker">${esc(p.kicker)}</span>
+    <h1>${esc(p.title)}</h1>
+    <p class="post-meta"><time datetime="${p.date}">${esc(p.dateLabel)}</time> · ${arabicNum(p.minutes)} دقائق قراءة</p>
+
+    <p class="lede">${esc(p.description)}</p>
+
+    <p>أكثر ما يضيّع وقت المعلم ليس الشرح، بل ما قبله وما بعده: ورقة عمل تُكتب من الصفر، اختبار قصير يُصاغ بعد منتصف الليل، ونشاط يُرتجل في آخر خمس دقائق. الأوامر في هذه الصفحة تختصر تلك المسافة. اضغط «نسخ» على أي أمر، والصقه حيث تعمل.</p>
+
+    <p>القائمة قسمان. القسم الأول <b>أوامر عامة</b> تعمل مع أي مساعد ذكي — استبدل ما بين القوسين المعقوفين <code>{ }</code> بصفّك ودرسك قبل الإرسال. القسم الثاني <b>أوامر مساعد اقرأ</b>، وهي أقصر لأن المساعد يعرف الصف والمادة والدرس الذي اخترته أصلًا، ويبني عليها من نتاجات المنهاج الأردني — فلا حاجة لأن تشرح له السياق في كل مرة.</p>
+
+    <div class="tabs" role="tablist" aria-label="نوع الأوامر">
+      <button type="button" role="tab" class="tab is-on" aria-selected="true" aria-controls="set-general" id="tab-general">أوامر عامة (${general.length})</button>
+      <button type="button" role="tab" class="tab" aria-selected="false" aria-controls="set-iqraa" id="tab-iqraa">أوامر مساعد اقرأ (${iqraa.length})</button>
+    </div>
+
+${section(
+  'set-general',
+  'general',
+  general,
+  'تعمل مع ChatGPT أو Gemini أو Copilot. استبدل ما بين <code>{ }</code> بصفّك ودرسك — كلما كان السياق أدق، كانت النتيجة أقرب لما تريد.',
+)}
+
+${section(
+  'set-iqraa',
+  'iqraa',
+  iqraa,
+  'اكتبها في <a href="https://app.iqrra.com">مساعد اقرأ</a> بعد اختيار الدرس. لا تحتاج إلى ذكر الصف أو المادة: المساعد يبني على نتاجات الدرس المختار من المنهاج الأردني.',
+)}
+
+    <section class="closing">
+      <h2>لماذا الأوامر القصيرة في اقرأ أطول أثرًا</h2>
+      <p>الأمر العام يطلب من المساعد أن يتخيّل درسك. أمر اقرأ يشير إلى درس حقيقي في المنهاج الأردني، بنتاجاته ووحدته وكتابه — فيأتي الناتج مرتبطًا بما سيدرسه طلبتك فعلًا، وقابلًا للتعديل والطباعة والعرض على شاشة الصف.</p>
+      <p class="cta-row">
+        <a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ من المتصفح</a>
+        <a class="btn" href="/manhaj">تصفّح المناهج</a>
+      </p>
+    </section>
+  </article>
+</main>
+${footer(true)}`;
+
+mkdirSync(new URL('./blog/', root), { recursive: true });
+writeFileSync(new URL('./blog.html', root), indexPage(), 'utf8');
+
+const prompts = posts.find((p) => p.slug === '100-prompts-for-teachers');
+writeFileSync(new URL(`./blog/${prompts.slug}.html`, root), promptsPost(prompts), 'utf8');
+
+console.log(
+  `wrote blog.html + ${posts.length} post page(s) — ${general.length} general + ${iqraa.length} iqraa = ${
+    general.length + iqraa.length
+  } prompts`,
+);
