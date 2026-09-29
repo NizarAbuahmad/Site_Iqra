@@ -36,6 +36,18 @@
   .callout{background:var(--card); border:1px solid var(--border); border-inline-start:4px solid var(--teal);
            border-radius:12px; padding:16px 18px; margin:18px 0}
   .callout p:last-child{margin-bottom:0}
+
+  /* language toggle */
+  .lang-btn{
+    background:transparent; border:1.5px solid var(--teal); color:var(--teal);
+    border-radius:20px; padding:4px 14px; font-size:13px; font-weight:600;
+    cursor:pointer; line-height:1.4;
+  }
+  .lang-btn:hover{background:var(--teal); color:#fff}
+
+  /* show/hide by language */
+  html[lang="en"] .ar-only { display:none }
+  html[lang="ar"] .en-only { display:none }
 </style>
 <script src="/ph.js" defer></script>
 </head>
@@ -47,16 +59,24 @@
         <path d="M4.6 20.2c-.6-6.6 2.2-12.2 8.4-15.6 2.1-1.2 4.3-1.9 6.4-2.1.5 6.9-2.2 12.4-8 16.1-2.1 1.3-4.4 2-6.8 1.6z" fill="#fff"/>
         <circle cx="17.8" cy="20.4" r="2.05" fill="#34D6C6"/>
       </svg>
-      اقرأ
+      <span class="ar-only">اقرأ</span><span class="en-only">Iqra</span>
     </a>
     <div class="head-cta">
-      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">افتح في المتصفح</a>
-      <a class="btn-sm" href="/download">تحميل أندرويد</a>
+      <button class="lang-btn" onclick="toggleLang()" aria-label="Switch language">
+        <span class="ar-only">English</span><span class="en-only">العربية</span>
+      </button>
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">
+        <span class="ar-only">افتح في المتصفح</span><span class="en-only">Open in browser</span>
+      </a>
+      <a class="btn-sm" href="/download">
+        <span class="ar-only">تحميل أندرويد</span><span class="en-only">Download Android</span>
+      </a>
     </div>
   </div>
 </header>
 
-<main class="wrap legal">
+<!-- ═══ ARABIC ════════════════════════════════════════════════════════════════ -->
+<main class="wrap legal ar-only">
 <nav class="crumbs" aria-label="مسار التنقل">
   <a href="/">الرئيسية</a> <span aria-hidden="true">←</span> <span class="here">سياسة الخصوصية</span>
 </nav>
@@ -241,13 +261,229 @@
   لأي سؤال عن خصوصيتك أو بياناتك:
   <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
 </p>
+</main>
 
+<!-- ═══ ENGLISH ════════════════════════════════════════════════════════════════ -->
+<main class="wrap legal en-only" style="direction:ltr;text-align:start">
+<nav class="crumbs" aria-label="Breadcrumb">
+  <a href="/">Home</a> <span aria-hidden="true">→</span> <span class="here">Privacy Policy</span>
+</nav>
+
+<h1>Privacy Policy</h1>
+<p class="updated">Last updated: 16 September 2026 · Applies to iqrra.com and the Iqra app on web and Android.</p>
+
+<p>
+  This policy explains what the Iqra app actually collects, where it is stored, who it is shared with,
+  and how you can request deletion. It is written to describe what the system does today, not what it
+  might do later; if what we collect changes, this page will change with it.
+</p>
+
+<div class="callout">
+  <p>
+    <strong>Quick summary:</strong> We collect what is necessary to run the app — your teacher account,
+    the materials you prepare, and the class lists you enter yourself. We do not sell data or use it for
+    advertising. You can delete your account and everything attached to it from within the app at any time.
+  </p>
+</div>
+
+<h2>Who we are</h2>
+<p>
+  Iqra is an app that helps teachers in Jordan prepare lessons in line with the Ministry of Education
+  curriculum. The party responsible for processing data under this policy is the Iqra team, Jordan —
+  reachable at <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>.
+</p>
+
+<h2>Data we collect</h2>
+
+<h3>1. Teacher account data</h3>
+<ul>
+  <li>Email address and verification status.</li>
+  <li>Password — stored hashed (bcrypt); we cannot see or recover it.</li>
+  <li>First and last name, and a profile picture if you add one.</li>
+  <li>If you choose to sign in with Google: the identifier Google sends us, and the name and email linked to it.</li>
+</ul>
+
+<h3>2. Class and student data</h3>
+<p>
+  When you create a class in the app, you enter student names yourself. Those names, the class name,
+  the subject, grade level, and academic year are stored in your account and belong to you.
+  If you use the assessment tools, student attempts and results are also stored.
+</p>
+<p>
+  By default, a student does not need an account: the assessment reaches them via a link, and the link
+  itself is the identity. Since September 2026 a student or parent can optionally link a name to a real
+  account using a code issued by the teacher, in order to enable in-app messaging.
+</p>
+<div class="callout">
+  <p>
+    <strong>Teacher responsibility:</strong> You enter the student names, and you are responsible for
+    having the authority to do so under your school policy and applicable Jordanian regulations.
+    We advise entering only what is needed to identify a student within the class — no national ID
+    numbers, addresses, phone numbers, health notes, or personal notes.
+  </p>
+</div>
+
+<h3>3. Content you create</h3>
+<ul>
+  <li>Your conversations with the assistant and what you ask of it.</li>
+  <li>What the app generates for you: lesson plans, worksheets, tests, slides, and what you save from them.</li>
+  <li>Files and media you upload to your lesson.</li>
+  <li>Feedback you send via the "What's missing?" form.</li>
+</ul>
+
+<h3>4. Usage data</h3>
+<p>
+  We record a limited set of events to understand what is actually used:
+  <span class="muted">starting a session, opening a tool, saving material, exporting material, sending feedback</span>.
+  These are events about the action itself, not about the content you prepared. We do not use usage data
+  for advertising, do not sell it, and do not share it with data brokers.
+</p>
+<p>
+  If you use voice input, the audio clip is sent to a transcription service provider to convert it to
+  text, then processed like any text you type.
+</p>
+
+<h2>Why we process this data</h2>
+<ul>
+  <li><strong>To run the service:</strong> creating your account, saving your materials, generating what you request.</li>
+  <li><strong>For account security:</strong> email verification, password recovery, and limiting abuse.</li>
+  <li><strong>To improve the app:</strong> knowing which tools are used and which are not.</li>
+  <li><strong>To communicate with you:</strong> responding to your feedback and necessary service messages.</li>
+</ul>
+<p class="muted">
+  The basis for our processing is the performance of the service you requested, your consent where
+  consent is required, and our legitimate interest in operating and securing the app.
+</p>
+
+<h2>Who data is shared with</h2>
+<p>
+  We do not sell data. We use service providers who process data on our behalf and only to the extent
+  needed to run the app:
+</p>
+<div class="scroller">
+<table class="proc">
+  <thead>
+    <tr><th>Provider</th><th>Purpose</th><th>What they receive</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>OpenAI</td><td>Generating educational content and transcribing audio</td><td>The text of your request and lesson context, and audio clips if you use voice input</td></tr>
+    <tr><td>Google</td><td>Google Sign-In, running servers</td><td>Sign-in data you approve, and app data during processing</td></tr>
+    <tr><td>Neon</td><td>Database</td><td>Account, class, and saved material data</td></tr>
+    <tr><td>Cloudflare R2</td><td>File and media storage</td><td>Files you upload</td></tr>
+    <tr><td>PostHog</td><td>Usage analytics</td><td>Usage events listed above</td></tr>
+  </tbody>
+</table>
+</div>
+<p>
+  We may disclose data if required by Jordanian law, or to protect our rights or the safety of users.
+</p>
+
+<h2>Where data is stored</h2>
+<p>
+  Your data is stored and processed outside Jordan. Specifically:
+</p>
+<ul>
+  <li><strong>Database</strong> — your account, classes, and saved materials: Germany (Frankfurt).</li>
+  <li><strong>Processing servers</strong> — running the app: Belgium.</li>
+  <li><strong>Files and media</strong> you upload: Cloudflare's storage network.</li>
+  <li><strong>Content generation and audio transcription:</strong> United States.</li>
+  <li><strong>Usage analytics:</strong> United States.</li>
+</ul>
+<p class="muted">
+  We choose service providers that adhere to recognised data protection standards and transfer to them
+  only the minimum needed to perform their function.
+</p>
+
+<h2>Retention</h2>
+<ul>
+  <li>Account data and materials: kept for as long as your account exists.</li>
+  <li>On account deletion: account data and linked classes, conversations, materials, and uploaded files are deleted.</li>
+  <li>Backups: a copy of your data may remain in backups after deletion for a limited time before being
+      automatically replaced — not exceeding thirty days.</li>
+</ul>
+
+<h2>Your rights</h2>
+<ul>
+  <li><strong>Access:</strong> You can view your data from within the app.</li>
+  <li><strong>Correction:</strong> You can edit your name, class data, and materials at any time.</li>
+  <li><strong>Deletion:</strong> You can delete your account from the app settings. The app will ask you
+      to confirm your password — or re-enter your email if you sign in with Google — then the account
+      and everything linked to it is deleted, including stored files.</li>
+  <li><strong>Objection and complaints:</strong> Contact us at
+      <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a> and we will respond within a reasonable time.</li>
+</ul>
+
+<h2>Children's data</h2>
+<p>
+  Iqra is aimed at teachers, not students. The accounts we create are teacher accounts.
+</p>
+<p>
+  That said, the app contains data about students who may be minors: names entered by the teacher in
+  class lists, and their assessment results. This data is entered and owned by the teacher; students are
+  not required to create an account to receive their assessment. When a student or parent links a name
+  to an account, it is voluntary and done using a code issued by the teacher.
+</p>
+<p>
+  We keep this data to the minimum possible: a name that identifies the student within their class, and
+  what relates to their assessment. We do not use student data for advertising and do not share it for
+  any marketing purpose. If you are a parent and want to know what is recorded about your child or have
+  it removed, contact the class teacher or contact us directly.
+</p>
+
+<h2>Data security</h2>
+<ul>
+  <li>Communication with the site and app is encrypted via HTTPS.</li>
+  <li>Passwords are hashed and not stored as plain text.</li>
+  <li>Assessment links are also stored hashed, so the link cannot be extracted from the database.</li>
+  <li>Access to data is limited to those who need it to run the service.</li>
+</ul>
+<p class="muted">
+  No system is completely secure and we cannot promise perfect security — but we will notify you if a
+  breach occurs that affects your data.
+</p>
+
+<h2>Changes to this policy</h2>
+<p>
+  If we change what we collect or who we share it with, we will update this page and change the "Last
+  updated" date above. Significant changes will be notified within the app.
+</p>
+
+<h2>Contact</h2>
+<p>
+  For any question about your privacy or data:
+  <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
+</p>
 </main>
 
 <footer>
-  <p class="foot-nav"><a href="/manhaj">تصفّح المناهج الأردنية — الوحدات والدروس ونتاجات التعلّم</a></p>
-  اقرأ · نسخة تجريبية · مساعد المعلّم العربي · الأردن ٢٠٢٦
-  <br>للتواصل: <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
+  <p class="foot-nav">
+    <span class="ar-only"><a href="/manhaj">تصفّح المناهج الأردنية — الوحدات والدروس ونتاجات التعلّم</a></span>
+    <span class="en-only"><a href="/manhaj">Browse the Jordanian curriculum — units, lessons, and learning outcomes</a></span>
+  </p>
+  <span class="ar-only">اقرأ · نسخة تجريبية · مساعد المعلّم العربي · الأردن ٢٠٢٦</span>
+  <span class="en-only">Iqra · Beta · AI Teaching Assistant · Jordan 2026</span>
+  <br>
+  <span class="ar-only">للتواصل: </span><span class="en-only">Contact: </span>
+  <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
 </footer>
+
+<script>
+  function toggleLang() {
+    const html = document.documentElement;
+    const isAr = html.lang === 'ar';
+    html.lang = isAr ? 'en' : 'ar';
+    html.dir = isAr ? 'ltr' : 'rtl';
+    try { localStorage.setItem('iqra-lang', html.lang); } catch(e) {}
+  }
+
+  // restore saved preference
+  try {
+    const saved = localStorage.getItem('iqra-lang');
+    if (saved === 'en') {
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+    }
+  } catch(e) {}
+</script>
 </body>
 </html>
