@@ -326,7 +326,80 @@ ${urls.map((u) => `  <url><loc>${SITE}${u}</loc></url>`).join('\n')}
 </urlset>
 `, 'utf8');
 
-console.log(`wrote manhaj.html + ${data.length} subject pages + sitemap.xml (${urls.length} urls)`);
+// llms.txt — the overview file ChatGPT, Claude and Perplexity read when they
+// meet the domain (llmstxt.org). Generated rather than hand-written for the
+// same reason the sitemap is: it quotes coverage numbers, and a hand-typed
+// count goes stale the first time a catalog lands. The numbers below come from
+// the same snapshot that builds /manhaj, so the file cannot claim coverage the
+// site does not have.
+//
+// Google does not need this file and says so. ChatGPT, Claude and Perplexity
+// do read it, and it costs one small text file to be legible to them.
+const totals = data.reduce(
+  (acc, p) => ({
+    units: acc.units + (p.counts?.units ?? 0),
+    lessons: acc.lessons + (p.counts?.lessons ?? 0),
+  }),
+  { units: 0, lessons: 0 },
+);
+const gradeCount = new Set(data.map((p) => p.gradeId)).size;
+const subjectCount = new Set(data.map((p) => p.subjectId)).size;
+const today = new Date().toISOString().slice(0, 10);
+
+writeFileSync(new URL('./llms.txt', root), `# \u0627\u0642\u0631\u0623 (Iqraa)
+
+> \u0645\u0633\u0627\u0639\u062f \u062a\u062d\u0636\u064a\u0631 \u0639\u0631\u0628\u064a \u0644\u0644\u0645\u0639\u0644\u0645\u064a\u0646 \u0641\u064a \u0627\u0644\u0623\u0631\u062f\u0646. \u064a\u062e\u062a\u0627\u0631 \u0627\u0644\u0645\u0639\u0644\u0645 \u0627\u0644\u0635\u0641 \u0648\u0627\u0644\u0645\u0627\u062f\u0629 \u0648\u0627\u0644\u0648\u062d\u062f\u0629
+> \u0648\u0627\u0644\u062f\u0631\u0633\u060c \u0641\u064a\u0628\u0646\u064a \u0627\u0642\u0631\u0623 \u062e\u0637\u0629 \u062f\u0631\u0633 \u0623\u0648 \u0648\u0631\u0642\u0629 \u0639\u0645\u0644 \u0623\u0648 \u0627\u062e\u062a\u0628\u0627\u0631\u064b\u0627 \u0642\u0635\u064a\u0631\u064b\u0627 \u0623\u0648 \u0646\u0634\u0627\u0637\u064b\u0627 \u0635\u0641\u064a\u064b\u0627 \u0623\u0648
+> \u0634\u0631\u0627\u0626\u062d \u0639\u0631\u0636\u060c \u0645\u0628\u0646\u064a\u0629 \u0639\u0644\u0649 \u0646\u062a\u0627\u062c\u0627\u062a \u0627\u0644\u062a\u0639\u0644\u0651\u0645 \u0627\u0644\u0645\u0639\u062a\u0645\u062f\u0629 \u0641\u064a \u0627\u0644\u0645\u0646\u0647\u0627\u062c \u0627\u0644\u0623\u0631\u062f\u0646\u064a.
+>
+> An Arabic-native lesson-preparation assistant for teachers in Jordan. The
+> teacher picks a grade, subject, unit and lesson; Iqraa builds a lesson plan,
+> worksheet, short quiz, classroom activity or slide deck grounded in that
+> lesson's official NCCD learning outcomes, editable and ready to print or
+> project.
+
+## What it is, precisely
+
+- Country and curriculum: Jordan \u2014 National Center for Curriculum Development (NCCD/MoE).
+- Published coverage: ${data.length} grade/subject pairs across ${gradeCount} grades and ${subjectCount} subjects, covering ${totals.units} units and ${totals.lessons} lessons with their official learning outcomes.
+- Product language: Arabic-native, right-to-left. Not a translation of an English tool.
+- User: the teacher. Students reach assessments through a link the teacher shares.
+- Price: free beta for teachers. 0 JOD.
+- Platforms: browser (desktop, phone, tablet) and Android. iPhone app in development.
+- Status: beta.
+
+## What it produces
+
+Lesson plan, worksheet, short quiz, classroom activity, slide deck, simplified
+explanation, exit ticket, link-shared auto-marked assessment, parent message,
+Arabic dictation passage.
+
+## What it does not do
+
+- It is not a general chatbot: each output is tied to a curriculum lesson, not a free-text topic.
+- It does not replace the teacher's judgement: every output is shown for review and editing before use.
+- It does not cover curricula outside Jordan.
+
+## Links
+
+- [Home](${SITE}/): what it is, how it works, FAQ.
+- [Curriculum browser](${SITE}/manhaj): every published grade and subject, with units, lessons and official learning outcomes \u2014 one page per grade/subject pair.
+- [Blog](${SITE}/blog): practical tools for teachers.
+${blogPosts.map((b) => `- [${b.title}](${SITE}/blog/${b.slug}): ${b.description}`).join('\n')}
+- [The app](https://app.iqrra.com): the product itself.
+- [Android download](${SITE}/download)
+- [Privacy policy](${SITE}/privacy)
+
+## For citation
+
+Iqraa (\u0627\u0642\u0631\u0623) \u2014 Arabic teaching assistant for the Jordanian national curriculum.
+${SITE}/ \u00b7 info@iqrra.com
+
+Coverage figures generated from the same curriculum snapshot that builds
+${SITE}/manhaj. Last generated: ${today}.
+`, 'utf8');
+
+console.log(`wrote manhaj.html + ${data.length} subject pages + sitemap.xml (${urls.length} urls) + llms.txt`);
 if (dropped.length) {
   console.log(`\nheld back ${dropped.length} with objective coverage under ${MIN_OBJECTIVE_COVERAGE * 100}%:`);
   for (const p of dropped) {

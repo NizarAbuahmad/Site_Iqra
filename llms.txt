@@ -1,0 +1,51 @@
+# اقرأ (Iqraa)
+
+> مساعد تحضير عربي للمعلمين في الأردن. يختار المعلم الصف والمادة والوحدة
+> والدرس، فيبني اقرأ خطة درس أو ورقة عمل أو اختبارًا قصيرًا أو نشاطًا صفيًا أو
+> شرائح عرض، مبنية على نتاجات التعلّم المعتمدة في المنهاج الأردني.
+>
+> An Arabic-native lesson-preparation assistant for teachers in Jordan. The
+> teacher picks a grade, subject, unit and lesson; Iqraa builds a lesson plan,
+> worksheet, short quiz, classroom activity or slide deck grounded in that
+> lesson's official NCCD learning outcomes, editable and ready to print or
+> project.
+
+## What it is, precisely
+
+- Country and curriculum: Jordan — National Center for Curriculum Development (NCCD/MoE).
+- Published coverage: 55 grade/subject pairs across 10 grades and 13 subjects, covering 454 units and 1803 lessons with their official learning outcomes.
+- Product language: Arabic-native, right-to-left. Not a translation of an English tool.
+- User: the teacher. Students reach assessments through a link the teacher shares.
+- Price: free beta for teachers. 0 JOD.
+- Platforms: browser (desktop, phone, tablet) and Android. iPhone app in development.
+- Status: beta.
+
+## What it produces
+
+Lesson plan, worksheet, short quiz, classroom activity, slide deck, simplified
+explanation, exit ticket, link-shared auto-marked assessment, parent message,
+Arabic dictation passage.
+
+## What it does not do
+
+- It is not a general chatbot: each output is tied to a curriculum lesson, not a free-text topic.
+- It does not replace the teacher's judgement: every output is shown for review and editing before use.
+- It does not cover curricula outside Jordan.
+
+## Links
+
+- [Home](https://www.iqrra.com/): what it is, how it works, FAQ.
+- [Curriculum browser](https://www.iqrra.com/manhaj): every published grade and subject, with units, lessons and official learning outcomes — one page per grade/subject pair.
+- [Blog](https://www.iqrra.com/blog): practical tools for teachers.
+- [١٠٠ أمر ذكي للمعلم: أوامر جاهزة للتحضير والتقويم](https://www.iqrra.com/blog/100-prompts-for-teachers): مئة أمر جاهز للنسخ: ستون تعمل مع أي مساعد ذكي، وأربعون مكتوبة لمساعد اقرأ مربوطة بدرسك في المنهاج الأردني.
+- [The app](https://app.iqrra.com): the product itself.
+- [Android download](https://www.iqrra.com/download)
+- [Privacy policy](https://www.iqrra.com/privacy)
+
+## For citation
+
+Iqraa (اقرأ) — Arabic teaching assistant for the Jordanian national curriculum.
+https://www.iqrra.com/ · info@iqrra.com
+
+Coverage figures generated from the same curriculum snapshot that builds
+https://www.iqrra.com/manhaj. Last generated: 2026-09-29.
