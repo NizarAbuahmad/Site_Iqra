@@ -304,7 +304,17 @@ for (const p of data) {
 // /privacy is hand-written rather than generated, but it belongs in the
 // sitemap: Google Play requires a reachable privacy URL, and a page nothing
 // links to from a crawlable path is a page Google may never confirm exists.
-const urls = ['/', '/manhaj', '/privacy', ...data.map((p) => `/manhaj/${slug(p)}`)];
+// The blog's own generator (tools-build-blog.mjs) deliberately does not write
+// the sitemap: two writers of one file is how a sitemap drifts. It reads the
+// same data/blog-posts.json this line does, so adding a post updates both.
+const blogPosts = JSON.parse(
+  readFileSync(new URL('./data/blog-posts.json', root), 'utf8'),
+).posts;
+const urls = [
+  '/', '/manhaj', '/privacy', '/blog',
+  ...blogPosts.map((p) => `/blog/${p.slug}`),
+  ...data.map((p) => `/manhaj/${slug(p)}`),
+];
 writeFileSync(new URL('./sitemap.xml', root),
   `<?xml version="1.0" encoding="UTF-8"?>
 <!--

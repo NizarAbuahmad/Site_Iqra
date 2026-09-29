@@ -1,0 +1,14 @@
+{
+  "_comment": "Blog post metadata. The single source for the blog index, each post's head tags, and the blog URLs in sitemap.xml — tools-build-curriculum.mjs reads this file so the sitemap cannot drift. Newest first.",
+  "posts": [
+    {
+      "slug": "100-prompts-for-teachers",
+      "title": "١٠٠ أمر ذكي للمعلم: أوامر جاهزة للتحضير والتقويم",
+      "description": "مئة أمر جاهز للنسخ: ستون تعمل مع أي مساعد ذكي، وأربعون مكتوبة لمساعد اقرأ مربوطة بدرسك في المنهاج الأردني.",
+      "date": "2026-09-29",
+      "dateLabel": "٢٩ أيلول ٢٠٢٦",
+      "minutes": 7,
+      "kicker": "أدوات للمعلم"
+    }
+  ]
+}
