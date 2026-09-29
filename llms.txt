@@ -13,7 +13,7 @@
 ## What it is, precisely
 
 - Country and curriculum: Jordan — National Center for Curriculum Development (NCCD/MoE).
-- Published coverage: 55 grade/subject pairs across 10 grades and 13 subjects, covering 454 units and 1803 lessons with their official learning outcomes.
+- Published coverage: 56 grade/subject pairs across 10 grades and 13 subjects, covering 463 units and 1822 lessons with their official learning outcomes.
 - Product language: Arabic-native, right-to-left. Not a translation of an English tool.
 - User: the teacher. Students reach assessments through a link the teacher shares.
 - Price: free beta for teachers. 0 JOD.
