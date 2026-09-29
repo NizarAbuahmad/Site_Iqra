@@ -112,8 +112,8 @@ ${JSON.stringify(ld, null, 1)}
       اقرأ
     </a>
     <div class="head-cta">
-      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ من المتصفح</a>
-      <a class="btn-sm" href="/download">حمّل لأندرويد</a>
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
+      <a class="btn-sm" href="/download">حمّل تطبيق أندرويد</a>
     </div>
   </div>
 </header>
@@ -121,7 +121,7 @@ ${JSON.stringify(ld, null, 1)}
 
 const foot = `
 <footer>
-  اقرأ · نسخة تجريبية · مساعد المعلم العربي · الأردن 2026
+  اقرأ · نسخة تجريبية · رفيقك في تحضير الحصص · الأردن 2026
   <br>للتواصل: <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
   <br><a href="/privacy">سياسة الخصوصية</a>
 </footer>
@@ -240,7 +240,7 @@ function subjectPage(p) {
   b += `\n<section class="closing">
 <h2>حضّر حصّة من منهاج ${esc(p.subjectAr)}</h2>
 <p>اختر الدرس من شجرة المنهاج، واطلب خطة درس أو ورقة عمل أو اختبارًا قصيرًا — بالعربية، جاهزًا للطباعة.</p>
-<p><a class="btn btn-primary" href="https://app.iqrra.com">ابدأ من المتصفح</a>
+<p><a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
    <a class="btn" href="/download">حمّل تطبيق أندرويد</a></p>
 </section>
 </main>`;
