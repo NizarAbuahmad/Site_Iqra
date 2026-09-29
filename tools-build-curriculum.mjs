@@ -370,9 +370,11 @@ writeFileSync(new URL('./llms.txt', root), `# \u0627\u0642\u0631\u0623 (Iqraa)
 
 ## What it produces
 
-Lesson plan, worksheet, short quiz, classroom activity, slide deck, simplified
-explanation, exit ticket, link-shared auto-marked assessment, parent message,
-Arabic dictation passage.
+Lesson plan, worksheet, short quiz, classroom activity, slide deck,
+link-shared auto-marked assessment, parent message, Arabic dictation passage.
+
+Not offered: homework sheets and full exam papers are present in the code but
+switched off, so they are deliberately absent from this list.
 
 ## What it does not do
 
