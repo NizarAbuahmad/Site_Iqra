@@ -90,7 +90,7 @@ ${items.map((it, i) => card(it, i, kind)).join('\n')}
 </section>`;
 }
 
-const head = (title, description, path, extraCss = '') => `<!doctype html>
+const head = (title, description, path, jsonld = '') => `<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
@@ -114,8 +114,8 @@ const head = (title, description, path, extraCss = '') => `<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/manhaj.css">
-<link rel="stylesheet" href="/blog.css">${extraCss}
-<script src="/ph.js" defer></script>
+<link rel="stylesheet" href="/blog.css">
+<script src="/ph.js" defer></script>${jsonld}
 </head>
 <body>
 
@@ -148,11 +148,114 @@ ${script ? '\n<script src="/blog.js" defer></script>\n' : ''}
 </html>
 `;
 
+/**
+ * Structured data.
+ *
+ * The homepage already declares the Organization / SoftwareApplication /
+ * WebSite entity; these pages only say what THEY are and point back at that
+ * publisher, rather than redeclaring the entity five different ways.
+ *
+ * `dateModified` earns its place: answer engines weight recency, and an
+ * undated page loses to a dated one carrying the same facts. It comes from
+ * data/blog-posts.json, not the file mtime — mtime changes on every unrelated
+ * regeneration and would claim a freshness the content did not earn.
+ */
+const PUBLISHER = {
+  '@type': 'Organization',
+  name: 'اقرأ',
+  url: SITE + '/',
+  logo: { '@type': 'ImageObject', url: SITE + '/icon-192.png' },
+};
+
+const ld = (obj) =>
+  `\n<script type="application/ld+json">\n${JSON.stringify(obj, null, 2)}\n</script>`;
+
+const crumbs = (trail) => ({
+  '@type': 'BreadcrumbList',
+  itemListElement: trail.map((t, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: t.name,
+    item: SITE + t.path,
+  })),
+});
+
+const blogIndexLd = () =>
+  ld({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Blog',
+        '@id': SITE + '/blog',
+        name: 'مدونة اقرأ',
+        description: 'أدوات وأفكار عملية لمعلمي الأردن.',
+        inLanguage: 'ar',
+        publisher: PUBLISHER,
+        blogPost: posts.map((p) => ({
+          '@type': 'BlogPosting',
+          headline: p.title,
+          description: p.description,
+          datePublished: p.date,
+          dateModified: p.updated || p.date,
+          url: `${SITE}/blog/${p.slug}`,
+        })),
+      },
+      crumbs([{ name: 'اقرأ', path: '/' }, { name: 'المدونة', path: '/blog' }]),
+    ],
+  });
+
+const promptsPostLd = (p) =>
+  ld({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${SITE}/blog/${p.slug}`,
+        headline: p.title,
+        description: p.description,
+        datePublished: p.date,
+        dateModified: p.updated || p.date,
+        inLanguage: 'ar',
+        isAccessibleForFree: true,
+        author: PUBLISHER,
+        publisher: PUBLISHER,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${p.slug}` },
+        about: [
+          { '@type': 'Thing', name: 'تحضير الدروس' },
+          { '@type': 'Thing', name: 'الذكاء الاصطناعي في التعليم' },
+          { '@type': 'Thing', name: 'المنهاج الأردني' },
+        ],
+        audience: { '@type': 'EducationalAudience', educationalRole: 'teacher' },
+      },
+      // The page IS a list, so it says so. Each entry carries the label and the
+      // one-line description, never the prompt body — the schema describes the
+      // page, it does not duplicate it.
+      {
+        '@type': 'ItemList',
+        name: p.title,
+        numberOfItems: general.length + iqraa.length,
+        itemListOrder: 'https://schema.org/ItemListOrderAscending',
+        itemListElement: [...general, ...iqraa].map((it, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: it.code,
+          description: it.desc,
+        })),
+      },
+      crumbs([
+        { name: 'اقرأ', path: '/' },
+        { name: 'المدونة', path: '/blog' },
+        { name: p.title, path: `/blog/${p.slug}` },
+      ]),
+    ],
+  });
+
 // ── /blog ───────────────────────────────────────────────────────────────────
 const indexPage = () => `${head(
   'مدونة اقرأ — أدوات وأفكار للمعلم',
   'مقالات وأدوات عملية لمعلمي الأردن: أوامر جاهزة، أفكار تحضير، وطرق تقويم — من فريق اقرأ.',
   '/blog',
+  blogIndexLd(),
 )}
 <main class="wrap blog-index">
   <h1>مدونة اقرأ</h1>
@@ -176,7 +279,7 @@ ${posts
 ${footer()}`;
 
 // ── /blog/100-prompts-for-teachers ──────────────────────────────────────────
-const promptsPost = (p) => `${head(p.title, p.description, `/blog/${p.slug}`)}
+const promptsPost = (p) => `${head(p.title, p.description, `/blog/${p.slug}`, promptsPostLd(p))}
 <main class="wrap post">
   <article>
     <span class="post-kicker">${esc(p.kicker)}</span>
