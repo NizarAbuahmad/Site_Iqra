@@ -113,7 +113,6 @@ ${JSON.stringify(ld, null, 1)}
     </a>
     <div class="head-cta">
       <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
-      <a class="btn-sm" href="/download">حمّل تطبيق أندرويد</a>
     </div>
   </div>
 </header>
@@ -240,8 +239,7 @@ function subjectPage(p) {
   b += `\n<section class="closing">
 <h2>حضّر حصّة من منهاج ${esc(p.subjectAr)}</h2>
 <p>اختر الدرس من شجرة المنهاج، واطلب خطة درس أو ورقة عمل أو اختبارًا قصيرًا — بالعربية، جاهزًا للطباعة.</p>
-<p><a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
-   <a class="btn" href="/download">حمّل تطبيق أندرويد</a></p>
+<p><a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a></p>
 </section>
 </main>`;
 
@@ -365,7 +363,7 @@ writeFileSync(new URL('./llms.txt', root), `# \u0627\u0642\u0631\u0623 (Iqraa)
 - Product language: Arabic-native, right-to-left. Not a translation of an English tool.
 - User: the teacher. Students reach assessments through a link the teacher shares.
 - Price: free beta for teachers. 0 JOD.
-- Platforms: browser (desktop, phone, tablet) and Android. iPhone app in development.
+- Platforms: browser (desktop, phone, tablet). Android app in closed testing on Google Play; teachers can join the early-access list on the home page. iPhone app in development.
 - Status: beta.
 
 ## What it produces
@@ -389,7 +387,7 @@ switched off, so they are deliberately absent from this list.
 - [Blog](${SITE}/blog): practical tools for teachers.
 ${blogPosts.map((b) => `- [${b.title}](${SITE}/blog/${b.slug}): ${b.description}`).join('\n')}
 - [The app](https://app.iqrra.com): the product itself.
-- [Android download](${SITE}/download)
+- [Android early access](${SITE}/#android): leave an email to be invited to the Google Play closed test.
 - [Privacy policy](${SITE}/privacy)
 
 ## For citation

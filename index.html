@@ -81,7 +81,7 @@
       "@id": "https://www.iqrra.com/#app",
       "name": "اقرأ — مساعد تحضير الحصص",
       "applicationCategory": "EducationalApplication",
-      "operatingSystem": "Android, Web",
+      "operatingSystem": "Web",
       "inLanguage": "ar",
       "url": "https://www.iqrra.com/",
       "publisher": {
@@ -159,7 +159,7 @@
           "name": "على أي أجهزة يعمل اقرأ؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "يعمل من المتصفح على الحاسوب والهاتف والجهاز اللوحي دون تثبيت، ويتوفر تطبيق أندرويد للتحميل المباشر. تطبيق آيفون قيد التطوير."
+            "text": "يعمل من المتصفح على الحاسوب والهاتف والجهاز اللوحي دون تثبيت. تطبيق أندرويد قيد النشر على متجر Play، وتستطيع تسجيل بريدك لتكون من أوائل مَن يجرّبه. تطبيق آيفون قيد التطوير."
           }
         },
         {
@@ -167,7 +167,7 @@
           "name": "هل استخدام اقرأ مجاني؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "نعم، النسخة التجريبية مجانية بالكامل للمعلمين، من المتصفح أو من تطبيق أندرويد. و«تجريبية» تعني أن الميزات ما زالت تتغيّر وأن ملاحظات المعلمين تؤثر في ترتيبها."
+            "text": "نعم، النسخة التجريبية مجانية بالكامل للمعلمين. و«تجريبية» تعني أن الميزات ما زالت تتغيّر وأن ملاحظات المعلمين تؤثر في ترتيبها."
           }
         }
       ]
@@ -248,6 +248,7 @@
      .note on specificity (0,1,1) vs (0,1,0) and was winning regardless of
      source order, zeroing out this margin-top. */
   .hero .note{margin-top:28px; font-size:14px; color:var(--muted)}
+  .hero .note a{color:var(--teal-ink); font-weight:600}
 
   /* Screens are 540x1200; shown full they'd be ~600px tall each and bury the
      page. Fixed-height window + top crop + a fade at the bottom instead. */
@@ -404,10 +405,6 @@
   .closing h2{color:#fff}
   .closing p{color:#8BA0B8; max-width:520px; margin:0 auto 28px}
   .closing .btn-primary{background:var(--aqua); color:var(--navy)}
-  /* Ghost buttons are bordered for the light page; on the navy panel the
-     border has to come from the panel's own palette instead. */
-  .btn-download{border-color:#33506F; color:#E8F4F2}
-  .btn-download:hover{border-color:var(--aqua); color:#fff}
 
   /* feedback */
   .ask{background:var(--card); border:1px solid var(--border); border-radius:24px; padding:clamp(28px,4vw,44px); max-width:720px; margin:0 auto}
@@ -424,6 +421,16 @@
   .field input:focus, .field textarea:focus{outline:3px solid var(--teal-ink); outline-offset:2px; border-color:var(--teal-ink)}
   .ask button{font:inherit; cursor:pointer; width:100%}
   .ask button[disabled]{opacity:.6; cursor:default}
+  /* The Android waitlist: one field and one button share a line where there
+     is room, and wrap on a phone. The button's vertical padding matches the
+     input's so the two sit at one height. */
+  .inline{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap}
+  .inline .field{flex:1 1 240px; margin:0}
+  .inline button{width:auto; flex:0 0 auto; padding-block:12px}
+  .inline .say{flex-basis:100%; margin-top:4px}
+  /* Once the button has wrapped under the field, full width reads as the
+     feedback form's button does, not as a stray chip. */
+  @media(max-width:560px){.inline button{width:100%}}
   /* Bots fill what they cannot see; people never reach it. */
   /* Visually hidden without an off-canvas position: a large negative `left`
      still extends the page's scrollable area to include it (position:absolute
@@ -475,7 +482,6 @@
     </nav>
     <div class="head-cta">
       <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
-      <a class="btn-sm" href="/download">حمّل تطبيق أندرويد</a>
     </div>
   </div>
 </header>
@@ -491,9 +497,8 @@
     </p>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
-      <a class="btn btn-ghost" href="/download">حمّل تطبيق أندرويد</a>
     </div>
-    <p class="note">يعمل اقرأ من المتصفح على الحاسوب والهاتف والجهاز اللوحي. تطبيق أندرويد متاح الآن، وتطبيق آيفون قيد التطوير.</p>
+    <p class="note">يعمل اقرأ من المتصفح على الحاسوب والهاتف والجهاز اللوحي. تطبيق أندرويد قريبًا على متجر Play — <a href="#android">سجّل بريدك</a> لتكون من أوائل مَن يجرّبه. تطبيق آيفون قيد التطوير.</p>
     <div class="shots">
       <figure>
         <img src="img/curriculum.jpg" width="540" height="1200"
@@ -611,12 +616,37 @@
       </details>
       <details class="faq-item">
         <summary>على أي أجهزة يعمل اقرأ؟<span class="chevron" aria-hidden="true"></span></summary>
-        <p>يعمل من المتصفح على الحاسوب والهاتف والجهاز اللوحي دون تثبيت، ويتوفر تطبيق أندرويد للتحميل المباشر. تطبيق آيفون قيد التطوير.</p>
+        <p>يعمل من المتصفح على الحاسوب والهاتف والجهاز اللوحي دون تثبيت. تطبيق أندرويد قيد النشر على متجر Play، وتستطيع تسجيل بريدك لتكون من أوائل مَن يجرّبه. تطبيق آيفون قيد التطوير.</p>
       </details>
       <details class="faq-item">
         <summary>هل استخدام اقرأ مجاني؟<span class="chevron" aria-hidden="true"></span></summary>
-        <p>نعم، النسخة التجريبية مجانية بالكامل للمعلمين، من المتصفح أو من تطبيق أندرويد. و«تجريبية» تعني أن الميزات ما زالت تتغيّر وأن ملاحظات المعلمين تؤثر في ترتيبها.</p>
+        <p>نعم، النسخة التجريبية مجانية بالكامل للمعلمين. و«تجريبية» تعني أن الميزات ما زالت تتغيّر وأن ملاحظات المعلمين تؤثر في ترتيبها.</p>
       </details>
+    </div>
+  </div>
+</section>
+
+<!-- The Android app is in Google Play's closed test, which admits testers by
+     the Google account on their phone — so the field asks for that address in
+     particular, not "an email". Stored as a Resend contact by api/waitlist.mjs;
+     nothing on the site links to /download any more (see README). -->
+<section id="android">
+  <div class="wrap">
+    <div class="ask">
+      <h2>تطبيق أندرويد قريبًا على متجر Play</h2>
+      <p class="sub">سجّل بريد حساب Google الذي تستخدمه على هاتفك، ونرسل لك دعوة التجربة المبكرة قبل النشر العام. نستخدم بريدك لإرسال الدعوة فقط.</p>
+      <form id="android-form" class="inline" novalidate>
+        <label class="field">
+          <span>بريد حساب Google</span>
+          <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@gmail.com">
+        </label>
+        <label class="trap" aria-hidden="true">
+          لا تملأ هذا الحقل
+          <input name="website" tabindex="-1" autocomplete="off">
+        </label>
+        <button class="btn btn-primary" type="submit">أرسل لي الدعوة</button>
+        <p class="say" id="android-say" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </div>
 </section>
@@ -661,7 +691,6 @@
     <p>ابدأ بدرس واحد، واكتشف كم يوفّر لك اقرأ من الوقت.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
-      <a class="btn btn-download" href="/download">حمّل تطبيق أندرويد</a>
     </div>
   </div>
 </div>
@@ -760,6 +789,49 @@
         .catch(function () {
           say.className = 'say bad';
           say.textContent = 'تعذّر الإرسال. حاول مرة أخرى بعد قليل — ما كتبته ما زال موجودًا.';
+        })
+        .then(function () { button.disabled = false; });
+    });
+  })();
+</script>
+
+<script>
+  // The Android waitlist form. Same shape as the feedback form above with one
+  // field; kept as its own copy rather than generalised — two forms is not
+  // yet a pattern.
+  (function () {
+    var form = document.getElementById('android-form');
+    var say = document.getElementById('android-say');
+    var button = form.querySelector('button');
+    var email = form.querySelector('input[name=email]');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+        say.className = 'say bad';
+        say.textContent = 'اكتب بريدًا إلكترونيًّا صحيحًا.';
+        return;
+      }
+
+      button.disabled = true;
+      say.className = 'say';
+      say.textContent = 'جارٍ التسجيل…';
+
+      fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form).entries()))
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error(r.status);
+          say.className = 'say ok';
+          say.textContent = 'سجّلنا بريدك. ستصلك الدعوة عند فتح التجربة المبكرة.';
+          form.after(say);
+          form.hidden = true;
+        })
+        .catch(function () {
+          say.className = 'say bad';
+          say.textContent = 'تعذّر التسجيل. حاول مرة أخرى بعد قليل، أو راسلنا على info@iqrra.com';
         })
         .then(function () { button.disabled = false; });
     });

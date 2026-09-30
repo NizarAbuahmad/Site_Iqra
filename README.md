@@ -6,7 +6,9 @@ The marketing site. Static HTML, no build step. Vercel serves it; a push to
 - `index.html` — the live page
 - `download.html` — served at `/download`
 - `editorial.html` — an alternate layout, kept for comparison
-- `api/feedback.js` — receives the contact form
+- `api/feedback.mjs` — receives the contact form
+- `api/waitlist.mjs` — receives the Android early-access form; needs only
+  `RESEND_API_KEY`. Check it with `node --test tests/waitlist.test.mjs`
 - `tools-make-favicon.py` — regenerates the raster icons from `favicon.svg`
 
 ## The contact form needs two environment variables
@@ -25,6 +27,20 @@ answers 500 and every message a teacher writes is lost:
 Sending works without further DNS — `iqrra.com` is already a verified Resend
 sender. Receiving does not: the domain has no MX records, so mail addressed to
 anything `@iqrra.com` bounces. The form's from-address only sends.
+
+## The Android app is not linked from the site (since 2026-09-30)
+
+The app is in Google Play's closed test, so nothing on the site points at
+`/download` any more. Instead the home page's `#android` card collects the
+Google-account address a teacher uses on their phone — the closed test admits
+testers by that account — and `api/waitlist.mjs` stores it as a Resend
+contact. When it is time to invite: export the contacts from the Resend
+dashboard, paste them into the Play console's tester list, and send the invite
+as a Resend broadcast to the same contacts. Once the app is on the store, swap
+the card for a Play link.
+
+`/download` itself still works for anyone holding the link (and is still
+`noindex`), so the procedure below still applies to it.
 
 ## After every Android build, change one line
 
