@@ -64,8 +64,9 @@ export default async function handler(req, res) {
   console.error("waitlist: contacts refused", contact.status, contact.text);
 
   const to = process.env.FEEDBACK_TO;
+  let mail = null;
   if (to) {
-    const mail = await resend(key, "/emails", {
+    mail = await resend(key, "/emails", {
       from: FROM,
       to: [to],
       reply_to: email,
@@ -81,5 +82,12 @@ export default async function handler(req, res) {
     console.error("waitlist: fallback mail refused", mail.status, mail.text);
   }
 
-  return res.status(502).json({ error: "send", upstream: contact.status });
+  // Resend's own reasons ride along: the function log is not the first place
+  // anyone looks, and a refusal that only says "send" cost a round of guessing.
+  return res.status(502).json({
+    error: "send",
+    upstream: contact.status,
+    reason: contact.text.slice(0, 300),
+    mail: mail ? { status: mail.status, reason: mail.text.slice(0, 300) } : "FEEDBACK_TO unset",
+  });
 }
