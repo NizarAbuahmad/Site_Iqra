@@ -113,7 +113,7 @@ ${JSON.stringify(ld, null, 1)}
     </a>
     <div class="head-cta">
       <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
-      <a class="btn-sm" href="/#android">تطبيق أندرويد</a>
+      <a class="btn-sm" href="/#android"><span class="lg">انضم لتجربة أندرويد</span><span class="sm">تجربة أندرويد</span></a>
     </div>
   </div>
 </header>
@@ -121,7 +121,8 @@ ${JSON.stringify(ld, null, 1)}
 
 const foot = `
 <footer>
-  اقرأ · نسخة تجريبية · رفيقك في تحضير الحصص · الأردن 2026
+  اقرأ — مساعدك في التحضير، ومساحة أكبر للتعليم.
+  <br>نسخة تجريبية · الأردن
   <br>للتواصل: <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
   <br><a href="/privacy">سياسة الخصوصية</a>
 </footer>
