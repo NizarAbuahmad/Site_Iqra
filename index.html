@@ -229,6 +229,9 @@
        screen — one of the most common there is — clips it. */
     .btn-sm{padding:8px 10px}
     .head-cta{gap:6px}
+    /* The header is sticky, so its height is taken off every screen. 20px of
+       padding each side was 84px in all; the buttons are 43px tall. */
+    header{padding:12px 0}
     .head-cta .lg{display:none}
     .head-cta .sm{display:inline}
   }
@@ -257,7 +260,13 @@
   /* Phones: the sticky header already takes ~83px, so the hero starts higher and
      its two stacked buttons sit closer, to keep the email field near the first
      screen. After .hero above, or the base padding wins on source order. */
-  @media(max-width:640px){.hero{padding-top:40px} .hero .cta-row{gap:10px}}
+  @media(max-width:640px){
+    .hero{padding-top:24px}
+    .eyebrow{margin-bottom:14px}
+    h1{margin-bottom:14px}
+    .hero p{margin-bottom:24px}
+    .hero .cta-row{gap:10px}
+  }
 
   /* Screens are 540x1200; shown full they'd be ~600px tall each and bury the
      page. Fixed-height window + top crop + a fade at the bottom instead. */
@@ -455,6 +464,8 @@
   .hero .hero-wait .wait-lead{flex-basis:100%; margin:0 0 2px; font-size:15px; font-weight:600; color:var(--navy); text-align:center; max-width:none}
   .hero .hero-wait .say{margin:4px 0 0; font-size:15px; max-width:none; text-align:center}
   .hero .say-done{margin:36px auto 0; font-size:16px}
+  /* After .hero-wait above, or its base margin wins on source order. */
+  @media(max-width:640px){.hero-wait{margin-top:28px} .hero .say-done{margin-top:28px}}
   /* The privacy line sits in the status slot: an error or success replaces it,
      and it needs no height of its own. */
   .say.fine{color:var(--muted); font-size:13px}
@@ -531,7 +542,7 @@
     <!-- Same handler and endpoint as the #android card below; the lead line
          lives inside the form so a successful signup replaces both. -->
     <form class="hero-wait inline" data-waitlist novalidate>
-      <p class="wait-lead">تطبيق أندرويد قريبًا — سجّل بريد حساب Google الذي تستخدمه على هاتفك لتصلك دعوة التجربة المبكرة</p>
+      <p class="wait-lead">تطبيق أندرويد قريبًا — سجّل بريد حساب Google الذي على هاتفك لتصلك دعوة التجربة</p>
       <label class="field">
         <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@gmail.com" aria-label="بريد حساب Google">
       </label>
