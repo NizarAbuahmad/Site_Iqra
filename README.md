@@ -7,8 +7,10 @@ The marketing site. Static HTML, no build step. Vercel serves it; a push to
 - `download.html` — served at `/download`
 - `editorial.html` — an alternate layout, kept for comparison
 - `api/feedback.mjs` — receives the contact form
-- `api/waitlist.mjs` — receives the Android early-access form; needs only
-  `RESEND_API_KEY`. Check it with `node --test tests/waitlist.test.mjs`
+- `api/waitlist.mjs` — receives the Android early-access form. Stores the
+  address as a Resend contact; if Resend refuses (a sending-only key cannot
+  write contacts) it mails the address to `FEEDBACK_TO` instead, so nothing
+  is lost. Check it with `node --test tests/waitlist.test.mjs`
 - `tools-make-favicon.py` — regenerates the raster icons from `favicon.svg`
 
 ## The contact form needs two environment variables
@@ -38,6 +40,11 @@ contact. When it is time to invite: export the contacts from the Resend
 dashboard, paste them into the Play console's tester list, and send the invite
 as a Resend broadcast to the same contacts. Once the app is on the store, swap
 the card for a Play link.
+
+If signups arrive in the inbox as «طلب دعوة لتطبيق أندرويد» emails rather
+than as contacts, the key on Vercel is sending-only: create a full-access key
+in Resend and replace `RESEND_API_KEY`. The function's log line
+`waitlist: contacts refused` carries Resend's exact reason.
 
 `/download` itself still works for anyone holding the link (and is still
 `noindex`), so the procedure below still applies to it.
