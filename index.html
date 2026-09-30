@@ -428,12 +428,23 @@
      is room, and wrap on a phone. The button's vertical padding matches the
      input's so the two sit at one height. */
   .inline{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap}
+  /* display:flex above outranks the UA's [hidden]{display:none}, so without
+     this the form stayed on screen under its own success message. */
+  .inline[hidden]{display:none}
   .inline .field{flex:1 1 240px; margin:0}
-  .inline button{width:auto; flex:0 0 auto; padding-block:12px}
+  .inline button{width:auto; flex:0 0 auto; padding-block:12px; font:inherit; cursor:pointer}
+  .inline button[disabled]{opacity:.6; cursor:default}
   .inline .say{flex-basis:100%; margin-top:4px}
   /* Once the button has wrapped under the field, full width reads as the
      feedback form's button does, not as a stray chip. */
   @media(max-width:560px){.inline button{width:100%}}
+  /* The same form in the hero. ".hero p" (0,1,1) would otherwise set the
+     lead line and the status line at hero-paragraph size with a 32px margin,
+     so both are restated at (0,2,0)+. */
+  .hero-wait{max-width:520px; margin:36px auto 0; align-items:stretch; text-align:start}
+  .hero .hero-wait .wait-lead{flex-basis:100%; margin:0 0 2px; font-size:15px; font-weight:600; color:var(--navy); text-align:center; max-width:none}
+  .hero .hero-wait .say{margin:4px 0 0; font-size:15px; max-width:none; text-align:center}
+  .hero .say-done{margin:36px auto 0; font-size:16px}
   /* Bots fill what they cannot see; people never reach it. */
   /* Visually hidden without an off-canvas position: a large negative `left`
      still extends the page's scrollable area to include it (position:absolute
@@ -501,9 +512,22 @@
     </p>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
-      <a class="btn btn-ghost" href="#android">تطبيق أندرويد — سجّل للدعوة</a>
     </div>
-    <p class="note">يعمل اقرأ من المتصفح على الحاسوب والهاتف والجهاز اللوحي. تطبيق أندرويد قريبًا على متجر Play، وتطبيق آيفون قيد التطوير.</p>
+    <!-- Same handler and endpoint as the #android card below; the lead line
+         lives inside the form so a successful signup replaces both. -->
+    <form class="hero-wait inline" data-waitlist novalidate>
+      <p class="wait-lead">تطبيق أندرويد قريبًا على متجر Play — سجّل بريد حساب Google الذي على هاتفك لتصلك دعوة التجربة المبكرة</p>
+      <label class="field">
+        <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@gmail.com" aria-label="بريد حساب Google">
+      </label>
+      <label class="trap" aria-hidden="true">
+        لا تملأ هذا الحقل
+        <input name="website" tabindex="-1" autocomplete="off">
+      </label>
+      <button class="btn btn-primary" type="submit">أرسل لي الدعوة</button>
+      <p class="say" role="status" aria-live="polite"></p>
+    </form>
+    <p class="note">يعمل اقرأ من المتصفح على الحاسوب والهاتف والجهاز اللوحي. تطبيق آيفون قيد التطوير.</p>
     <div class="shots">
       <figure>
         <img src="img/curriculum.jpg" width="540" height="1200"
@@ -640,7 +664,7 @@
     <div class="ask">
       <h2>تطبيق أندرويد قريبًا على متجر Play</h2>
       <p class="sub">سجّل بريد حساب Google الذي تستخدمه على هاتفك، ونرسل لك دعوة التجربة المبكرة قبل النشر العام. نستخدم بريدك لإرسال الدعوة فقط.</p>
-      <form id="android-form" class="inline" novalidate>
+      <form class="inline" data-waitlist novalidate>
         <label class="field">
           <span>بريد حساب Google</span>
           <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@gmail.com">
@@ -650,7 +674,7 @@
           <input name="website" tabindex="-1" autocomplete="off">
         </label>
         <button class="btn btn-primary" type="submit">أرسل لي الدعوة</button>
-        <p class="say" id="android-say" role="status" aria-live="polite"></p>
+        <p class="say" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>
@@ -802,44 +826,55 @@
 </script>
 
 <script>
-  // The Android waitlist form. Same shape as the feedback form above with one
-  // field; kept as its own copy rather than generalised — two forms is not
-  // yet a pattern.
+  // The Android waitlist: one form in the hero, one in the #android card.
+  // Both post to /api/waitlist, and one success replaces both — a teacher who
+  // has signed up should not be asked again a screen further down.
   (function () {
-    var form = document.getElementById('android-form');
-    var say = document.getElementById('android-say');
-    var button = form.querySelector('button');
-    var email = form.querySelector('input[name=email]');
+    var forms = Array.prototype.slice.call(document.querySelectorAll('form[data-waitlist]'));
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-        say.className = 'say bad';
-        say.textContent = 'اكتب بريدًا إلكترونيًّا صحيحًا.';
-        return;
-      }
+    function done() {
+      forms.forEach(function (f) {
+        var say = f.querySelector('.say');
+        say.className = 'say ok' + (f.classList.contains('hero-wait') ? ' say-done' : '');
+        say.textContent = 'سجّلنا بريدك. ستصلك الدعوة عند فتح التجربة المبكرة.';
+        // The status line moves out first, or hiding the form would hide it too.
+        f.after(say);
+        f.hidden = true;
+      });
+    }
 
-      button.disabled = true;
-      say.className = 'say';
-      say.textContent = 'جارٍ التسجيل…';
+    forms.forEach(function (form) {
+      var say = form.querySelector('.say');
+      var button = form.querySelector('button');
+      var email = form.querySelector('input[name=email]');
 
-      fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(new FormData(form).entries()))
-      })
-        .then(function (r) {
-          if (!r.ok) throw new Error(r.status);
-          say.className = 'say ok';
-          say.textContent = 'سجّلنا بريدك. ستصلك الدعوة عند فتح التجربة المبكرة.';
-          form.after(say);
-          form.hidden = true;
-        })
-        .catch(function () {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
           say.className = 'say bad';
-          say.textContent = 'تعذّر التسجيل. حاول مرة أخرى بعد قليل، أو راسلنا على info@iqrra.com';
+          say.textContent = 'اكتب بريدًا إلكترونيًّا صحيحًا.';
+          return;
+        }
+
+        button.disabled = true;
+        say.className = 'say';
+        say.textContent = 'جارٍ التسجيل…';
+
+        fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form).entries()))
         })
-        .then(function () { button.disabled = false; });
+          .then(function (r) {
+            if (!r.ok) throw new Error(r.status);
+            done();
+          })
+          .catch(function () {
+            say.className = 'say bad';
+            say.textContent = 'تعذّر التسجيل. حاول مرة أخرى بعد قليل، أو راسلنا على info@iqrra.com';
+          })
+          .then(function () { button.disabled = false; });
+      });
     });
   })();
 </script>
