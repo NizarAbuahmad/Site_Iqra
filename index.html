@@ -159,7 +159,7 @@
           "name": "هل أحتاج إلى تنزيل تطبيق؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "لا. يمكنك استخدام اقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي. ولتجربة تطبيق أندرويد مبكرًا، سجّل بريد حساب Google الذي تستخدمه على هاتفك. تطبيق آيفون قيد التطوير."
+            "text": "لا. يمكنك استخدام اقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي. ولتجربة تطبيق أندرويد مبكرًا ولنُعلمك حين ينزل على متجر Play، سجّل بريدك، ويُفضَّل بريد حساب Google الذي تستخدمه على هاتفك. تطبيق آيفون قيد التطوير."
           }
         },
         {
@@ -468,8 +468,10 @@
   @media(max-width:640px){.hero-wait{margin-top:28px} .hero .say-done{margin-top:28px}}
   /* The privacy line sits in the status slot: an error or success replaces it,
      and it needs no height of its own. */
-  .say.fine{color:var(--muted); font-size:13px}
-  .hero .hero-wait .say.fine{font-size:13px}
+  .say.fine{color:var(--muted); font-size:13px; line-height:1.5}
+  /* No extra top margin: the hint can wrap to two lines on a phone, and it should
+     still end above a 780px screen. */
+  .hero .hero-wait .say.fine{font-size:13px; margin-top:0}
   /* Bots fill what they cannot see; people never reach it. */
   /* Visually hidden without an off-canvas position: a large negative `left`
      still extends the page's scrollable area to include it (position:absolute
@@ -542,16 +544,16 @@
     <!-- Same handler and endpoint as the #android card below; the lead line
          lives inside the form so a successful signup replaces both. -->
     <form class="hero-wait inline" data-waitlist novalidate>
-      <p class="wait-lead">تطبيق أندرويد قريبًا — سجّل بريد حساب Google الذي على هاتفك لتصلك دعوة التجربة</p>
+      <p class="wait-lead">تطبيق أندرويد قريبًا — سجّل بريدك لنرسل لك دعوة التجربة، ثم نُعلمك حين ينزل على متجر Play</p>
       <label class="field">
-        <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@gmail.com" aria-label="بريد حساب Google">
+        <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@example.com" aria-label="البريد الإلكتروني">
       </label>
       <label class="trap" aria-hidden="true">
         لا تملأ هذا الحقل
         <input name="website" tabindex="-1" autocomplete="off">
       </label>
       <button class="btn btn-primary" type="submit">أرسل لي دعوة التجربة</button>
-      <p class="say fine" role="status" aria-live="polite">سنستخدم بريدك لإرسال دعوة التجربة فقط.</p>
+      <p class="say fine" role="status" aria-live="polite">يُفضَّل بريد حساب Google الذي على هاتفك. نستخدمه للدعوة والإشعار فقط.</p>
     </form>
     <p class="note">مجاني خلال النسخة التجريبية · يعمل من المتصفح على الحاسوب والهاتف</p>
     <div class="shots">
@@ -669,7 +671,7 @@
       </details>
       <details class="faq-item">
         <summary>هل أحتاج إلى تنزيل تطبيق؟<span class="chevron" aria-hidden="true"></span></summary>
-        <p>لا. يمكنك استخدام اقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي. ولتجربة تطبيق أندرويد مبكرًا، <a href="#android">سجّل بريد حساب Google</a> الذي تستخدمه على هاتفك. تطبيق آيفون قيد التطوير.</p>
+        <p>لا. يمكنك استخدام اقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي. ولتجربة تطبيق أندرويد مبكرًا ولنُعلمك حين ينزل على متجر Play، <a href="#android">سجّل بريدك</a>، ويُفضَّل بريد حساب Google الذي تستخدمه على هاتفك. تطبيق آيفون قيد التطوير.</p>
       </details>
       <details class="faq-item">
         <summary>هل استخدام اقرأ مجاني؟<span class="chevron" aria-hidden="true"></span></summary>
@@ -679,26 +681,27 @@
   </div>
 </section>
 
-<!-- The Android app is in Google Play's closed test, which admits testers by
-     the Google account on their phone — so the field asks for that address in
-     particular, not "an email". Stored as a Resend contact by api/waitlist.mjs;
-     nothing on the site links to /download any more (see README). -->
+<!-- The list serves two purposes: the closed test on Google Play admits testers
+     by Google account, so that address is PREFERRED; the launch announcement
+     works with any email, so nothing else is refused. Stored as a Resend
+     contact by api/waitlist.mjs; nothing on the site links to /download any
+     more (see README). -->
 <section id="android">
   <div class="wrap">
     <div class="ask">
       <h2>كن من أوائل المعلّمين الذين يجرّبون تطبيق اقرأ</h2>
-      <p class="sub">تطبيق أندرويد قريبًا. سجّل بريد حساب Google الذي تستخدمه على هاتفك لتصلك دعوة التجربة المبكرة.</p>
+      <p class="sub">تطبيق أندرويد قريبًا. سجّل بريدك لتصلك دعوة التجربة المبكرة، ثم إشعار حين ينزل التطبيق على متجر Play. يُفضَّل بريد حساب Google الذي تستخدمه على هاتفك، فالتجربة المبكرة تُفتح عبر ذلك الحساب.</p>
       <form class="inline" data-waitlist novalidate>
         <label class="field">
-          <span>بريد حساب Google</span>
-          <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@gmail.com">
+          <span>البريد الإلكتروني</span>
+          <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@example.com">
         </label>
         <label class="trap" aria-hidden="true">
           لا تملأ هذا الحقل
           <input name="website" tabindex="-1" autocomplete="off">
         </label>
         <button class="btn btn-primary" type="submit">أرسل لي دعوة التجربة</button>
-        <p class="say fine" role="status" aria-live="polite">سنستخدم بريدك لإرسال دعوة التجربة فقط.</p>
+        <p class="say fine" role="status" aria-live="polite">سنستخدم بريدك لإرسال دعوة التجربة وإشعار الإطلاق فقط.</p>
       </form>
     </div>
   </div>
@@ -861,7 +864,7 @@
       forms.forEach(function (f) {
         var say = f.querySelector('.say');
         say.className = 'say ok' + (f.classList.contains('hero-wait') ? ' say-done' : '');
-        say.textContent = 'وصلنا بريدك، شكرًا لك. سنرسل لك دعوة تجربة أندرويد فور أن تصبح جاهزة.';
+        say.textContent = 'وصلنا بريدك، شكرًا لك. سنراسلك بدعوة التجربة، ثم نُعلمك حين ينزل التطبيق على متجر Play.';
         // The status line moves out first, or hiding the form would hide it too.
         f.after(say);
         f.hidden = true;

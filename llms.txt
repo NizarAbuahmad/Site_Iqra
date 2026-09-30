@@ -41,7 +41,7 @@ switched off, so they are deliberately absent from this list.
 - [Blog](https://www.iqrra.com/blog): practical tools for teachers.
 - [١٠٠ أمر ذكي للمعلم: أوامر جاهزة للتحضير والتقويم](https://www.iqrra.com/blog/100-prompts-for-teachers): مئة أمر جاهز للنسخ: ستون تعمل مع أي مساعد ذكي، وأربعون مكتوبة لمساعد اقرأ مربوطة بدرسك في المنهاج الأردني.
 - [The app](https://app.iqrra.com): the product itself.
-- [Android early access](https://www.iqrra.com/#android): leave an email to be invited to the Google Play closed test.
+- [Android early access](https://www.iqrra.com/#android): leave an email to be invited to the Google Play closed test and told when the app is on the store.
 - [Privacy policy](https://www.iqrra.com/privacy)
 
 ## For citation

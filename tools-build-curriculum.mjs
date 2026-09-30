@@ -389,7 +389,7 @@ switched off, so they are deliberately absent from this list.
 - [Blog](${SITE}/blog): practical tools for teachers.
 ${blogPosts.map((b) => `- [${b.title}](${SITE}/blog/${b.slug}): ${b.description}`).join('\n')}
 - [The app](https://app.iqrra.com): the product itself.
-- [Android early access](${SITE}/#android): leave an email to be invited to the Google Play closed test.
+- [Android early access](${SITE}/#android): leave an email to be invited to the Google Play closed test and told when the app is on the store.
 - [Privacy policy](${SITE}/privacy)
 
 ## For citation
