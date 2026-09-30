@@ -27,8 +27,9 @@ answers 500 and every message a teacher writes is lost:
 **this repository is public** and the destination is a personal address.
 
 Sending works without further DNS — `iqrra.com` is already a verified Resend
-sender. Receiving does not: the domain has no MX records, so mail addressed to
-anything `@iqrra.com` bounces. The form's from-address only sends.
+sender. Receiving works too: the domain's MX records point at Zoho (checked
+2026-09-30), so replies to `info@iqrra.com` arrive. The form's from-address
+`feedback@iqrra.com` only sends.
 
 ## The Android app is not linked from the site (since 2026-09-30)
 

@@ -48,6 +48,10 @@
   /* show/hide by language */
   html[lang="en"] .ar-only { display:none }
   html[lang="ar"] .en-only { display:none }
+
+  /* Phones get the short Android label; the full one wrapped the header at 360px. */
+  .head-cta .sm{display:none}
+  @media(max-width:640px){.head-cta .lg{display:none} .head-cta .sm{display:inline}}
 </style>
 <script src="/ph.js" defer></script>
 </head>
@@ -69,7 +73,7 @@
         <span class="ar-only">جرّب اقرأ مجانًا</span><span class="en-only">Try Iqra for free</span>
       </a>
       <a class="btn-sm" href="/#android">
-        <span class="ar-only">تطبيق أندرويد</span><span class="en-only">Android app</span>
+        <span class="ar-only"><span class="lg">انضم لتجربة أندرويد</span><span class="sm">تجربة أندرويد</span></span><span class="en-only"><span class="lg">Join Android early access</span><span class="sm">Android</span></span>
       </a>
     </div>
   </div>
@@ -475,7 +479,7 @@
     <span class="ar-only"><a href="/manhaj">تصفّح المناهج الأردنية — الوحدات والدروس ونتاجات التعلّم</a></span>
     <span class="en-only"><a href="/manhaj">Browse the Jordanian curriculum — units, lessons, and learning outcomes</a></span>
   </p>
-  <span class="ar-only">اقرأ · نسخة تجريبية · رفيقك في تحضير الحصص · الأردن 2026</span>
+  <span class="ar-only">اقرأ — مساعدك في التحضير، ومساحة أكبر للتعليم · نسخة تجريبية · الأردن</span>
   <span class="en-only">Iqra · Beta · Your lesson-prep companion · Jordan 2026</span>
   <br>
   <span class="ar-only">للتواصل: </span><span class="en-only">Contact: </span>
