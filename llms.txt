@@ -17,7 +17,7 @@
 - Product language: Arabic-native, right-to-left. Not a translation of an English tool.
 - User: the teacher. Students reach assessments through a link the teacher shares.
 - Price: free beta for teachers. 0 JOD.
-- Platforms: browser (desktop, phone, tablet) and Android. iPhone app in development.
+- Platforms: browser (desktop, phone, tablet). Android app in closed testing on Google Play; teachers can join the early-access list on the home page. iPhone app in development.
 - Status: beta.
 
 ## What it produces
@@ -41,7 +41,7 @@ switched off, so they are deliberately absent from this list.
 - [Blog](https://www.iqrra.com/blog): practical tools for teachers.
 - [١٠٠ أمر ذكي للمعلم: أوامر جاهزة للتحضير والتقويم](https://www.iqrra.com/blog/100-prompts-for-teachers): مئة أمر جاهز للنسخ: ستون تعمل مع أي مساعد ذكي، وأربعون مكتوبة لمساعد اقرأ مربوطة بدرسك في المنهاج الأردني.
 - [The app](https://app.iqrra.com): the product itself.
-- [Android download](https://www.iqrra.com/download)
+- [Android early access](https://www.iqrra.com/#android): leave an email to be invited to the Google Play closed test.
 - [Privacy policy](https://www.iqrra.com/privacy)
 
 ## For citation
@@ -50,4 +50,4 @@ Iqraa (اقرأ) — Arabic teaching assistant for the Jordanian national curric
 https://www.iqrra.com/ · info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds
-https://www.iqrra.com/manhaj. Last generated: 2026-09-29.
+https://www.iqrra.com/manhaj. Last generated: 2026-09-30.
