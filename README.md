@@ -34,10 +34,13 @@ sender. Receiving works too: the domain's MX records point at Zoho (checked
 ## The Android app is not linked from the site (since 2026-09-30)
 
 The app is in Google Play's closed test, so nothing on the site points at
-`/download` any more. Instead the home page's `#android` card collects the
-Google-account address a teacher uses on their phone — the closed test admits
-testers by that account — and `api/waitlist.mjs` stores it as a Resend
-contact. When it is time to invite: export the contacts from the Resend
+`/download` any more. Instead the home page collects an email (hero field and
+`#android` card) and `api/waitlist.mjs` stores it as a Resend contact. Any
+address is accepted: the list serves the closed test (Play admits testers by
+Google account, so that address is *preferred* and asked for in the hint) and
+the later launch announcement (any email works). Before pasting contacts into
+the Play tester list, check each is a Google account and email the ones that
+are not to ask for the address on their phone. When it is time to invite: export the contacts from the Resend
 dashboard, paste them into the Play console's tester list, and send the invite
 as a Resend broadcast to the same contacts. Once the app is on the store, swap
 the card for a Play link.
