@@ -9,6 +9,8 @@
 // works without any further DNS. Replies go to the teacher when they leave
 // an address, so hitting reply in your inbox reaches them directly.
 
+import { storeSignup } from "./_store.mjs";
+
 const FROM = "اقرأ <feedback@iqrra.com>";
 const MAX = { message: 4000, name: 200, contact: 200, context: 300 };
 
@@ -39,6 +41,17 @@ export default async function handler(req, res) {
   const name = clean(body.name, MAX.name);
   const contact = clean(body.contact, MAX.contact);
   const context = clean(body.context, MAX.context);
+
+  // Copy for the admin dashboard, before Resend so a refused send isn't lost.
+  // `contact` may be a phone number; only a real address goes in `email`.
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+  await storeSignup({
+    kind: "contact",
+    email: isEmail ? contact : "",
+    name,
+    message,
+    context: [context, !isEmail && contact ? `للرد: ${contact}` : ""].filter(Boolean).join(" · "),
+  });
 
   const key = process.env.RESEND_API_KEY;
   const to = process.env.FEEDBACK_TO;

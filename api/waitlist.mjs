@@ -16,6 +16,8 @@
 //
 // Env: RESEND_API_KEY (required), FEEDBACK_TO (the fallback's destination).
 
+import { storeSignup } from "./_store.mjs";
+
 const FROM = "اقرأ <feedback@iqrra.com>";
 const MAX_EMAIL = 200;
 // The same plausibility test feedback.mjs applies before it sets reply_to.
@@ -46,6 +48,9 @@ export default async function handler(req, res) {
 
   const email = typeof body.email === "string" ? body.email.trim().slice(0, MAX_EMAIL) : "";
   if (!EMAIL_RE.test(email)) return res.status(400).json({ error: "email" });
+
+  // Before Resend, so a signup Resend refuses is still counted.
+  await storeSignup({ kind: "waitlist", email });
 
   const key = process.env.RESEND_API_KEY;
   if (!key) {
