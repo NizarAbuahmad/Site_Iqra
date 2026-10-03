@@ -111,6 +111,49 @@ code.pc-code{
 
 .closing .cta-row{display:flex; gap:10px; flex-wrap:wrap; margin:0}
 
+/* ── articles (data/posts/*.html) ────────────────────────────────────────── */
+.post h2{font-size:clamp(21px,3vw,27px); line-height:1.5; margin:44px 0 12px}
+.post ul, .post ol{max-width:66ch; padding-inline-start:24px; margin:0 0 18px}
+.post li{margin:7px 0}
+.post li::marker{color:var(--teal-ink); font-weight:700}
+
+/* One technique per card. The numeral is the card's device — the same navy
+   disc with an aqua numeral the install steps on /download use. */
+.tech{margin:22px 0 0; padding:24px; background:var(--card); border:1px solid var(--border); border-radius:20px}
+.tech h3{display:flex; align-items:center; margin:0 0 6px; font-size:19px; line-height:1.5}
+.tech-n{
+  flex:0 0 auto; display:inline-grid; place-items:center; width:34px; height:34px;
+  margin-inline-end:12px; border-radius:50%; background:var(--navy); color:var(--aqua);
+  font-size:15px; font-weight:700;
+}
+.tech-meta{margin:0 0 12px; color:var(--muted); font-size:14px}
+.tech p{max-width:66ch; margin:0 0 12px}
+.tech p:last-child{margin-bottom:0}
+.tech-tip{border-top:1px solid var(--border); padding-top:12px; color:var(--muted); font-size:15px}
+.post blockquote{
+  margin:14px 0; padding:10px 18px; background:var(--bg);
+  border-inline-start:3px solid var(--teal); border-radius:10px;
+}
+.post blockquote p{margin:6px 0}
+
+/* The chooser table scrolls inside its own frame on a phone instead of
+   widening the page. */
+.scroll{overflow-x:auto; margin:6px 0 0; background:var(--card); border:1px solid var(--border); border-radius:16px}
+table.chooser{width:100%; border-collapse:collapse; font-size:15.5px}
+.chooser th, .chooser td{padding:12px 16px; text-align:start; vertical-align:top; border-bottom:1px solid var(--border)}
+.chooser th{background:var(--bg); font-weight:700}
+.chooser tbody tr:last-child td{border-bottom:0}
+.chooser td:first-child{white-space:nowrap; font-weight:600}
+
+ol.timeline{list-style:none; padding:0; margin:0 0 18px; max-width:66ch}
+ol.timeline li{margin:0 0 10px; padding:12px 16px; background:var(--card); border:1px solid var(--border); border-radius:14px}
+
+.faq-block h3{font-size:18px; line-height:1.55; margin:24px 0 6px}
+.faq-block p{margin:0; max-width:66ch; color:var(--muted)}
+
+ul.refs{list-style:none; padding:0; font-size:14px; color:var(--muted)}
+ul.refs li{margin:9px 0}
+
 .sr-only{
   position:absolute; width:1px; height:1px; margin:-1px; padding:0;
   overflow:hidden; clip-path:inset(50%); white-space:nowrap;

@@ -39,6 +39,7 @@ switched off, so they are deliberately absent from this list.
 - [Home](https://www.iqrra.com/): what it is, how it works, FAQ.
 - [Curriculum browser](https://www.iqrra.com/manhaj): every published grade and subject, with units, lessons and official learning outcomes — one page per grade/subject pair.
 - [Blog](https://www.iqrra.com/blog): practical tools for teachers.
+- [كيف تُغلق الحصة؟ ٩ طرق للتأكد من أن طلبتك فهموا](https://www.iqrra.com/blog/how-to-close-a-lesson): بطاقة الخروج، وملخص بجملة واحدة، وسؤال يجيب عنه الجميع، إضافة إلى ست طرق أخرى لإغلاق الحصة في دقيقة إلى خمس دقائق، مع خطة جاهزة لآخر خمس دقائق.
 - [١٠٠ أمر ذكي للمعلم: أوامر جاهزة للتحضير والتقويم](https://www.iqrra.com/blog/100-prompts-for-teachers): مئة أمر جاهز للنسخ: ستون تعمل مع أي مساعد ذكي، وأربعون مكتوبة لمساعد اقرأ مربوطة بدرسك في المنهاج الأردني.
 - [The app](https://app.iqrra.com): the product itself.
 - [Android early access](https://www.iqrra.com/#android): leave an email to be invited to the Google Play closed test and told when the app is on the store.
@@ -50,4 +51,4 @@ Iqraa (اقرأ) — Arabic teaching assistant for the Jordanian national curric
 https://www.iqrra.com/ · info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds
-https://www.iqrra.com/manhaj. Last generated: 2026-09-30.
+https://www.iqrra.com/manhaj. Last generated: 2026-10-03.

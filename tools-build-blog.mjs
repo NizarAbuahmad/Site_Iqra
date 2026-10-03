@@ -246,6 +246,92 @@ const promptsPostLd = (p) =>
     ],
   });
 
+/**
+ * A prose article. The body is hand-written markup in data/posts/<slug>.html;
+ * everything that must stay in step with it elsewhere comes from
+ * data/blog-posts.json — the title, the dates, the FAQ and the closing panel.
+ *
+ * The FAQ is rendered from the same list that feeds the FAQPage structured
+ * data, so the visible questions and the schema cannot drift apart (schema that
+ * describes content the page does not show is a manual-action risk). FAQ
+ * answers are therefore plain text; only `closing.text` may carry markup.
+ */
+const articleLd = (p) =>
+  ld({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${SITE}/blog/${p.slug}`,
+        headline: p.title,
+        description: p.description,
+        datePublished: p.date,
+        dateModified: p.updated || p.date,
+        inLanguage: 'ar',
+        isAccessibleForFree: true,
+        author: PUBLISHER,
+        publisher: PUBLISHER,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${p.slug}` },
+        about: (p.about || []).map((name) => ({ '@type': 'Thing', name })),
+        audience: { '@type': 'EducationalAudience', educationalRole: 'teacher' },
+      },
+      ...(p.faq
+        ? [
+            {
+              '@type': 'FAQPage',
+              mainEntity: p.faq.map((f) => ({
+                '@type': 'Question',
+                name: f.q,
+                acceptedAnswer: { '@type': 'Answer', text: f.a },
+              })),
+            },
+          ]
+        : []),
+      crumbs([
+        { name: 'اقرأ', path: '/' },
+        { name: 'المدونة', path: '/blog' },
+        { name: p.title, path: `/blog/${p.slug}` },
+      ]),
+    ],
+  });
+
+const articlePost = (p) => {
+  const body = readFileSync(new URL(`./data/posts/${p.slug}.html`, root), 'utf8').trimEnd();
+  const faq = p.faq
+    ? `
+    <section class="faq-block">
+      <h2>أسئلة شائعة</h2>
+${p.faq.map((f) => `      <h3>${esc(f.q)}</h3>\n      <p>${esc(f.a)}</p>`).join('\n')}
+    </section>
+`
+    : '';
+  const closing = p.closing
+    ? `
+    <section class="closing">
+      <h2>${esc(p.closing.title)}</h2>
+      <p>${p.closing.text}</p>
+      <p class="cta-row">
+        <a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ من المتصفح</a>
+        <a class="btn" href="/manhaj">تصفّح المناهج</a>
+      </p>
+    </section>
+`
+    : '';
+  return `${head(p.title, p.description, `/blog/${p.slug}`, articleLd(p))}
+<main class="wrap post">
+  <article>
+    <span class="post-kicker">${esc(p.kicker)}</span>
+    <h1>${esc(p.title)}</h1>
+    <p class="post-meta"><time datetime="${p.date}">${esc(p.dateLabel)}</time> · ${arabicNum(p.minutes)} دقائق قراءة</p>
+
+    <p class="lede">${esc(p.description)}</p>
+
+${body}
+${faq}${closing}  </article>
+</main>
+${footer()}`;
+};
+
 // ── /blog ───────────────────────────────────────────────────────────────────
 const indexPage = () => `${head(
   'مدونة اقرأ — أدوات وأفكار للمعلم',
@@ -322,11 +408,13 @@ ${footer(true)}`;
 mkdirSync(new URL('./blog/', root), { recursive: true });
 writeFileSync(new URL('./blog.html', root), indexPage(), 'utf8');
 
-const prompts = posts.find((p) => p.slug === '100-prompts-for-teachers');
-writeFileSync(new URL(`./blog/${prompts.slug}.html`, root), promptsPost(prompts), 'utf8');
+// The prompt library has its own bespoke template; every other post is an
+// article rendered from data/posts/<slug>.html.
+for (const p of posts) {
+  const html = p.slug === '100-prompts-for-teachers' ? promptsPost(p) : articlePost(p);
+  writeFileSync(new URL(`./blog/${p.slug}.html`, root), html, 'utf8');
+}
 
 console.log(
-  `wrote blog.html + ${posts.length} post page(s) — ${general.length} general + ${iqraa.length} iqraa = ${
-    general.length + iqraa.length
-  } prompts`,
+  `wrote blog.html + ${posts.length} post page(s) (prompt library: ${general.length} general + ${iqraa.length} iqraa)`,
 );
