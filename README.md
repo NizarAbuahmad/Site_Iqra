@@ -12,6 +12,24 @@ The marketing site. Static HTML, no build step. Vercel serves it; a push to
   write contacts) it mails the address to `FEEDBACK_TO` instead, so nothing
   is lost. Check it with `node --test tests/waitlist.test.mjs`
 - `tools-make-favicon.py` — regenerates the raster icons from `favicon.svg`
+- `data/blog-posts.json`, `data/posts/`, `tools-build-blog.mjs` — the blog (below)
+
+## Adding a blog post
+
+Posts are generated, and the generated HTML is committed (no build on deploy).
+
+1. Add an entry at the top of `data/blog-posts.json` (`slug`, `title`,
+   `description`, `date`, `dateLabel`, `minutes`, `kicker`; optional `about`,
+   `faq: [{q, a}]` as plain text, and `closing: {title, text}`).
+2. Write the body as markup in `data/posts/<slug>.html`. The title, dates, FAQ
+   and closing panel are added around it by the generator.
+3. `node tools-build-blog.mjs`, then `node tools-build-curriculum.mjs` (the
+   second one owns `sitemap.xml` and `llms.txt` and reads the same JSON), and
+   commit what they write.
+
+The FAQ is rendered from the same list as its structured data, so the visible
+questions and the schema cannot drift. `100-prompts-for-teachers` is the one
+bespoke post; every other slug uses the article template.
 
 ## The contact form needs two environment variables
 
