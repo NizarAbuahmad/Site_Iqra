@@ -24,7 +24,8 @@ FONT = r"C:\Windows\Fonts\segoeuib.ttf"
 HEADLINE = ["وقت أقل للتحضير.", "وقت أكثر للتعليم."]
 EYEBROW = "للمعلمين والمدارس في الأردن"
 SUB = "خطط دروس · أوراق عمل · اختبارات قصيرة · أنشطة صفية"
-BRAND = "اقرأ · مساعد المعلّم العربي"
+BRAND = "مساعد المعلّم العربي"
+LOGO = "img/logo-lockup-white.png"  # the white lockup, rendered from logo-lockup-white.svg
 
 _reshaper = arabic_reshaper.ArabicReshaper(
     configuration={"delete_harakat": False, "support_ligatures": True}
@@ -89,7 +90,14 @@ f_head = min((fit(h, 56, COL) for h in HEADLINE), key=lambda f: f.size)
 line(HEADLINE[0], f_head, (255, 255, 255), 200)
 line(HEADLINE[1], f_head, (255, 255, 255), 200 + f_head.size + 22)
 line(SUB, fit(SUB, 28, COL), MUTED, 410)
-line(BRAND, ImageFont.truetype(FONT, 26), TEAL, 470)
+# The lockup, with the descriptor to its left, both on one baseline.
+logo = Image.open(LOGO).convert("RGBA")
+lh = 66
+logo = logo.resize((round(logo.width * lh / logo.height), lh), Image.LANCZOS)
+base.paste(logo, (RIGHT - logo.width, 468), logo)
+f_brand = ImageFont.truetype(FONT, 26)
+t = ar(BRAND)
+d.text((RIGHT - logo.width - 28 - d.textlength(t, font=f_brand), 468 + (lh - 34) // 2), t, font=f_brand, fill=AQUA)
 
 base.save(OUT, "JPEG", quality=88, optimize=True)
 print(f"wrote {OUT} {base.size}, headline at {f_head.size}px in a {COL}px column")
