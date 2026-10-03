@@ -148,6 +148,23 @@ table.chooser{width:100%; border-collapse:collapse; font-size:15.5px}
 ol.timeline{list-style:none; padding:0; margin:0 0 18px; max-width:66ch}
 ol.timeline li{margin:0 0 10px; padding:12px 16px; background:var(--card); border:1px solid var(--border); border-radius:14px}
 
+/* The sticky header is 84px; a contents link would otherwise leave the heading
+   flush against its edge. */
+.post h2{scroll-margin-top:104px}
+
+/* «الخلاصة»: the answer, first. The chip tint is the one the kicker uses. */
+.tldr{margin:6px 0 24px; padding:18px 22px; background:#E6F7F6; border-radius:16px; border-inline-start:4px solid var(--teal-ink); max-width:66ch}
+.tldr-title{margin:0 0 6px; font-weight:700; font-size:15px; color:var(--teal-ink)}
+.tldr p:last-child{margin:0}
+
+.toc{margin:0 0 30px; padding:18px 22px; background:var(--card); border:1px solid var(--border); border-radius:16px}
+.toc-title{margin:0 0 8px; font-weight:700}
+.toc ol{max-width:none; margin:0; padding-inline-start:24px}
+.toc li{margin:5px 0}
+.toc a{color:var(--navy); text-decoration:none}
+.toc a:hover{color:var(--teal-ink); text-decoration:underline}
+@media (min-width:720px){.toc ol{columns:2; column-gap:36px}}
+
 .faq-block h3{font-size:18px; line-height:1.55; margin:24px 0 6px}
 .faq-block p{margin:0; max-width:66ch; color:var(--muted)}
 

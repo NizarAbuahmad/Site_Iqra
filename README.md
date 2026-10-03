@@ -19,17 +19,25 @@ The marketing site. Static HTML, no build step. Vercel serves it; a push to
 Posts are generated, and the generated HTML is committed (no build on deploy).
 
 1. Add an entry at the top of `data/blog-posts.json` (`slug`, `title`,
-   `description`, `date`, `dateLabel`, `minutes`, `kicker`; optional `about`,
-   `faq: [{q, a}]` as plain text, and `closing: {title, text}`).
-2. Write the body as markup in `data/posts/<slug>.html`. The title, dates, FAQ
-   and closing panel are added around it by the generator.
-3. `node tools-build-blog.mjs`, then `node tools-build-curriculum.mjs` (the
-   second one owns `sitemap.xml` and `llms.txt` and reads the same JSON), and
-   commit what they write.
+   `description`, `date`, `dateLabel`, `minutes`, `kicker`; and the
+   `summary` — the 3-sentence «الخلاصة» box shown first, which search snippets
+   and AI answers quote; optional `about`, `faq: [{q, a}]` as plain text, and
+   `closing: {title, text}`).
+2. Write the body as markup in `data/posts/<slug>.html`. The title, dates,
+   summary box, contents list (built from the `<h2>`s), FAQ and closing panel
+   are added around it by the generator.
+3. `python tools-make-og-posts.py` — the post's 1200×630 share card,
+   `img/og/<slug>.jpg`. Without it the build warns and the post shares the
+   homepage card.
+4. `node tools-build-blog.mjs`, then `node tools-build-curriculum.mjs` (the
+   second one owns `sitemap.xml`, with a `<lastmod>` for blog URLs, and
+   `llms.txt`, and reads the same JSON), and commit what they write.
 
-The FAQ is rendered from the same list as its structured data, so the visible
-questions and the schema cannot drift. `100-prompts-for-teachers` is the one
-bespoke post; every other slug uses the article template.
+The build also rewrites the «من المدونة» strip on the homepage (the newest
+three posts), between the `blog:latest` markers in `index.html` — edit the data,
+not that block. The FAQ is rendered from the same list as its structured data,
+so the visible questions and the schema cannot drift. `100-prompts-for-teachers`
+is the one bespoke post; every other slug uses the article template.
 
 ## The contact form needs two environment variables
 
