@@ -306,6 +306,15 @@ for (const p of data) {
 const blogPosts = JSON.parse(
   readFileSync(new URL('./data/blog-posts.json', root), 'utf8'),
 ).posts;
+// <lastmod> only where it is true: a blog post's own date (from the data file,
+// not the file's mtime, which every unrelated regeneration would change). The
+// curriculum pages are rebuilt wholesale from one snapshot, so a lastmod there
+// would claim a freshness the content did not earn. /blog moves with its
+// newest post.
+const lastmod = new Map([
+  ['/blog', blogPosts.map((p) => p.updated || p.date).sort().at(-1)],
+  ...blogPosts.map((p) => [`/blog/${p.slug}`, p.updated || p.date]),
+]);
 const urls = [
   '/', '/manhaj', '/privacy', '/blog',
   ...blogPosts.map((p) => `/blog/${p.slug}`),
@@ -318,7 +327,9 @@ writeFileSync(new URL('./sitemap.xml', root),
   No <priority> or <changefreq>: Google ignores both and they only rot.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url><loc>${SITE}${u}</loc></url>`).join('\n')}
+${urls
+  .map((u) => `  <url><loc>${SITE}${u}</loc>${lastmod.has(u) ? `<lastmod>${lastmod.get(u)}</lastmod>` : ''}</url>`)
+  .join('\n')}
 </urlset>
 `, 'utf8');
 
