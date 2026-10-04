@@ -6,7 +6,7 @@
 main{padding-top:8px}
 .lede{font-size:18px; color:var(--muted); margin:0 0 28px; max-width:64ch}
 .post-kicker{
-  display:inline-block; background:#E6F7F6; color:var(--teal-ink);
+  display:inline-block; background:#E3F2EF; color:var(--teal-ink);
   font-size:14px; font-weight:600; padding:5px 13px; border-radius:999px;
 }
 .post-meta{color:var(--muted); font-size:14px; margin:10px 0 0}
@@ -55,7 +55,7 @@ main{padding-top:8px}
   border:1px solid var(--border); color:var(--muted); transition:.2s;
 }
 .chip:hover{border-color:var(--teal-ink); color:var(--teal-ink)}
-.chip.is-on{background:#E6F7F6; border-color:#E6F7F6; color:var(--teal-ink)}
+.chip.is-on{background:#E3F2EF; border-color:#E3F2EF; color:var(--teal-ink)}
 .search input{
   width:100%; font:inherit; font-size:16px; color:var(--navy);
   background:var(--bg); border:1px solid var(--border);
@@ -89,7 +89,7 @@ main{padding-top:8px}
 /* `code.` not `.pc-code`: the generic `.post code` rule above is (0,1,1) and
    would otherwise win, dressing the card's label as inline code. */
 code.pc-code{
-  display:inline-block; background:#E6F7F6; border:0; color:var(--teal-ink);
+  display:inline-block; background:#E3F2EF; border:0; color:var(--teal-ink);
   font-family:inherit; font-weight:700; font-size:15px;
   padding:4px 12px; border-radius:999px; direction:ltr; unicode-bidi:plaintext;
 }
@@ -101,7 +101,7 @@ code.pc-code{
   background:var(--teal-ink); border:1px solid var(--teal-ink); color:#fff;
   transition:background .2s;
 }
-.pc-copy:hover{background:#00605A}
+.pc-copy:hover{background:#00564F}
 .pc-copy.is-done{background:var(--card); color:var(--teal-ink)}
 .pc-open{
   font-size:14px; font-weight:600; color:var(--teal-ink);
@@ -153,7 +153,7 @@ ol.timeline li{margin:0 0 10px; padding:12px 16px; background:var(--card); borde
 .post h2{scroll-margin-top:104px}
 
 /* «الخلاصة»: the answer, first. The chip tint is the one the kicker uses. */
-.tldr{margin:6px 0 24px; padding:18px 22px; background:#E6F7F6; border-radius:16px; border-inline-start:4px solid var(--teal-ink); max-width:66ch}
+.tldr{margin:6px 0 24px; padding:18px 22px; background:#E3F2EF; border-radius:16px; border-inline-start:4px solid var(--teal-ink); max-width:66ch}
 .tldr-title{margin:0 0 6px; font-weight:700; font-size:15px; color:var(--teal-ink)}
 .tldr p:last-child{margin:0}
 
