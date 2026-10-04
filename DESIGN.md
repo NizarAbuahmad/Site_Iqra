@@ -3,15 +3,15 @@
 name: iqrra.com
 description: An evidence-first Arabic marketing site for a teacher-facing AI tool — real product screenshots over illustration, contrast-audited teal, editorial restraint.
 colors:
-  primary: "#007A72"          # teal-ink — every button, link, active state; 5.22:1 white-on-fill
+  primary: "#006D65"          # teal-ink — every button, link, active state; 6.22:1 white-on-fill
   on-primary: "#ffffff"
   surface: "#ffffff"           # card
-  background: "#F5F7FA"
-  text: "#081B3A"               # navy
-  text-muted: "#5A6A7D"
+  background: "#F6F5F1"
+  text: "#0B1B33"               # navy
+  text-muted: "#5C6675"
   accent: "#34D6C6"             # aqua — AI/highlight moments (dots, closing-panel CTA), never body text
   brand: "#00A99D"              # logo teal — decorative/logo only, 2.93:1, fails text contrast
-  border: "#DDE6E8"
+  border: "#E6E3DB"
   error: "#B4232A"
 typography:
   display:
@@ -48,14 +48,14 @@ components:
     rounded: "{rounded.md}"
     padding: "14px 28px"
   button-primary-hover:
-    backgroundColor: "#00605A"
+    backgroundColor: "#00564F"
   button-ghost:
     backgroundColor: "{colors.surface}"
     borderColor: "{colors.border}"
     textColor: "{colors.text}"
     rounded: "{rounded.md}"
   chip:
-    backgroundColor: "#E6F7F6"
+    backgroundColor: "#E3F2EF"
     textColor: "{colors.primary}"
     rounded: "{rounded.full}"
   card:
@@ -96,10 +96,10 @@ components:
 **Light or dark:** Light only, deliberately. The use scene is a teacher skimming this page on a phone in daylight to decide whether to try the app — not a low-light "dev tool" context. The in-app product (different mode, different scene) has its own light/dark handling; this marketing site does not need to match it.
 
 Named rules:
-- `primary` (`#007A72`) carries every interactive element: links, buttons, active nav state, focus rings.
+- `primary` (`#006D65`) carries every interactive element: links, buttons, active nav state, focus rings.
 - `brand` (`#00A99D`, the literal logo hue) is decoration-only — used for the header mark's background and nothing that carries text, because it fails WCAG AA as a text color (2.93:1).
 - `accent` (aqua `#34D6C6`) marks "AI is doing something" moments: the lead phone's dot in the header mark, the closing panel's CTA button, active pagination dots. It never carries body text.
-- `text-muted` (`#5A6A7D`) is for secondary copy only; primary copy always uses `text` (navy) or white-on-teal, never gray-on-gray.
+- `text-muted` (`#5C6675`) is for secondary copy only; primary copy always uses `text` (navy) or white-on-teal, never gray-on-gray.
 - Dark surfaces (the closing CTA panel) use `navy` as a solid fill with white/aqua text — not a lightness-inverted version of the light palette, a deliberate dark card sitting inside an otherwise light page.
 
 ## Typography
@@ -129,7 +129,7 @@ Nested elements keep inner radius smaller than outer (e.g. a 24px card never con
 
 ## Components
 
-- **button-primary**: solid teal-ink fill, white text, 12px radius. Hover darkens to `#00605A` (never a gradient). Focus-visible gets a 3px teal outline offset 3px.
+- **button-primary**: solid teal-ink fill, white text, 12px radius. Hover darkens to `#00564F` (never a gradient). Focus-visible gets a 3px teal outline offset 3px.
 - **button-ghost**: white fill, bordered, navy text; hover only changes border/text color to teal-ink — no background shift.
 - **chip** (`.eyebrow`, `.beta`): light teal tint background, teal-ink text, full radius. Functional labels (audience targeting, trial status), not decoration — see Do's and Don'ts on the kicker pattern.
 - **card** (`.feat`, `.faq-item`, `.ask`): white surface, 1px border, soft shadow, 20–24px radius. Never nested inside another card.
@@ -163,3 +163,4 @@ Nested elements keep inner radius smaller than outer (e.g. a 24px card never con
 | 2026-09-28 | Proposed, not yet adopted: distinct Arabic display face for `h1` only (Markazi Text or El Messiri candidates) | Needs a live Google Fonts availability/weight check before implementation — skipped this session by user choice |
 | 2026-09-28 | Proposed, not yet adopted: one small custom-illustrated "hours→minutes" motif, teal/aqua/navy only, no face/emoji | Real asset to commission/draw, not to fake with CSS shapes; kept out of scope for this pass |
 | 2026-09-28 | Declined this session: AI-generated visual mockup variants via gstack's design tool | User chose to document + drill into fonts/illustration only, not generate rendered comparisons |
+| 2026-10-04 | Palette now equals the app's (`artifacts/mobile/constants/colors.ts`): teal-ink #007A72→#006D65, navy #081B3A→#0B1B33, bg #F5F7FA→#F6F5F1 (warm), muted, border and chip tint likewise | Theme review: the near-copy made the site cool-grey and the app warm-grey, so a teacher tapping «جرّب اقرأ مجانًا» saw the product change colour. Teal/navy/paper kept over chalkboard-green and notebook-blue alternatives; the app's values win because they are contrast-audited in both themes |

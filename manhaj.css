@@ -4,9 +4,9 @@
 
 :root{
   /* --teal-ink: see docs/landing rationale (5.22:1 white-on-fill, 4.72:1 on
-     #E6F7F6 chips). --teal stays for decorative/border-only/logo use. */
-  --navy:#081B3A; --teal:#00A99D; --teal-ink:#007A72; --aqua:#34D6C6;
-  --bg:#F5F7FA; --card:#fff; --muted:#5A6A7D; --border:#DDE6E8;
+     #E3F2EF chips). --teal stays for decorative/border-only/logo use. */
+  --navy:#0B1B33; --teal:#00A99D; --teal-ink:#006D65; --aqua:#34D6C6;
+  --bg:#F6F5F1; --card:#fff; --muted:#5C6675; --border:#E6E3DB;
 }
 *{box-sizing:border-box}
 body{
@@ -20,7 +20,7 @@ a{color:inherit}
 
 /* header — same furniture as the homepage, minus the section nav, which would
    point at anchors these pages do not have. */
-header{padding:20px 0; background:rgba(245,247,250,.9); backdrop-filter:blur(8px);
+header{padding:20px 0; background:rgba(246,245,241,.9); backdrop-filter:blur(8px);
        position:sticky; top:0; z-index:10; border-bottom:1px solid var(--border)}
 header .wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
 .brand{display:flex; align-items:center; gap:9px; font-weight:700; font-size:21px; text-decoration:none}
