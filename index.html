@@ -212,10 +212,8 @@
   /* Header actions sit outside <nav> so the mobile rule that hides the
      section links does not take the two buttons with it. */
   .head-cta{display:flex; align-items:center; gap:8px}
-  /* The full label needs ~363px beside the other button and the logo; at
-     360px (the commonest Android width) it wrapped the header onto two rows
-     and pushed the hero down. Phones get the short one. */
-  .head-cta .sm{display:none}
+  .menu-btn{display:none}
+  .nav-android{display:none}
   .btn-sm{display:inline-block; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; white-space:nowrap; border:1px solid var(--border); color:var(--navy); background:var(--card)}
   .btn-sm:hover{border-color:var(--teal-ink); color:var(--teal-ink)}
   .btn-sm-primary{background:var(--teal-ink); color:#fff; border-color:var(--teal-ink)}
@@ -223,18 +221,26 @@
   .btn-sm:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
 
   @media(max-width:640px){
-    nav{display:none}
-    .head-cta{margin-inline-start:auto}
+    .head-cta{margin-inline-start:auto; gap:6px}
     .beta{display:none}
-    /* 10px, not 12: at 12 the header wants 363px and a 360px-wide Android
-       screen — one of the most common there is — clips it. */
-    .btn-sm{padding:8px 10px}
-    .head-cta{gap:6px}
     /* The header is sticky, so its height is taken off every screen. 20px of
        padding each side was 84px in all; the buttons are 43px tall. */
     header{padding:12px 0}
-    .head-cta .lg{display:none}
-    .head-cta .sm{display:inline}
+    /* Phones: the links collapse into a menu under the header. The Android
+       button moves into it (the hero has its own form), so the row holds only
+       the logo, the one trial button and the menu button at 360px. */
+    .head-cta .btn-sm:not(.btn-sm-primary){display:none}
+    .nav-android{display:block}
+    .menu-btn{display:inline-grid; place-items:center; width:44px; height:44px; padding:0; border:1px solid var(--border); border-radius:10px; background:var(--card); color:var(--navy); cursor:pointer}
+    .menu-btn:hover{border-color:var(--teal-ink); color:var(--teal-ink)}
+    .menu-btn:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
+    .menu-btn .x, header.menu-open .menu-btn .bars{display:none}
+    header.menu-open .menu-btn .x{display:block}
+    nav{display:none; position:absolute; top:100%; inset-inline:0; flex-direction:column; gap:0; margin:0; padding:6px 24px 14px; background:var(--bg); border-bottom:1px solid var(--border); box-shadow:0 14px 26px -12px rgba(8,27,58,.22)}
+    header.menu-open nav{display:flex}
+    nav a{padding:13px 0; font-size:17px; color:var(--navy); border-bottom:1px solid var(--border)}
+    nav a:last-child{border-bottom:0}
+    nav a:focus-visible{outline-offset:-3px}
   }
 
   /* buttons */
@@ -426,8 +432,11 @@
   .video{max-width:760px; margin:40px auto 0}
   .video-play{display:block; width:100%; padding:0; border:0; background:none; cursor:pointer; position:relative; border-radius:20px; overflow:hidden; line-height:0}
   .video-play img{width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; display:block; background:var(--card)}
-  .video-play .play{position:absolute; inset:0; display:grid; place-items:center; background:rgba(8,27,58,.28); transition:background .15s}
-  .video-play:hover .play{background:rgba(8,27,58,.42)}
+  /* The poster is our own navy card, so no dimming layer; aqua-on-navy is the
+     same pairing as the closing panel's button. */
+  .video-play .play{position:absolute; inset:0; display:grid; place-items:center}
+  .video-play:hover .play svg{transform:scale(1.06)}
+  .video-play .play svg{transition:transform .15s}
   .video-play:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
   .video iframe{width:100%; aspect-ratio:16/9; border:0; border-radius:20px; display:block}
   .video-cap{text-align:center; color:var(--muted); font-size:15px; margin:14px 0 0}
@@ -475,7 +484,9 @@
      lead line and the status line at hero-paragraph size with a 32px margin,
      so both are restated at (0,2,0)+. */
   .hero-wait{max-width:520px; margin:36px auto 0; align-items:stretch; text-align:start}
-  .hero .hero-wait .wait-lead{flex-basis:100%; margin:0 0 2px; font-size:15px; font-weight:600; color:var(--navy); text-align:center; max-width:none}
+  /* Secondary to the trial button above it: muted lead, ghost submit (the
+     markup), so the hero has one solid call to action. */
+  .hero .hero-wait .wait-lead{flex-basis:100%; margin:0 0 2px; font-size:15px; font-weight:400; color:var(--muted); text-align:center; max-width:none; text-wrap:balance}
   .hero .hero-wait .say{margin:4px 0 0; font-size:15px; max-width:none; text-align:center}
   .hero .say-done{margin:36px auto 0; font-size:16px}
   /* After .hero-wait above, or its base margin wins on source order. */
@@ -524,16 +535,21 @@
       <img src="/logo-lockup.svg" width="90" height="40" alt="اقرأ">
     </span>
     <span class="beta">نسخة تجريبية</span>
-    <nav>
+    <nav id="site-nav">
       <a href="/manhaj">المناهج</a>
       <a href="#features">المزايا</a>
       <a href="#how">كيف يعمل اقرأ؟</a>
       <a href="#faq">الأسئلة الشائعة</a>
       <a href="/blog">المدونة</a>
+      <a class="nav-android" href="#android">انضم لتجربة أندرويد</a>
     </nav>
     <div class="head-cta">
       <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
-      <a class="btn-sm" href="#android"><span class="lg">انضم لتجربة أندرويد</span><span class="sm">تجربة أندرويد</span></a>
+      <a class="btn-sm" href="#android">انضم لتجربة أندرويد</a>
+      <button class="menu-btn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="site-nav">
+        <svg class="bars" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="x" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -562,7 +578,7 @@
         لا تملأ هذا الحقل
         <input name="website" tabindex="-1" autocomplete="off">
       </label>
-      <button class="btn btn-primary" type="submit">أرسل لي دعوة التجربة</button>
+      <button class="btn btn-ghost" type="submit">أرسل لي دعوة التجربة</button>
       <p class="say fine" role="status" aria-live="polite">يُفضَّل بريد حساب Google الذي على هاتفك. نستخدمه للدعوة والإشعار فقط.</p>
     </form>
     <p class="note">مجاني خلال النسخة التجريبية · يعمل من المتصفح على الحاسوب والهاتف</p>
@@ -640,13 +656,11 @@
     <div class="video">
       <button type="button" class="video-play" id="video-play"
               aria-label="شغّل الفيديو: شاهد كيف تحضّر حصّتك مع اقرأ">
-        <img src="https://i.ytimg.com/vi/MT67Oh7TySk/maxresdefault.jpg" alt=""
-             width="1280" height="720" loading="lazy"
-             onerror="this.src='https://i.ytimg.com/vi/MT67Oh7TySk/hqdefault.jpg'">
+        <img src="img/video-poster.jpg" alt="" width="1280" height="720" loading="lazy">
         <span class="play" aria-hidden="true">
           <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-            <circle cx="36" cy="36" r="34" fill="#006D65"/>
-            <path d="M29 24.5 49 36 29 47.5z" fill="#fff"/>
+            <circle cx="36" cy="36" r="34" fill="#34D6C6"/>
+            <path d="M29 24.5 49 36 29 47.5z" fill="#0B1B33"/>
           </svg>
         </span>
       </button>
@@ -833,6 +847,19 @@
 </footer>
 
 <script>
+  // Phone menu: the section links live in <nav>, which the CSS collapses under
+  // 640px. Closes on a link tap (same-page anchors do not reload) and Escape.
+  (function () {
+    var h = document.querySelector('header'), b = h.querySelector('.menu-btn');
+    function set(open) {
+      h.classList.toggle('menu-open', open);
+      b.setAttribute('aria-expanded', open);
+    }
+    b.addEventListener('click', function () { set(!h.classList.contains('menu-open')); });
+    h.querySelector('nav').addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+  })();
+
   // Swap the poster for the real player only on click. nocookie host so
   // nothing is set until someone actually chooses to watch.
   (function () {
