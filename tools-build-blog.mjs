@@ -500,6 +500,19 @@ ${footer(true)}`;
  * crawlers a one-click path to it) without a hand edit. Everything outside
  * the markers is left alone; a missing marker is an error, not a silent skip.
  */
+/**
+ * The homepage card's picture: the first number in the title and the word
+ * after it («٨ طرق», «١٠٠ أمر»), drawn as text. Every post so far is a numbered
+ * list; a title without a number gets a plain card rather than a made-up one.
+ */
+function thumb(title) {
+  const m = title.match(/([٠-٩0-9]+)\s+([؀-ۿ]+)/);
+  return m
+    ? `
+          <span class="bs-thumb" aria-hidden="true"><span class="bs-num">${m[1]}</span><span class="bs-unit">${esc(m[2])}</span></span>`
+    : '';
+}
+
 function injectLatest() {
   const START = '<!-- blog:latest:start';
   const END = '<!-- blog:latest:end -->';
@@ -518,7 +531,7 @@ ${posts
   .slice(0, 3)
   .map(
     (p) => `      <li>
-        <a href="/blog/${p.slug}">
+        <a href="/blog/${p.slug}">${thumb(p.title)}
           <span class="bs-kicker">${esc(p.kicker)}</span>
           <b>${esc(p.title)}</b>
           <span class="bs-desc">${esc(p.description)}</span>
