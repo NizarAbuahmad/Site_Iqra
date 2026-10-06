@@ -278,11 +278,11 @@
   /* Screens are 540x1200; shown full they'd be ~600px tall each and bury the
      page. Fixed-height window + top crop + a fade at the bottom instead. */
   .shots{
-    --shot-h:clamp(290px,40vw,420px); --shot-drop:22px;
+    --shot-h:clamp(300px,46vw,520px); --shot-drop:22px;
     margin-top:56px; display:flex; justify-content:center; align-items:flex-start;
     gap:clamp(10px,2.6vw,26px);
   }
-  .shots figure{margin:0; width:clamp(146px,20vw,214px)}
+  .shots figure{margin:0; width:clamp(150px,22vw,260px)}
   .shots img{
     display:block; width:100%;
     height:calc(var(--shot-h) - var(--shot-drop)); margin-top:var(--shot-drop);
@@ -300,7 +300,7 @@
     -webkit-mask-image:linear-gradient(to bottom,#000 86%,transparent);
     mask-image:linear-gradient(to bottom,#000 86%,transparent);
   }
-  .shots .lead{width:clamp(172px,24vw,250px)}
+  .shots .lead{width:clamp(176px,27vw,300px)}
   .shots .lead img{height:var(--shot-h); margin-top:0; box-shadow:0 20px 36px -8px rgba(8,27,58,.3)}
   .shots figcaption{margin-top:10px; font-size:14px; line-height:1.6; color:var(--muted)}
   .shots figcaption b{display:block; color:var(--navy); font-weight:600}
@@ -322,8 +322,8 @@
       scroll-snap-type:x mandatory; scrollbar-width:none;
     }
     .shots::-webkit-scrollbar{display:none}
-    .shots figure,.shots .lead{width:min(62vw,220px); scroll-snap-align:start}
-    .shots img,.shots .lead img{height:clamp(280px,72vw,340px)}
+    .shots figure,.shots .lead{width:min(70vw,250px); scroll-snap-align:start}
+    .shots img,.shots .lead img{height:clamp(320px,88vw,400px)}
     /* A peeking phone invites the swipe; a peeking sentence just looks cut in
        half. Hold the neighbours' captions back so only one is being read.
        No .is-near means no JS, and then every caption stays at full strength. */
@@ -356,25 +356,20 @@
   /* Evidence beside the claims: the curriculum screen proves the first card.
      Cards fall to 2x2 on their own in the narrower column. */
   .features-split{display:grid; grid-template-columns:minmax(0,300px) minmax(0,1fr); gap:clamp(24px,4vw,48px); align-items:center}
-  /* 540/810 crops the empty lower third of the screen but keeps the
-     "المركز الوطني لتطوير المناهج" line, which is the whole point of showing it. */
+  /* The image is cut to end on a whole row of textbook figures, so the ratio
+     is its own (540x735), not the 540x1200 of the phone screens. */
   /* height:auto is load-bearing — the height="1200" attribute would otherwise
      win over aspect-ratio and render the still 300x1200. */
-  .shot-still{width:100%; height:auto; aspect-ratio:540/810; object-fit:cover; object-position:top center;
+  .shot-still{width:100%; height:auto; aspect-ratio:540/735; object-fit:cover; object-position:top center;
     border:1px solid var(--border); border-radius:24px; background:var(--card);
     box-shadow:0 16px 30px -6px rgba(8,27,58,.22)}
   @media(max-width:820px){.features-split{grid-template-columns:1fr} .shot-still{max-width:300px; margin:0 auto 8px}}
 
-  /* Feature cards carry the page's most specific claims, so they get their
-     own device rather than the icon-in-a-rounded-square shape every AI
-     landing page reaches for: an oversized Arabic-indic ordinal, the same
-     counting language .step already uses, turned into a watermark instead
-     of a badge so this section reads as its own peak, not a copy of "how
-     it works" below it. */
-  .feat{position:relative; background:var(--card); border:1px solid var(--border); border-radius:20px; padding:34px 28px 26px; overflow:hidden}
-  .feat-num{position:absolute; top:-6px; inset-inline-end:16px; font-size:64px; font-weight:700; line-height:1; color:var(--teal-ink); opacity:.13}
-  .feat h3{position:relative; margin:0 0 10px; font-size:19px; max-width:85%}
-  .feat p{position:relative; margin:0; color:var(--muted); font-size:15.5px}
+  /* Feature cards: plain cards. The numbers belong to .step below; two numbered
+     lists in a row read as one sequence of seven. */
+  .feat{background:var(--card); border:1px solid var(--border); border-radius:20px; padding:26px 28px}
+  .feat h3{margin:0 0 10px; font-size:19px}
+  .feat p{margin:0; color:var(--muted); font-size:15.5px}
 
   /* steps */
   .steps{counter-reset:s; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px}
@@ -594,9 +589,9 @@
         <figcaption><b>جهّز مواد حصّتك</b>خطط دروس، وأوراق عمل، واختبارات، وشرائح عرض في مكان واحد</figcaption>
       </figure>
       <figure>
-        <img src="img/chat.jpg" width="540" height="1200"
-             alt="مساعد اقرأ يحضّر خطة الدرس ويقترح الأفكار ويعدّ الاختبارات.">
-        <figcaption><b>اطلب من مساعد اقرأ</b>اكتب ما تحتاجه، واحصل على محتوى يمكنك مراجعته وتعديله</figcaption>
+        <img src="img/plan-edit.jpg" width="540" height="1200"
+             alt="خطة درس جاهزة في التطبيق: الأهداف والمواد اللازمة والتمهيد، وبجانب كل بند أيقونات للتعديل والحذف وزر لإضافة بند.">
+        <figcaption><b>راجع المحتوى وعدّله</b>عدّل أي بند أو احذفه أو أضف إليه بما يناسب طلبتك</figcaption>
       </figure>
     </div>
     <div class="shot-dots" aria-label="شاشات التطبيق" hidden></div>
@@ -608,26 +603,22 @@
     <h2>تحضير ينطلق من منهاجك، وقابل للتعديل لصفّك</h2>
     <p class="sub">أنت تعرف طلبتك واحتياجاتهم. اقرأ يساعدك على إعداد المحتوى، وأنت تضيف خبرتك وتختار ما يناسب حصّتك.</p>
     <div class="features-split">
-    <img class="shot-still" src="img/chemistry.jpg" width="540" height="1200" loading="lazy"
-         alt="شاشة مادة داخل التطبيق: الفصلان الدراسيان بعدد وحداتهما ودروسهما، مع الكتاب ودليل المعلم من المركز الوطني لتطوير المناهج.">
+    <img class="shot-still" src="img/plan-lesson.jpg" width="540" height="735" loading="lazy"
+         alt="شاشة خطة الدرس في التطبيق: الدرس «تركيب الاقترانات» مرتبط بالمنهاج الأردني، مع أشكال من الكتاب المدرسي لهذا الدرس وأرقام صفحاتها.">
     <div class="grid">
       <div class="feat">
-        <span class="feat-num" aria-hidden="true">1</span>
         <h3>مرتبط بالدرس الذي تدرّسه</h3>
         <p>حدّد الصف والمادة والوحدة والدرس، ليبني اقرأ المحتوى على نتاجات التعلّم الخاصة به.</p>
       </div>
       <div class="feat">
-        <span class="feat-num" aria-hidden="true">2</span>
         <h3>مراجعة آلية للإجابات الرياضية</h3>
         <p>يراجع اقرأ الإجابات الرياضية آليًا للمساعدة على تقليل الأخطاء، ويوضّح ما يحتاج إلى مراجعتك.</p>
       </div>
       <div class="feat">
-        <span class="feat-num" aria-hidden="true">3</span>
         <h3>أدواتك اليومية في مكان واحد</h3>
         <p>حضّر خطة الدرس، وأوراق العمل، والاختبارات، والأنشطة، وشرائح العرض. وأنشئ تقييمات تشاركها مع طلبتك برابط.</p>
       </div>
       <div class="feat">
-        <span class="feat-num" aria-hidden="true">4</span>
         <h3>تجربة عربية من البداية</h3>
         <p>واجهة عربية واضحة ومحتوى مصمّم لمساعدة المعلّم في الأردن على التحضير والاستخدام داخل الصف.</p>
       </div>

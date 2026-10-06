@@ -85,7 +85,7 @@ components:
 **Key characteristics (what a visitor notices in five seconds):**
 - Real phone screenshots of the actual app, not illustration or stock photography
 - A single confident teal-on-white system, no gradients competing for attention
-- Feature cards carry giant Arabic-indic ordinal numerals (١٢٣٤) as their device, not icon-in-a-circle
+- Feature cards are plain cards beside a real screenshot; the only numbers on the page are the three "how it works" steps
 - Copy states outcomes plainly ("lesson prep in minutes, not hours") — no "unlock the power of..." filler
 - RTL Arabic throughout, IBM Plex Sans Arabic at a readable line-height (1.75 body / 1.45 headline)
 
@@ -141,7 +141,7 @@ Nested elements keep inner radius smaller than outer (e.g. a 24px card never con
 - Do: keep every new interactive element on the `primary` (teal-ink) token — do not introduce a second "brand" color for buttons.
 - Do: use real product screenshots for anything claiming "this is what the app does" — never a mockup, illustration, or stock photo standing in for the product.
 - Do: keep body line-height ≥1.7 for Arabic paragraphs; do not tighten it to match a Latin-typography instinct.
-- Do: give each major section its own device (numerals, screenshot, counter-badge) rather than repeating the same icon-in-circle card shape site-wide.
+- Do: give each major section its own device (screenshot, counter-badge) rather than repeating the same icon-in-circle card shape site-wide.
 - Don't: add a gradient CTA button, a purple/violet accent, or a second unrelated brand hue.
 - Don't: add emoji as icons or bullet points anywhere on this page — every icon on the page today is either a real screenshot or a hand-built SVG mark (the header logo), and that's the standard to hold.
 - Don't: let a stock illustrated "character" template (the kind every AI-tool landing page reaches for) replace the screenshot-led hero — if a custom illustration is added, it must be commissioned/drawn in this palette, restrained in size, and never the load-bearing hero visual.
@@ -165,3 +165,4 @@ Nested elements keep inner radius smaller than outer (e.g. a 24px card never con
 | 2026-09-28 | Declined this session: AI-generated visual mockup variants via gstack's design tool | User chose to document + drill into fonts/illustration only, not generate rendered comparisons |
 | 2026-10-04 | Palette now equals the app's (`artifacts/mobile/constants/colors.ts`): teal-ink #007A72→#006D65, navy #081B3A→#0B1B33, bg #F5F7FA→#F6F5F1 (warm), muted, border and chip tint likewise | Theme review: the near-copy made the site cool-grey and the app warm-grey, so a teacher tapping «جرّب اقرأ مجانًا» saw the product change colour. Teal/navy/paper kept over chalkboard-green and notebook-blue alternatives; the app's values win because they are contrast-audited in both themes |
 | 2026-10-06 | Hero has one solid call to action (the web trial); the Android waitlist submit is a ghost button under a muted lead line. Phones get a menu button that opens the section links, with the Android link moved inside it. The video poster is our own `img/video-poster.jpg` (navy card, new logo), with the aqua-on-navy play button | Review found three solid teal buttons above the fold, no way to reach the section links on a phone, and a YouTube-frame poster carrying the old IQRA artwork (and fetching from i.ytimg.com on load, against the facade's own comment) |
+| 2026-10-06 | Feature-card numerals removed. Hero screenshots: the empty chat screen is replaced by a generated lesson plan with its edit controls (`img/plan-edit.jpg`), the orange chemistry screen beside the features by the lesson's textbook figures (`img/plan-lesson.jpg`), and the three screens are shown about 20% larger | Review found two numbered lists back to back (read as one sequence of seven), an empty-state screen as the third proof point, a solid-orange screen clashing with the teal brand, and screenshot text too small to read. New captures are from the web app in demo mode (the same output app.iqrra.com gives a teacher), 360x800 at 1.5x |
