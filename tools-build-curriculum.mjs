@@ -408,6 +408,29 @@ Coverage figures generated from the same curriculum snapshot that builds
 ${SITE}/manhaj. Last generated: ${today}.
 `, 'utf8');
 
+/**
+ * The hero's proof line, from the same published set as the pages above, so
+ * it can never claim a subject the site does not show. Outcomes are floored to
+ * the hundred and read «أكثر من», so the line stays true between snapshots.
+ */
+{
+  const ar = (n) => n.toLocaleString('ar-EG', { useGrouping: true });
+  const grades = new Set(data.map((p) => p.gradeId)).size;
+  const subjects = new Set(data.map((p) => p.subjectId)).size;
+  const outcomes = data.flatMap((p) => p.books).flatMap((b) => b.units).flatMap((u) => u.lessons)
+    .reduce((n, l) => n + l.objectivesAr.length, 0);
+  const floored = Math.floor(outcomes / 100) * 100;
+  const line = `<p class="stats"><b>${ar(grades)}</b> صفوف · <b>${ar(subjects)}</b> مادة · أكثر من <b>${ar(floored)}</b> نتاج تعلّم من مناهج المركز الوطني لتطوير المناهج</p>`;
+  const url = new URL('./index.html', root);
+  const html = readFileSync(url, 'utf8');
+  const START = '<!-- stats:start'; const END = '<!-- stats:end -->';
+  const a = html.indexOf(START); const b = html.indexOf(END);
+  if (a < 0 || b < a) throw new Error('index.html is missing the stats start/end markers');
+  const open = html.indexOf('-->', a) + 3;
+  const pad = String.fromCharCode(10) + '    ';
+  writeFileSync(url, html.slice(0, open) + pad + line + pad + html.slice(b));
+  console.log(`wrote hero stats: ${grades} grades, ${subjects} subjects, ${outcomes} outcomes`);
+}
 console.log(`wrote manhaj.html + ${data.length} subject pages + sitemap.xml (${urls.length} urls) + llms.txt`);
 if (dropped.length) {
   console.log(`\nheld back ${dropped.length} with objective coverage under ${MIN_OBJECTIVE_COVERAGE * 100}%:`);

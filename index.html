@@ -219,6 +219,8 @@
   .btn-sm-primary{background:var(--teal-ink); color:#fff; border-color:var(--teal-ink)}
   .btn-sm-primary:hover{background:#00564F; color:#fff}
   .btn-sm:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
+  /* Same destination as the hero button, same label; a 360px header has no room for it, so phones get the short form. */
+  .when-narrow{display:none}
 
   @media(max-width:640px){
     .head-cta{margin-inline-start:auto; gap:6px}
@@ -230,6 +232,7 @@
        button moves into it (the hero has its own form), so the row holds only
        the logo, the one trial button and the menu button at 360px. */
     .head-cta .btn-sm:not(.btn-sm-primary){display:none}
+    .when-wide{display:none} .when-narrow{display:inline}
     .nav-android{display:block}
     .menu-btn{display:inline-grid; place-items:center; width:44px; height:44px; padding:0; border:1px solid var(--border); border-radius:10px; background:var(--card); color:var(--navy); cursor:pointer}
     .menu-btn:hover{border-color:var(--teal-ink); color:var(--teal-ink)}
@@ -263,7 +266,15 @@
   /* .hero .note, not .note: ".hero p{margin:0 auto 32px}" outranks a bare
      .note on specificity (0,1,1) vs (0,1,0) and was winning regardless of
      source order, zeroing out this margin-top. */
-  .hero .note{margin-top:28px; font-size:14px; color:var(--muted)}
+  .hero .note{margin-top:18px; font-size:14px; color:var(--muted)}
+  /* Real counts from the curriculum snapshot, written by the build. Numbers in
+     navy, the rest muted: the figures are the proof, the clause is the source. */
+  .hero .stats{margin:8px auto 0; font-size:14px; color:var(--muted); max-width:620px}
+  .hero .stats b{color:var(--navy); font-weight:600}
+  /* 44px tall so the line is a comfortable tap target on a phone. */
+  .android-line{display:inline-flex; align-items:center; gap:6px; min-height:44px; margin-top:18px; font-size:15px; font-weight:600; color:var(--teal-ink); text-decoration:none}
+  .android-line:hover{text-decoration:underline}
+  .android-line:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px; border-radius:6px}
   /* Phones: the sticky header already takes ~83px, so the hero starts higher and
      its two stacked buttons sit closer, to keep the email field near the first
      screen. After .hero above, or the base padding wins on source order. */
@@ -304,6 +315,22 @@
   .shots .lead img{height:var(--shot-h); margin-top:0; box-shadow:0 20px 36px -8px rgba(8,27,58,.3)}
   .shots figcaption{margin-top:10px; font-size:14px; line-height:1.6; color:var(--muted)}
   .shots figcaption b{display:block; color:var(--navy); font-weight:600}
+  /* Desktop: text on the right, the three screens on the left, so the product
+     is on the first screen instead of 900px down. The wrap caps at 1040px, so
+     the screens column is ~450px at every width this applies to: fixed phone
+     widths, and the side phones' height follows their width so object-fit
+     never crops the sides of a screen. */
+  @media(min-width:1024px){
+    .hero{text-align:start; padding:56px 0 64px}
+    .hero .wrap{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:48px; align-items:center}
+    .hero p{margin:0 0 28px; max-width:none}
+    .hero .cta-row{justify-content:flex-start}
+    .hero .stats{margin-inline:0}
+    .shots{margin-top:0; --shot-h:363px; --shot-drop:76px; gap:14px}
+    .shots figure{width:130px}
+    .shots .lead{width:165px}
+    .shots figcaption{font-size:13px; line-height:1.5}
+  }
 
   /* Mobile: the row used to hide two of the three phones outright. The same
      markup becomes a snap strip instead, so every screen stays reachable. No
@@ -498,17 +525,6 @@
   /* Once the button has wrapped under the field, full width reads as the
      feedback form's button does, not as a stray chip. */
   @media(max-width:560px){.inline button{width:100%}}
-  /* The same form in the hero. ".hero p" (0,1,1) would otherwise set the
-     lead line and the status line at hero-paragraph size with a 32px margin,
-     so both are restated at (0,2,0)+. */
-  .hero-wait{max-width:520px; margin:36px auto 0; align-items:stretch; text-align:start}
-  /* Secondary to the trial button above it: muted lead, ghost submit (the
-     markup), so the hero has one solid call to action. */
-  .hero .hero-wait .wait-lead{flex-basis:100%; margin:0 0 2px; font-size:15px; font-weight:400; color:var(--muted); text-align:center; max-width:none; text-wrap:balance}
-  .hero .hero-wait .say{margin:4px 0 0; font-size:15px; max-width:none; text-align:center}
-  .hero .say-done{margin:36px auto 0; font-size:16px}
-  /* After .hero-wait above, or its base margin wins on source order. */
-  @media(max-width:640px){.hero-wait{margin-top:28px} .hero .say-done{margin-top:28px}}
   /* The privacy line sits in the status slot: an error or success replaces it,
      and it needs no height of its own. */
   .say.fine{color:var(--muted); font-size:13px; line-height:1.5}
@@ -564,7 +580,7 @@
       <a class="nav-android" href="#android">انضم لتجربة أندرويد</a>
     </nav>
     <div class="head-cta">
-      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">جرّب إقرأ مجانًا</a>
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com"><span class="when-wide">حضّر حصّتك الأولى مجانًا</span><span class="when-narrow">جرّب مجانًا</span></a>
       <a class="btn-sm" href="#android">انضم لتجربة أندرويد</a>
       <button class="menu-btn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="site-nav">
         <svg class="bars" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -576,33 +592,23 @@
 
 <div class="hero">
   <div class="wrap">
+  <div class="hero-copy">
     <span class="eyebrow">مساعد تحضير للمعلمين وفق المنهاج الأردني</span>
     <h1>وقت أقل للتحضير.<br>وقت أكثر للتعليم.</h1>
-    <p>
-      من خطة الدرس إلى ورقة العمل والاختبار، يساعدك <b class="bn">إقرأ</b> على إعداد مواد حصّتك
-      انطلاقًا من نتاجات التعلّم في المنهاج الأردني. راجعها، وعدّلها بما يناسب
-      طلبتك، ثم اطبعها أو اعرضها في الصف.
-    </p>
+    <p>خطة الدرس، وورقة العمل، والاختبار — يُعدّها <b class="bn">إقرأ</b> من نتاجات التعلّم في المنهاج الأردني، وأنت تراجعها وتعدّلها لصفّك.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://app.iqrra.com">حضّر حصّتك الأولى مجانًا</a>
-      <a class="btn btn-ghost" href="/manhaj">استكشف المناهج المتاحة</a>
+      <a class="btn btn-ghost" href="/manhaj">تصفَّح المناهج</a>
     </div>
-    <!-- Same handler and endpoint as the #android card below; the lead line
-         lives inside the form so a successful signup replaces both. -->
-    <form class="hero-wait inline" data-waitlist novalidate>
-      <p class="wait-lead">تجربة جديدة بانتظارك قريباً على أندرويد! اشترك الآن لتكون من أوائل من يختبر التطبيق، وسنعلمك لحظة توفره على متجر Play</p>
-      <label class="field">
-        <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@example.com" aria-label="البريد الإلكتروني">
-      </label>
-      <label class="trap" aria-hidden="true">
-        لا تملأ هذا الحقل
-        <input name="website" tabindex="-1" autocomplete="off">
-      </label>
-      <button class="btn btn-ghost" type="submit">انضم للتجربة الحصرية</button>
-      <p class="say fine" role="status" aria-live="polite">يُفضَّل بريد حساب Google الذي على هاتفك. نستخدمه للدعوة والإشعار فقط.</p>
-    </form>
     <p class="note">استمتع بالتجربة مجاناً • متوافق تماماً مع متصفحات الأجهزة المحمولة والمكتبية</p>
-    <div class="shots">
+    <!-- stats:start — written by tools-build-curriculum.mjs from data/curriculum.json; edit the snapshot, not this line -->
+    <p class="stats"><b>١٠</b> صفوف · <b>١٣</b> مادة · أكثر من <b>٤٬٤٠٠</b> نتاج تعلّم من مناهج المركز الوطني لتطوير المناهج</p>
+    <!-- stats:end -->
+    <!-- The Android waitlist form lives in #android; the hero keeps one line so
+         it has a single call to action. -->
+    <a class="android-line" href="#android">تطبيق أندرويد قريبًا — انضم إلى قائمة الدعوات <span aria-hidden="true">←</span></a>
+  </div>
+  <div class="shots">
       <figure>
         <img src="img/curriculum.jpg" width="540" height="1200"
              alt="شاشة المنهاج في التطبيق: المواد مرتّبة حسب الصف، وفق المنهاج الأردني.">
@@ -766,7 +772,7 @@
   <div class="wrap">
     <div class="ask">
       <h2>كن من أوائل المعلّمين الذين يجرّبون تطبيق إقرأ</h2>
-      <p class="sub">تطبيق أندرويد قريبًا. سجّل بريدك لتصلك دعوة التجربة المبكرة، ثم إشعار حين ينزل التطبيق على متجر Play. يُفضَّل بريد حساب Google الذي تستخدمه على هاتفك، فالتجربة المبكرة تُفتح عبر ذلك الحساب.</p>
+      <p class="sub">تجربة جديدة بانتظارك قريباً على أندرويد! اشترك الآن لتكون من أوائل من يختبر التطبيق، وسنعلمك لحظة توفره على متجر Play. يُفضَّل بريد حساب Google الذي تستخدمه على هاتفك، فالتجربة المبكرة تُفتح عبر ذلك الحساب.</p>
       <form class="inline" data-waitlist novalidate>
         <label class="field">
           <span>البريد الإلكتروني</span>
@@ -776,7 +782,7 @@
           لا تملأ هذا الحقل
           <input name="website" tabindex="-1" autocomplete="off">
         </label>
-        <button class="btn btn-primary" type="submit">انضم للتجربة الحصرية</button>
+        <button class="btn btn-primary" type="submit">انضم لتجربة أندرويد الحصرية</button>
         <p class="say fine" role="status" aria-live="polite">سنستخدم بريدك لإرسال دعوة التجربة وإشعار الإطلاق فقط.</p>
       </form>
     </div>
@@ -955,7 +961,7 @@
     function done() {
       forms.forEach(function (f) {
         var say = f.querySelector('.say');
-        say.className = 'say ok' + (f.classList.contains('hero-wait') ? ' say-done' : '');
+        say.className = 'say ok';
         say.textContent = 'وصلنا بريدك، شكرًا لك. سنراسلك بدعوة التجربة، ثم نُعلمك حين ينزل التطبيق على متجر Play.';
         // The status line moves out first, or hiding the form would hide it too.
         f.after(say);
