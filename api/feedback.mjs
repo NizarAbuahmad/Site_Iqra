@@ -11,7 +11,7 @@
 
 import { storeSignup } from "./_store.mjs";
 
-const FROM = "اقرأ <feedback@iqrra.com>";
+const FROM = "إقرأ <feedback@iqrra.com>";
 const MAX = { message: 4000, name: 200, contact: 200, context: 300 };
 
 function clean(value, limit) {
@@ -73,7 +73,7 @@ export default async function handler(req, res) {
   <table role="presentation" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;width:100%;background:#fff;border:1px solid #E6E3DB;border-radius:16px;overflow:hidden">
     <tr>
       <td style="background:#0B1B33;padding:20px 24px">
-        <span style="color:#fff;font-size:18px;font-weight:700">اقرأ</span>
+        <span style="color:#fff;font-size:18px;font-weight:700">إقرأ</span>
         <span style="color:#34D6C6;font-size:13px;padding-right:8px">رسالة من الموقع</span>
       </td>
     </tr>

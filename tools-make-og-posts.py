@@ -92,7 +92,7 @@ def card(post):
     logo = logo.resize((round(logo.width * lh / logo.height), lh), Image.LANCZOS)
     img.paste(logo, (LEFT - 10, H - lh - 36), logo)
     f_b = ImageFont.truetype(FONT, 27)
-    tag = ar("مدونة اقرأ للمعلمين")
+    tag = ar("مدونة إقرأ للمعلمين")
     d.text((RIGHT - d.textlength(tag, font=f_b), H - 82), tag, font=f_b, fill=TEAL)
 
     return img, len(lines), size

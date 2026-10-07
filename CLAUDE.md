@@ -1,6 +1,6 @@
 # iqrra.com — agent context
 
-The marketing site for اقرأ (Iqraa). Static HTML, no build step — see
+The marketing site for إقرأ (Iqraa). Static HTML, no build step — see
 [`README.md`](./README.md) for deploy and the contact-form env vars.
 
 ## Design System
