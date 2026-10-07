@@ -35,7 +35,9 @@ Posts are generated, and the generated HTML is committed (no build on deploy).
 
 The build also rewrites the «من المدونة» strip on the homepage (the newest
 three posts), between the `blog:latest` markers in `index.html` — edit the data,
-not that block. The FAQ is rendered from the same list as its structured data,
+not that block. The curriculum build does the same for the hero's proof line
+(grades · subjects · learning outcomes, from the published subjects), between
+the `stats` markers. The FAQ is rendered from the same list as its structured data,
 so the visible questions and the schema cannot drift. `100-prompts-for-teachers`
 is the one bespoke post; every other slug uses the article template.
 
