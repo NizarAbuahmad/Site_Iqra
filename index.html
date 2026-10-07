@@ -294,7 +294,7 @@
     gap:clamp(10px,2.6vw,26px);
   }
   .shots figure{margin:0; width:clamp(150px,22vw,260px)}
-  .shots img{
+  .shots img, .shots video{
     display:block; width:100%;
     height:calc(var(--shot-h) - var(--shot-drop)); margin-top:var(--shot-drop);
     object-fit:cover; object-position:top center;
@@ -312,7 +312,7 @@
     mask-image:linear-gradient(to bottom,#000 86%,transparent);
   }
   .shots .lead{width:clamp(176px,27vw,300px)}
-  .shots .lead img{height:var(--shot-h); margin-top:0; box-shadow:0 20px 36px -8px rgba(8,27,58,.3)}
+  .shots .lead img, .shots .lead video{height:var(--shot-h); margin-top:0; box-shadow:0 20px 36px -8px rgba(8,27,58,.3)}
   .shots figcaption{margin-top:10px; font-size:14px; line-height:1.6; color:var(--muted)}
   .shots figcaption b{display:block; color:var(--navy); font-weight:600}
   /* Desktop: text on the right, the three screens on the left, so the product
@@ -350,7 +350,7 @@
     }
     .shots::-webkit-scrollbar{display:none}
     .shots figure,.shots .lead{width:min(70vw,250px); scroll-snap-align:start}
-    .shots img,.shots .lead img{height:clamp(320px,88vw,400px)}
+    .shots img, .shots video, .shots .lead img, .shots .lead video{height:clamp(320px,88vw,400px)}
     /* A peeking phone invites the swipe; a peeking sentence just looks cut in
        half. Hold the neighbours' captions back so only one is being read.
        No .is-near means no JS, and then every caption stays at full strength. */
@@ -612,8 +612,13 @@
         <figcaption><b>ابدأ من درسِك</b>تصفّح الصفوف والمواد المتاحة، واختر الدرس لترى نتاجات التعلّم الخاصة به</figcaption>
       </figure>
       <figure class="lead">
-        <img src="img/tools.jpg" width="540" height="1200"
-             alt="شاشة أدوات التدريس في التطبيق، والدرس المثبّت في أعلاها: المكتبة، شرائح الدرس، خطة درس، ورقة عمل.">
+        <!-- A 10 s silent clip of the real app (Android recording, 2026-10-06,
+             norm.mp4 223.2-250.2 s: pinned lesson, «أريد خطة درس», the plan
+             appears). The script below swaps it in for this poster unless the
+             reader asked for reduced motion or data saving; it plays once when
+             the card is in view and holds its last frame. -->
+        <img src="img/hero-plan.jpg" width="540" height="1200" data-video="img/hero-plan.mp4"
+             alt="شاشة إقرأ وفي أعلاها الدرس المثبّت «تركيب الاقترانات»: المعلّم يكتب «أريد خطة درس» فتظهر خطة الدرس بأهدافها وموادها.">
         <figcaption><b>جهّز مواد حصّتك</b>خطط دروس، وأوراق عمل، واختبارات، وشرائح عرض في مكان واحد</figcaption>
       </figure>
       <figure>
@@ -1003,6 +1008,36 @@
 </script>
 
 <script>
+  // The lead screenshot becomes a short silent clip of the same screen. The
+  // <img> is the poster and the fallback: no JS, prefers-reduced-motion or
+  // Save-Data all keep the still. It plays once, when the card is in view, and
+  // stops on its last frame, so nothing keeps moving beside the headline.
+  (function () {
+    var img = document.querySelector('.shots img[data-video]');
+    if (!img || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var conn = navigator.connection;
+    if (conn && conn.saveData) return;
+
+    var video = document.createElement('video');
+    video.src = img.getAttribute('data-video');
+    video.poster = img.getAttribute('src');
+    video.width = img.width; video.height = img.height;
+    video.muted = true; video.playsInline = true; video.preload = 'metadata';
+    video.setAttribute('aria-label', img.alt);
+    img.replaceWith(video);
+
+    var played = false;
+    var io = new IntersectionObserver(function (entries) {
+      if (played || !entries.some(function (e) { return e.isIntersecting; })) return;
+      played = true;
+      io.disconnect();
+      var p = video.play();
+      if (p && p.catch) p.catch(function () { /* autoplay refused: the poster stays */ });
+    }, { threshold: 0.6 });
+    io.observe(video);
+  })();
+
   // Dots for the mobile screenshot strip. Built here rather than in the markup
   // so that without JS the strip is still swipeable and simply has no rail
   // under it, instead of a rail that never lights up.
