@@ -1,5 +1,5 @@
 {
-  "_comment": "أوامر مساعد اقرأ. Each ask must map to a tool that is actually SHIPPED — homework (واجب منزلي) and exam (ورقة امتحان) are hidden in toolCatalog.ts and must not be advertised here. Unlike the general set these need no placeholders for grade/subject: the assistant already knows the lesson the teacher picked.",
+  "_comment": "أوامر مساعد إقرأ. Each ask must map to a tool that is actually SHIPPED — homework (واجب منزلي) and exam (ورقة امتحان) are hidden in toolCatalog.ts and must not be advertised here. Unlike the general set these need no placeholders for grade/subject: the assistant already knows the lesson the teacher picked.",
   "items": [
     { "code": "خطة الدرس", "cat": "تحضير وتخطيط", "desc": "خطة كاملة للدرس المختار، وفق نتاجاته.", "ask": "حضّر لي خطة درس لهذه الحصة، مع توزيع الوقت وأفكار للتقويم." },
     { "code": "خطة ٤٥ دقيقة", "cat": "تحضير وتخطيط", "desc": "خطة مضبوطة على زمن الحصة.", "ask": "اكتب خطة لهذا الدرس مدتها 45 دقيقة بالضبط، ووزّع الوقت على المراحل." },

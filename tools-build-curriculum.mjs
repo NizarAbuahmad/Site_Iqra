@@ -86,7 +86,7 @@ const head = (title, desc, path, ld) => `<!doctype html>
 <meta property="og:type" content="article">
 <meta property="og:url" content="${SITE}${path}">
 <meta property="og:locale" content="ar_JO">
-<meta property="og:site_name" content="اقرأ">
+<meta property="og:site_name" content="إقرأ">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:image" content="${SITE}/img/og.jpg">
@@ -105,10 +105,10 @@ ${JSON.stringify(ld, null, 1)}
 <header>
   <div class="wrap">
     <a class="brand" href="/">
-      <img src="/logo-lockup.svg" width="90" height="40" alt="اقرأ">
+      <img src="/logo-lockup.svg" width="90" height="40" alt="إقرأ">
     </a>
     <div class="head-cta">
-      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a>
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">جرّب إقرأ مجانًا</a>
       <a class="btn-sm" href="/#android"><span class="lg">انضم لتجربة أندرويد</span><span class="sm">تجربة أندرويد</span></a>
     </div>
   </div>
@@ -117,7 +117,7 @@ ${JSON.stringify(ld, null, 1)}
 
 const foot = `
 <footer>
-  اقرأ — مساعدك في التحضير، ومساحة أكبر للتعليم.
+  إقرأ — مساعدك في التحضير، ومساحة أكبر للتعليم.
   <br>نسخة تجريبية · الأردن
   <br>للتواصل: <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
   <br><a href="/privacy">سياسة الخصوصية</a>
@@ -153,13 +153,13 @@ function subjectPage(p) {
   const everyLesson = coverage(p) > 0.95;
   const outcomesPhrase = everyLesson ? 'نتاجات التعلّم لكل درس' : 'نتاجات التعلّم';
 
-  const title = `منهاج ${p.subjectAr} ${p.gradeAr} — الوحدات والدروس ونتاجات التعلّم | اقرأ`;
+  const title = `منهاج ${p.subjectAr} ${p.gradeAr} — الوحدات والدروس ونتاجات التعلّم | إقرأ`;
   const desc = `وحدات ودروس منهاج ${p.subjectAr} ${p.gradeAr} في الأردن (${countPair(p.counts.units, p.counts.lessons)}) `
     + `مع ${outcomesPhrase}، وفق مناهج وزارة التربية والتعليم.`;
   const path = `/manhaj/${slug(p)}`;
 
   const ld = crumbs([
-    { name: 'اقرأ', path: '/' },
+    { name: 'إقرأ', path: '/' },
     { name: 'المناهج', path: '/manhaj' },
     { name: `${p.subjectAr} ${p.gradeAr}`, path },
   ]);
@@ -172,7 +172,7 @@ function subjectPage(p) {
 <p class="lede">
   شجرة منهاج ${esc(p.subjectAr)} ${esc(p.gradeAr)} كما يصدرها المركز الوطني لتطوير المناهج:
   ${countPair(p.counts.units, p.counts.lessons)}، مع ${outcomesPhrase} والمفاهيم الأساسية.
-  يبني اقرأ من هذه النتاجات نفسها خطة درس وورقة عمل واختبار قصير.
+  يبني إقرأ من هذه النتاجات نفسها خطة درس وورقة عمل واختبار قصير.
 </p>
 <p class="cta-inline"><a class="btn btn-primary" href="https://app.iqrra.com">حضّر درسًا من هذا المنهاج</a></p>
 `;
@@ -237,7 +237,7 @@ function subjectPage(p) {
   b += `\n<section class="closing">
 <h2>حضّر حصّة من منهاج ${esc(p.subjectAr)}</h2>
 <p>اختر الدرس من شجرة المنهاج، واطلب خطة درس أو ورقة عمل أو اختبارًا قصيرًا — بالعربية، جاهزًا للطباعة.</p>
-<p><a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ مجانًا</a></p>
+<p><a class="btn btn-primary" href="https://app.iqrra.com">جرّب إقرأ مجانًا</a></p>
 </section>
 </main>`;
 
@@ -245,10 +245,10 @@ function subjectPage(p) {
 }
 
 function indexPage() {
-  const title = 'المناهج الأردنية: الصفوف والمواد والوحدات | اقرأ';
+  const title = 'المناهج الأردنية: الصفوف والمواد والوحدات | إقرأ';
   const desc = 'تصفّح الصفوف والمواد والوحدات والدروس ونتاجات التعلّم المتاحة في المنهاج الأردني، '
-    + 'وابدأ تحضير مواد حصّتك باستخدام اقرأ.';
-  const ld = crumbs([{ name: 'اقرأ', path: '/' }, { name: 'المناهج', path: '/manhaj' }]);
+    + 'وابدأ تحضير مواد حصّتك باستخدام إقرأ.';
+  const ld = crumbs([{ name: 'إقرأ', path: '/' }, { name: 'المناهج', path: '/manhaj' }]);
 
   const grades = [...new Set(data.map((p) => p.gradeId))]
     .sort((a, x) => Number(x.split('-')[1]) - Number(a.split('-')[1]));
@@ -353,10 +353,10 @@ const gradeCount = new Set(data.map((p) => p.gradeId)).size;
 const subjectCount = new Set(data.map((p) => p.subjectId)).size;
 const today = new Date().toISOString().slice(0, 10);
 
-writeFileSync(new URL('./llms.txt', root), `# \u0627\u0642\u0631\u0623 (Iqraa)
+writeFileSync(new URL('./llms.txt', root), `# \u0625\u0642\u0631\u0623 (Iqraa)
 
 > \u0645\u0633\u0627\u0639\u062f \u062a\u062d\u0636\u064a\u0631 \u0639\u0631\u0628\u064a \u0644\u0644\u0645\u0639\u0644\u0645\u064a\u0646 \u0641\u064a \u0627\u0644\u0623\u0631\u062f\u0646. \u064a\u062e\u062a\u0627\u0631 \u0627\u0644\u0645\u0639\u0644\u0645 \u0627\u0644\u0635\u0641 \u0648\u0627\u0644\u0645\u0627\u062f\u0629 \u0648\u0627\u0644\u0648\u062d\u062f\u0629
-> \u0648\u0627\u0644\u062f\u0631\u0633\u060c \u0641\u064a\u0628\u0646\u064a \u0627\u0642\u0631\u0623 \u062e\u0637\u0629 \u062f\u0631\u0633 \u0623\u0648 \u0648\u0631\u0642\u0629 \u0639\u0645\u0644 \u0623\u0648 \u0627\u062e\u062a\u0628\u0627\u0631\u064b\u0627 \u0642\u0635\u064a\u0631\u064b\u0627 \u0623\u0648 \u0646\u0634\u0627\u0637\u064b\u0627 \u0635\u0641\u064a\u064b\u0627 \u0623\u0648
+> \u0648\u0627\u0644\u062f\u0631\u0633\u060c \u0641\u064a\u0628\u0646\u064a \u0625\u0642\u0631\u0623 \u062e\u0637\u0629 \u062f\u0631\u0633 \u0623\u0648 \u0648\u0631\u0642\u0629 \u0639\u0645\u0644 \u0623\u0648 \u0627\u062e\u062a\u0628\u0627\u0631\u064b\u0627 \u0642\u0635\u064a\u0631\u064b\u0627 \u0623\u0648 \u0646\u0634\u0627\u0637\u064b\u0627 \u0635\u0641\u064a\u064b\u0627 \u0623\u0648
 > \u0634\u0631\u0627\u0626\u062d \u0639\u0631\u0636\u060c \u0645\u0628\u0646\u064a\u0629 \u0639\u0644\u0649 \u0646\u062a\u0627\u062c\u0627\u062a \u0627\u0644\u062a\u0639\u0644\u0651\u0645 \u0627\u0644\u0645\u0639\u062a\u0645\u062f\u0629 \u0641\u064a \u0627\u0644\u0645\u0646\u0647\u0627\u062c \u0627\u0644\u0623\u0631\u062f\u0646\u064a.
 >
 > An Arabic-native lesson-preparation assistant for teachers in Jordan. The
@@ -401,7 +401,7 @@ ${blogPosts.map((b) => `- [${b.title}](${SITE}/blog/${b.slug}): ${b.description}
 
 ## For citation
 
-Iqraa (\u0627\u0642\u0631\u0623) \u2014 Arabic teaching assistant for the Jordanian national curriculum.
+Iqraa (\u0625\u0642\u0631\u0623) \u2014 Arabic teaching assistant for the Jordanian national curriculum.
 ${SITE}/ \u00b7 info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds

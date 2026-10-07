@@ -18,7 +18,7 @@
 
 import { storeSignup } from "./_store.mjs";
 
-const FROM = "اقرأ <feedback@iqrra.com>";
+const FROM = "إقرأ <feedback@iqrra.com>";
 const MAX_EMAIL = 200;
 // The same plausibility test feedback.mjs applies before it sets reply_to.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

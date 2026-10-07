@@ -61,7 +61,7 @@ function card(item, i, kind) {
               kind === 'iqraa' ? 'نسخ الأمر' : 'نسخ البرومبت'
             }</button>${
               kind === 'iqraa'
-                ? `\n            <a class="pc-open" href="https://app.iqrra.com" target="_blank" rel="noopener">جرّبه في اقرأ</a>`
+                ? `\n            <a class="pc-open" href="https://app.iqrra.com" target="_blank" rel="noopener">جرّبه في إقرأ</a>`
                 : ''
             }
           </div>
@@ -122,7 +122,7 @@ const head = (title, description, path, jsonld = '', opts = {}) => `<!doctype ht
 <meta property="og:type" content="${opts.type || 'article'}">
 <meta property="og:url" content="${SITE}${path}">
 <meta property="og:locale" content="ar_JO">
-<meta property="og:site_name" content="اقرأ">
+<meta property="og:site_name" content="إقرأ">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:image" content="${SITE}${opts.image || '/img/og.jpg'}">
@@ -149,7 +149,7 @@ const head = (title, description, path, jsonld = '', opts = {}) => `<!doctype ht
 <header>
   <div class="wrap">
     <a class="brand" href="/">
-      <img src="/logo-lockup.svg" width="90" height="40" alt="اقرأ">
+      <img src="/logo-lockup.svg" width="90" height="40" alt="إقرأ">
     </a>
     <div class="head-cta">
       <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ من المتصفح</a>
@@ -162,7 +162,7 @@ const head = (title, description, path, jsonld = '', opts = {}) => `<!doctype ht
 const footer = (script = false) => `
 <footer>
   <div class="wrap">
-    <p><a href="/">اقرأ</a> · مساعد المعلم العربي · الأردن ٢٠٢٦</p>
+    <p><a href="/">إقرأ</a> · مساعد المعلم العربي · الأردن ٢٠٢٦</p>
     <p><a href="/blog">المدونة</a> · <a href="/manhaj">المناهج</a> · <a href="/privacy">سياسة الخصوصية</a></p>
   </div>
 </footer>
@@ -185,7 +185,7 @@ ${script ? '\n<script src="/blog.js" defer></script>\n' : ''}
  */
 const PUBLISHER = {
   '@type': 'Organization',
-  name: 'اقرأ',
+  name: 'إقرأ',
   url: SITE + '/',
   logo: { '@type': 'ImageObject', url: SITE + '/icon-192.png' },
 };
@@ -205,7 +205,7 @@ const crumbs = (trail) => ({
 
 // ~125 characters: long enough to use the snippet, short enough not to be cut.
 const INDEX_DESC =
-  'مقالات عملية لمعلمي الأردن: طرق تدريس تطبّقها غدًا، وأفكار لبدء الحصة وإغلاقها، وأوامر جاهزة للتحضير والتقويم — من فريق اقرأ.';
+  'مقالات عملية لمعلمي الأردن: طرق تدريس تطبّقها غدًا، وأفكار لبدء الحصة وإغلاقها، وأوامر جاهزة للتحضير والتقويم — من فريق إقرأ.';
 
 const blogIndexLd = () =>
   ld({
@@ -214,7 +214,7 @@ const blogIndexLd = () =>
       {
         '@type': 'Blog',
         '@id': SITE + '/blog',
-        name: 'مدونة اقرأ',
+        name: 'مدونة إقرأ',
         description: INDEX_DESC,
         inLanguage: 'ar',
         publisher: PUBLISHER,
@@ -228,7 +228,7 @@ const blogIndexLd = () =>
           url: `${SITE}/blog/${p.slug}`,
         })),
       },
-      crumbs([{ name: 'اقرأ', path: '/' }, { name: 'المدونة', path: '/blog' }]),
+      crumbs([{ name: 'إقرأ', path: '/' }, { name: 'المدونة', path: '/blog' }]),
     ],
   });
 
@@ -272,7 +272,7 @@ const promptsPostLd = (p) =>
         })),
       },
       crumbs([
-        { name: 'اقرأ', path: '/' },
+        { name: 'إقرأ', path: '/' },
         { name: 'المدونة', path: '/blog' },
         { name: p.title, path: `/blog/${p.slug}` },
       ]),
@@ -322,7 +322,7 @@ const articleLd = (p) =>
           ]
         : []),
       crumbs([
-        { name: 'اقرأ', path: '/' },
+        { name: 'إقرأ', path: '/' },
         { name: 'المدونة', path: '/blog' },
         { name: p.title, path: `/blog/${p.slug}` },
       ]),
@@ -399,7 +399,7 @@ ${p.faq.map((f) => `      <h3>${esc(f.q)}</h3>\n      <p>${esc(f.a)}</p>`).join(
       <h2>${esc(p.closing.title)}</h2>
       <p>${p.closing.text}</p>
       <p class="cta-row">
-        <a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ من المتصفح</a>
+        <a class="btn btn-primary" href="https://app.iqrra.com">جرّب إقرأ من المتصفح</a>
         <a class="btn" href="/manhaj">تصفّح المناهج</a>
       </p>
     </section>
@@ -422,14 +422,14 @@ ${footer()}`;
 
 // ── /blog ───────────────────────────────────────────────────────────────────
 const indexPage = () => `${head(
-  'مدونة اقرأ — أدوات وأفكار للمعلم',
+  'مدونة إقرأ — أدوات وأفكار للمعلم',
   INDEX_DESC,
   '/blog',
   blogIndexLd(),
   { type: 'website' },
 )}
 <main class="wrap blog-index">
-  <h1>مدونة اقرأ</h1>
+  <h1>مدونة إقرأ</h1>
   <p class="lede">أدوات وأفكار عملية للمعلم — مكتوبة للصف الأردني، لا مترجمة عنه.</p>
 
   <ul class="posts">
@@ -461,11 +461,11 @@ const promptsPost = (p) => `${head(p.title, p.description, `/blog/${p.slug}`, pr
 ${summaryBox(p)}
     <p>أكثر ما يضيّع وقت المعلم ليس الشرح، بل ما قبله وما بعده: ورقة عمل تُكتب من الصفر، اختبار قصير يُصاغ بعد منتصف الليل، ونشاط يُرتجل في آخر خمس دقائق. الأوامر في هذه الصفحة تختصر تلك المسافة. اضغط «نسخ» على أي أمر، والصقه حيث تعمل.</p>
 
-    <p>القائمة قسمان. القسم الأول <b>أوامر عامة</b> تعمل مع أي مساعد ذكي — استبدل ما بين القوسين المعقوفين <code>{ }</code> بصفّك ودرسك قبل الإرسال. القسم الثاني <b>أوامر مساعد اقرأ</b>، وهي أقصر لأن المساعد يعرف الصف والمادة والدرس الذي اخترته أصلًا، ويبني عليها من نتاجات المنهاج الأردني — فلا حاجة لأن تشرح له السياق في كل مرة.</p>
+    <p>القائمة قسمان. القسم الأول <b>أوامر عامة</b> تعمل مع أي مساعد ذكي — استبدل ما بين القوسين المعقوفين <code>{ }</code> بصفّك ودرسك قبل الإرسال. القسم الثاني <b>أوامر مساعد إقرأ</b>، وهي أقصر لأن المساعد يعرف الصف والمادة والدرس الذي اخترته أصلًا، ويبني عليها من نتاجات المنهاج الأردني — فلا حاجة لأن تشرح له السياق في كل مرة.</p>
 
     <div class="tabs" role="tablist" aria-label="نوع الأوامر">
       <button type="button" role="tab" class="tab is-on" aria-selected="true" aria-controls="set-general" id="tab-general">أوامر عامة (${general.length})</button>
-      <button type="button" role="tab" class="tab" aria-selected="false" aria-controls="set-iqraa" id="tab-iqraa">أوامر مساعد اقرأ (${iqraa.length})</button>
+      <button type="button" role="tab" class="tab" aria-selected="false" aria-controls="set-iqraa" id="tab-iqraa">أوامر مساعد إقرأ (${iqraa.length})</button>
     </div>
 
 ${section(
@@ -479,14 +479,14 @@ ${section(
   'set-iqraa',
   'iqraa',
   iqraa,
-  'اكتبها في <a href="https://app.iqrra.com">مساعد اقرأ</a> بعد اختيار الدرس. لا تحتاج إلى ذكر الصف أو المادة: المساعد يبني على نتاجات الدرس المختار من المنهاج الأردني.',
+  'اكتبها في <a href="https://app.iqrra.com">مساعد إقرأ</a> بعد اختيار الدرس. لا تحتاج إلى ذكر الصف أو المادة: المساعد يبني على نتاجات الدرس المختار من المنهاج الأردني.',
 )}
 
     <section class="closing">
-      <h2>لماذا الأوامر القصيرة في اقرأ أطول أثرًا</h2>
-      <p>الأمر العام يطلب من المساعد أن يتخيّل درسك. أمر اقرأ يشير إلى درس حقيقي في المنهاج الأردني، بنتاجاته ووحدته وكتابه — فيأتي الناتج مرتبطًا بما سيدرسه طلبتك فعلًا، وقابلًا للتعديل والطباعة والعرض على شاشة الصف.</p>
+      <h2>لماذا الأوامر القصيرة في إقرأ أطول أثرًا</h2>
+      <p>الأمر العام يطلب من المساعد أن يتخيّل درسك. أمر إقرأ يشير إلى درس حقيقي في المنهاج الأردني، بنتاجاته ووحدته وكتابه — فيأتي الناتج مرتبطًا بما سيدرسه طلبتك فعلًا، وقابلًا للتعديل والطباعة والعرض على شاشة الصف.</p>
       <p class="cta-row">
-        <a class="btn btn-primary" href="https://app.iqrra.com">جرّب اقرأ من المتصفح</a>
+        <a class="btn btn-primary" href="https://app.iqrra.com">جرّب إقرأ من المتصفح</a>
         <a class="btn" href="/manhaj">تصفّح المناهج</a>
       </p>
     </section>
