@@ -536,8 +536,17 @@
      clip-path + a 1px box removes it from the visual and the scrollable canvas. */
   .trap{position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap}
   .say{margin-top:16px; text-align:center; font-size:15px; min-height:24px}
-  .say.ok{color:var(--teal-ink); font-weight:600}
-  .say.bad{color:#B4232A}
+  /* A result is a banner, not a recoloured line: the tint, the border and the
+     icon each say which one it is, so the red/green is never the only signal.
+     Colours: teal-ink on #E3F2EF is 5.4:1, #9B1C22 on #FDECEC is 6.9:1. */
+  .say.ok,.say.bad{display:flex; align-items:center; justify-content:center; gap:10px; max-width:520px; margin-inline:auto; padding:12px 16px; border:1px solid; border-radius:14px; line-height:1.6; animation:say-in .2s ease-out}
+  .say.ok{background:#E3F2EF; border-color:#B7DDD7; color:var(--teal-ink); font-weight:600}
+  .say.bad{background:#FDECEC; border-color:#F3C4C6; color:#9B1C22}
+  .say.ok::before,.say.bad::before{content:""; flex:none; width:20px; height:20px; background:currentColor; mask:var(--say-icon) center/contain no-repeat; -webkit-mask:var(--say-icon) center/contain no-repeat}
+  .say.ok{--say-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='m7.8 12.2 3 3 5.4-6'/%3E%3C/svg%3E")}
+  .say.bad{--say-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='M12 7.5v5.5M12 16.4v.1'/%3E%3C/svg%3E")}
+  @keyframes say-in{from{opacity:0; transform:translateY(4px)}}
+  @media(prefers-reduced-motion:reduce){.say.ok,.say.bad{animation:none}}
 
   footer{border-top:1px solid var(--border); padding:28px 0 48px; color:var(--muted); font-size:14px; text-align:center}
   footer .social{margin:14px 0 0}
