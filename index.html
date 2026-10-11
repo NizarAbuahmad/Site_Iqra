@@ -219,8 +219,6 @@
   .btn-sm-primary{background:var(--teal-ink); color:#fff; border-color:var(--teal-ink)}
   .btn-sm-primary:hover{background:#00564F; color:#fff}
   .btn-sm:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
-  /* Same destination as the hero button, same label; a 360px header has no room for it, so phones get the short form. */
-  .when-narrow{display:none}
 
   @media(max-width:640px){
     .head-cta{margin-inline-start:auto; gap:6px}
@@ -232,7 +230,6 @@
        button moves into it (the hero has its own form), so the row holds only
        the logo, the one trial button and the menu button at 360px. */
     .head-cta .btn-sm:not(.btn-sm-primary){display:none}
-    .when-wide{display:none} .when-narrow{display:inline}
     .nav-android{display:block}
     .menu-btn{display:inline-grid; place-items:center; width:44px; height:44px; padding:0; border:1px solid var(--border); border-radius:10px; background:var(--card); color:var(--navy); cursor:pointer}
     .menu-btn:hover{border-color:var(--teal-ink); color:var(--teal-ink)}
@@ -586,7 +583,7 @@
       <a class="nav-android" href="#android">انضم لتجربة أندرويد</a>
     </nav>
     <div class="head-cta">
-      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com"><span class="when-wide">حضّر حصّتك الأولى مجانًا</span><span class="when-narrow">جرّب مجانًا</span></a>
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ الآن</a>
       <a class="btn-sm" href="#android">انضم لتجربة أندرويد</a>
       <button class="menu-btn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="site-nav">
         <svg class="bars" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -603,7 +600,7 @@
     <h1>وقت أقل للتحضير.<br>وقت أكثر للتعليم.</h1>
     <p>خطة الدرس، وورقة العمل، والاختبار — يُعدّها <b class="bn">إقرأ</b> من نتاجات التعلّم في المنهاج الأردني، وأنت تراجعها وتعدّلها لصفّك.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="https://app.iqrra.com">حضّر حصّتك الأولى مجانًا</a>
+      <a class="btn btn-primary" href="https://app.iqrra.com">ابدأ الآن</a>
       <a class="btn btn-ghost" href="/manhaj">تصفَّح المناهج</a>
     </div>
     <p class="note">استمتع بالتجربة مجاناً • متوافق تماماً مع متصفحات الأجهزة المحمولة والمكتبية</p>
@@ -844,7 +841,7 @@
     <h2>حصّتك القادمة تبدأ من هنا</h2>
     <p>اختر درسًا، وجهّز أول مادة تعليمية لك مع <b class="bn">إقرأ</b>.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="https://app.iqrra.com">حضّر حصّتك الأولى مجانًا</a>
+      <a class="btn btn-primary" href="https://app.iqrra.com">ابدأ الآن</a>
       <a class="btn btn-onnavy" href="/manhaj">تصفّح المناهج</a>
     </div>
   </div>
