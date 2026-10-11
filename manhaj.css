@@ -103,6 +103,11 @@ ul.cards{list-style:none; margin:0; padding:0;
 ul.cards a{display:block; background:var(--card); border:1px solid var(--border);
            border-radius:13px; padding:16px 18px; text-decoration:none; height:100%}
 ul.cards a:hover{border-color:var(--teal)}
+/* A subject whose outcomes are not published yet: same tile, no link, no white
+   fill, muted name, so it reads as present but not openable. */
+ul.cards .soon{display:block; border:1px solid var(--border); border-radius:13px;
+               padding:16px 18px; height:100%}
+ul.cards .soon .cname{color:var(--muted)}
 .cname{display:block; font-weight:600; font-size:17px; margin-bottom:3px}
 .cmeta{display:block; color:var(--muted); font-size:13.5px}
 

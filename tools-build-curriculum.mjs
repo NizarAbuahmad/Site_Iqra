@@ -13,12 +13,14 @@
  *
  * data/curriculum.json is a snapshot exported from the Iqraa repo's
  * lib/curriculum catalog — it is NOT authored here. Regenerate it there when
- * the curriculum changes. The export drops any grade/subject whose lessons
- * carry no objectives and no key terms, because a page listing nothing but
- * lesson titles is exactly the thin page Google's scaled-content policy is
- * aimed at. Nine combinations were excluded on those grounds, and that is the
- * point: a page we cannot make genuinely useful should not exist. Raising that
- * threshold to include them would be the easiest way to undo this work.
+ * the curriculum changes. A grade/subject whose lessons carry no objectives and
+ * no key terms arrives as a stub (`books: []`, real counts, no lesson titles),
+ * because a page listing nothing but lesson titles is exactly the thin page
+ * Google's scaled-content policy is aimed at. That is the point: a page we
+ * cannot make genuinely useful should not exist. /manhaj still lists such a
+ * subject as a «قريبًا» tile so a teacher can see it is on the way, but it
+ * gets no URL. Raising the publish threshold to include them would be the
+ * easiest way to undo this work.
  *
  * ## Why unit descriptions are not rendered
  *
@@ -250,7 +252,7 @@ function indexPage() {
     + 'وابدأ تحضير مواد حصّتك باستخدام إقرأ.';
   const ld = crumbs([{ name: 'إقرأ', path: '/' }, { name: 'المناهج', path: '/manhaj' }]);
 
-  const grades = [...new Set(data.map((p) => p.gradeId))]
+  const grades = [...new Set(all.map((p) => p.gradeId))]
     .sort((a, x) => Number(x.split('-')[1]) - Number(a.split('-')[1]));
 
   let b = `<main class="wrap">
@@ -265,11 +267,12 @@ function indexPage() {
 `;
   for (const g of grades) {
     const subs = data.filter((p) => p.gradeId === g);
+    const soon = dropped.filter((p) => p.gradeId === g);
     const units = subs.reduce((n, p) => n + p.counts.units, 0);
     const lessons = subs.reduce((n, p) => n + p.counts.lessons, 0);
     b += `\n<section class="grade">
-<h2>${esc(subs[0].gradeAr)}</h2>
-<p class="gmeta">المواد: ${subs.length} · ${countPair(units, lessons)}</p>
+<h2>${esc(all.find((p) => p.gradeId === g).gradeAr)}</h2>
+<p class="gmeta">المواد المتاحة: ${subs.length} · ${countPair(units, lessons)}</p>
 <ul class="cards">\n`;
     for (const p of subs) {
       b += `<li><a href="/manhaj/${slug(p)}">
@@ -277,9 +280,16 @@ function indexPage() {
   <span class="cmeta">${countPair(p.counts.units, p.counts.lessons)}</span>
 </a></li>\n`;
     }
+    // Held back from publishing, not from the list: no link, no URL.
+    for (const p of soon) {
+      b += `<li><div class="soon">
+  <span class="cname">${esc(p.subjectAr)}</span>
+  <span class="cmeta">نتاجات التعلّم قريبًا</span>
+</div></li>\n`;
+    }
     b += `</ul>\n</section>\n`;
   }
-  // Eleven grade/subject pairs are withheld as too thin to publish, so a
+  // Some grade/subject pairs are withheld as too thin to publish, so a
   // reader whose subject is missing needs somewhere to go other than away.
   b += `\n<p class="missing">لم تجد صفّك أو مادتك؟ <a href="/#feedback">أخبرنا بما تحتاجه</a> وسنعمل على إضافته.</p>\n`;
   b += `</main>`;
