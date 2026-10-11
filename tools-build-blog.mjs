@@ -152,7 +152,7 @@ const head = (title, description, path, jsonld = '', opts = {}) => `<!doctype ht
       <img src="/logo-lockup.svg" width="90" height="40" alt="إقرأ">
     </a>
     <div class="head-cta">
-      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ من المتصفح</a>
+      <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ الآن</a>
       <a class="btn-sm" href="/manhaj">المناهج</a>
     </div>
   </div>
