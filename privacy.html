@@ -37,13 +37,23 @@
            border-radius:12px; padding:16px 18px; margin:18px 0}
   .callout p:last-child{margin-bottom:0}
 
-  /* language toggle */
+  /* language toggle. teal-ink, not the logo teal: that one is 2.9:1 on this
+     paper, which fails for 13px text. */
   .lang-btn{
-    background:transparent; border:1.5px solid var(--teal); color:var(--teal);
-    border-radius:20px; padding:4px 14px; font-size:13px; font-weight:600;
+    background:transparent; border:1.5px solid var(--teal-ink); color:var(--teal-ink);
+    border-radius:20px; padding:6px 14px; font:inherit; font-size:13px; font-weight:600;
     cursor:pointer; line-height:1.4;
   }
-  .lang-btn:hover{background:var(--teal); color:#fff}
+  .lang-btn:hover{background:var(--teal-ink); color:#fff}
+  /* Header on a phone is brand + the two buttons, like every other inner page
+     (one 84px row; with the switch it wrapped to 140px). The switch moves to
+     the top of the page there, beside the breadcrumb. */
+  .legal-top{display:flex; justify-content:space-between; align-items:flex-end; gap:12px}
+  .lang-inline{display:none}
+  @media(max-width:560px){
+    .head-cta .lang-btn{display:none}
+    .lang-inline{display:inline-block; min-height:44px; padding:0 18px}
+  }
 
   /* show/hide by language */
   html[lang="en"] .ar-only { display:none }
@@ -66,7 +76,7 @@
         <span class="ar-only">English</span><span class="en-only">العربية</span>
       </button>
       <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">
-        <span class="ar-only">جرّب إقرأ مجانًا</span><span class="en-only">Try Iqra for free</span>
+        <span class="ar-only">ابدأ الآن</span><span class="en-only">Start now</span>
       </a>
       <a class="btn-sm" href="/#android">
         <span class="ar-only"><span class="lg">انضم لتجربة أندرويد</span><span class="sm">تجربة أندرويد</span></span><span class="en-only"><span class="lg">Join Android early access</span><span class="sm">Android</span></span>
@@ -77,9 +87,12 @@
 
 <!-- ═══ ARABIC ════════════════════════════════════════════════════════════════ -->
 <main class="wrap legal ar-only">
+<div class="legal-top">
 <nav class="crumbs" aria-label="مسار التنقل">
   <a href="/">الرئيسية</a> <span aria-hidden="true">←</span> <span class="here">سياسة الخصوصية</span>
 </nav>
+<button class="lang-btn lang-inline" type="button" onclick="toggleLang()" lang="en" aria-label="Switch to English">English</button>
+</div>
 
 <h1>سياسة الخصوصية</h1>
 <p class="updated">آخِر تحديث: 30 أيلول 2026 · تنطبق على موقع iqrra.com وتطبيق إقرأ على المتصفح وأندرويد.</p>
@@ -273,9 +286,12 @@
 
 <!-- ═══ ENGLISH ════════════════════════════════════════════════════════════════ -->
 <main class="wrap legal en-only" style="direction:ltr;text-align:start">
+<div class="legal-top">
 <nav class="crumbs" aria-label="Breadcrumb">
   <a href="/">Home</a> <span aria-hidden="true">→</span> <span class="here">Privacy Policy</span>
 </nav>
+<button class="lang-btn lang-inline" type="button" onclick="toggleLang()" lang="ar" aria-label="التبديل إلى العربية">العربية</button>
+</div>
 
 <h1>Privacy Policy</h1>
 <p class="updated">Last updated: 30 September 2026 · Applies to iqrra.com and the Iqra app on web and Android.</p>
