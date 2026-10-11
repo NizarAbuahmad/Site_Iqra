@@ -13,6 +13,18 @@ colors:
   brand: "#00A99D"              # logo teal — decorative/logo only, 2.93:1, fails text contrast
   border: "#E6E3DB"
   error: "#B4232A"
+  primary-deep: "#00564F"       # hover fill for primary buttons; 8.59:1 with white
+  chip-tint: "#E3F2EF"          # chips and the success banner; primary on it is 5.40:1
+  on-navy: "#E8F4F2"            # text on the dark closing panel; 15.30:1
+  on-navy-muted: "#8BA0B8"      # secondary text on navy; 6.41:1
+  on-navy-line: "#33506F"       # border of the ghost button on navy
+  success-line: "#B7DDD7"       # success banner border
+  error-bg: "#FDECEC"           # error banner fill
+  error-line: "#F3C4C6"         # error banner border
+  error-text: "#9B1C22"         # on error-bg 7.12:1
+  warning-bg: "#FFF7E6"         # the /download "remove the old version" step
+  warning-line: "#F0DCB4"
+  warning-text: "#8A6100"       # on warning-bg 5.20:1
 typography:
   display:
     fontFamily: "IBM Plex Sans Arabic"
@@ -28,9 +40,54 @@ typography:
     fontFamily: "IBM Plex Sans Arabic"
     fontWeight: 600
     fontSize: 0.875rem
+  # Fluid roles. Inner pages (curriculum, download, blog) set their own h1/h2
+  # clamps within 2px of page-title and section-title; the canonical ones are here.
+  page-title:
+    fontWeight: 700
+    fontSize: "clamp(28px, 4.4vw, 42px)"
+    lineHeight: 1.35
+  headline:
+    fontWeight: 700
+    fontSize: "clamp(24px, 3.5vw, 34px)"
+  section-title:
+    fontWeight: 700
+    fontSize: "clamp(21px, 3vw, 28px)"
+  hero-lead:
+    fontSize: "clamp(17px, 2.2vw, 20px)"
+  lede:
+    fontSize: "clamp(16px, 1.8vw, 18px)"
+  numeral:
+    fontWeight: 700
+    fontSize: 44px
+  # The fixed steps the CSS actually uses, largest to smallest.
+  title-lg:
+    fontSize: 22px
+  title-md:
+    fontSize: 21px
+  title:
+    fontSize: 20px
+  title-sm:
+    fontSize: 19px
+  title-xs:
+    fontSize: 18px
+  body-lg:
+    fontSize: 17px
+  body-sm:
+    fontSize: 15.5px
+  compact:
+    fontSize: 15px
+  meta:
+    fontSize: 13.5px
+  caption:
+    fontSize: 13px
+  micro:
+    fontSize: 12px
 rounded:
+  xs: 6px
   sm: 10px
   md: 12px
+  md-plus: 14px
+  lg-minus: 16px
   lg: 20px
   xl: 24px
   full: 999px
@@ -48,16 +105,30 @@ components:
     rounded: "{rounded.md}"
     padding: "14px 28px"
   button-primary-hover:
-    backgroundColor: "#00564F"
+    backgroundColor: "{colors.primary-deep}"
   button-ghost:
     backgroundColor: "{colors.surface}"
     borderColor: "{colors.border}"
     textColor: "{colors.text}"
     rounded: "{rounded.md}"
   chip:
-    backgroundColor: "#E3F2EF"
+    backgroundColor: "{colors.chip-tint}"
     textColor: "{colors.primary}"
     rounded: "{rounded.full}"
+  panel-dark:
+    backgroundColor: "{colors.text}"
+    textColor: "{colors.on-navy}"
+    rounded: "{rounded.xl}"
+  banner-success:
+    backgroundColor: "{colors.chip-tint}"
+    borderColor: "{colors.success-line}"
+    textColor: "{colors.primary}"
+    rounded: "{rounded.md-plus}"
+  banner-error:
+    backgroundColor: "{colors.error-bg}"
+    borderColor: "{colors.error-line}"
+    textColor: "{colors.error-text}"
+    rounded: "{rounded.md-plus}"
   card:
     backgroundColor: "{colors.surface}"
     borderColor: "{colors.border}"
@@ -101,10 +172,14 @@ Named rules:
 - `accent` (aqua `#34D6C6`) marks "AI is doing something" moments: the lead phone's dot in the header mark, the closing panel's CTA button, active pagination dots. It never carries body text.
 - `text-muted` (`#5C6675`) is for secondary copy only; primary copy always uses `text` (navy) or white-on-teal, never gray-on-gray.
 - Dark surfaces (the closing CTA panel) use `navy` as a solid fill with white/aqua text — not a lightness-inverted version of the light palette, a deliberate dark card sitting inside an otherwise light page.
+- On that panel the only text colors are `on-navy` (`#E8F4F2`, headings and button text) and `on-navy-muted` (`#8BA0B8`, the supporting line); `on-navy-line` (`#33506F`) is the ghost button's border there.
+- Form results are banners: success reuses `chip-tint` with `success-line` and `primary` text; errors use `error-bg`, `error-line` and `error-text`. `warning-*` is used once, for the `/download` step that tells people to remove an old install, and is not decoration.
 
 ## Typography
 
 IBM Plex Sans Arabic is doing double duty as both display and body voice right now — functional, legible, RTL-correct, and *not* the ecosystem's most overused face the way Inter is for Latin (the pool of well-designed free Arabic webfonts is much smaller, so this carve-out is real, not a shortcut). Line-height is deliberately generous (1.75 body, 1.45 for `h1`) because Arabic is a connected script and tight leading crowds the joins and diacritics — this is stated explicitly in the source CSS and should not be "optimized" down by anyone who hasn't checked a real Arabic paragraph at the new value.
+
+**Type scale.** Fluid roles (`display`, `page-title`, `headline`, `section-title`, `hero-lead`, `lede`) carry headings and lead paragraphs; below them the CSS uses fixed steps from `micro` (12px) to `title-lg` (22px). Most UI text is `label` (14px) or `compact` (15px), and the paragraphs in feature cards, steps and FAQ answers are `body-sm` (15.5px). Three one-offs are deliberately not tokens: 12.5px (the curriculum `.lbl`), 14.5px (curriculum pills) and `.92em` (inline code in blog posts). The curriculum, download and blog pages each set their own h1/h2 clamp within 2px of `page-title` and `section-title`; that drift is known and left alone.
 
 **Open decision — explored, not yet adopted:** giving `h1`/hero moments a distinct display face (Markazi Text or El Messiri, see Decisions Log) while keeping every other role on IBM Plex Sans Arabic. Do not implement either without a live Google Fonts check first — this session did not verify availability.
 
@@ -120,10 +195,16 @@ Shadows are offset and soft, never a zero-offset glow: phone screenshots use `0 
 
 ## Shapes
 
-- `sm` (10px) — small buttons, chips, form inputs
-- `md` (12px) — primary/secondary buttons, step badges
-- `lg`–`xl` (20–24px) — cards, phone screenshot frames, the closing panel
-- `full` (999px) — pills (`.beta`, `.eyebrow`), circular step numbers, social icons
+- `xs` (6px) — focus rings on text links, inline code
+- `sm` (10px) — small buttons, the menu button, social icons, search fields
+- `md` (12px) — primary/secondary buttons, form fields, blog tabs
+- `md-plus` (14px) — curriculum unit cards and the jump-nav panel, form result banners, blog timeline items
+- `lg-minus` (16px) — how-it-works steps, FAQ items, download steps, blog callouts (`.tldr`, `.toc`), the curriculum closing panel
+- `lg` (20px) — homepage feature cards, blog-strip cards, the video, download screenshots
+- `xl` (24px) — phone screenshot frames, the dark closing panel, the feedback card
+- `full` (999px) — pills (`.beta`, `.eyebrow`, `.term`), pagination dots; circles (`50%`) for step number badges
+
+Two curriculum values are one-offs and not tokens: 13px on the curriculum index tiles and 3px on that stylesheet's focus ring.
 
 Nested elements keep inner radius smaller than outer (e.g. a 24px card never contains an element with an equal or larger radius).
 
@@ -132,7 +213,9 @@ Nested elements keep inner radius smaller than outer (e.g. a 24px card never con
 - **button-primary**: solid teal-ink fill, white text, 12px radius. Hover darkens to `#00564F` (never a gradient). Focus-visible gets a 3px teal outline offset 3px.
 - **button-ghost**: white fill, bordered, navy text; hover only changes border/text color to teal-ink — no background shift.
 - **chip** (`.eyebrow`, `.beta`): light teal tint background, teal-ink text, full radius. Functional labels (audience targeting, trial status), not decoration — see Do's and Don'ts on the kicker pattern.
-- **card** (`.feat`, `.faq-item`, `.ask`): white surface, 1px border, soft shadow, 20–24px radius. Never nested inside another card.
+- **card** (`.feat`, `.faq-item`, `.ask`): white surface, 1px border, soft shadow, 16–24px radius (`.faq-item` 16, `.feat` 20, `.ask` 24). Never nested inside another card.
+- **panel-dark** (`.closing`): navy fill, `on-navy` text, 24px radius; the aqua primary button is the one place aqua carries a button.
+- **banner-success / banner-error** (`.say.ok`, `.say.bad`): the result of a form submit, 14px radius, colors per Colors above.
 - **input**: warm-gray background (not white), border, 12–16px padding; focus gets the same 3px teal outline as buttons.
 - **nav-link**: muted gray, hovers to teal-ink; current section is not otherwise marked (single-page site, no active-route state needed).
 
@@ -172,3 +255,4 @@ Nested elements keep inner radius smaller than outer (e.g. a 24px card never con
 | 2026-10-06 | Polish pass. Headings and short blocks use `text-wrap: balance` and paragraphs `text-wrap: pretty`, so no line ends on a stranded word. Phone screenshot strip gets a one-line swipe hint (gone after the first swipe) and 44px dots. Small footer and blog links get a 44px hit area (invisible pseudo-element). Homepage blog cards get a navy band showing the post's own number as text (٨ طرق, ٩ طرق, ١٠٠ أمر), taken from the title by `tools-build-blog.mjs`; the share-card images were not used because they repeat the title. The feedback form sits behind an «اكتب اقتراحك» button, and `/#feedback` opens it | Review items 6–10: stranded words, a weak swipe cue, tap targets of 22–30px, text-only blog cards, and the longest block on a phone being a four-field form beneath two email sign-ups |
 | 2026-10-08 | `/download` tour: the third screen is the editable lesson plan (`plan-edit.jpg`), not the empty chat screen; `chat.jpg` deleted. `plan-edit.jpg` re-captured from the current app, so the first objective reads «معرفة» rather than «تعرُّف» (the homepage uses the same file) | The tour still showed the empty-chat screen the homepage dropped on 2026-10-06; the old `plan-edit.jpg` predated the «معرفة» decision and contradicted the re-recorded hero clip on the same page |
 | 2026-10-11 | Polish pass. The header's primary button reads «ابدأ الآن» on the homepage, the curriculum pages and the blog (it said four different things); on phones the curriculum header now fits one row (84px, was 140px). `html{scroll-padding-top}` on the homepage (88px) and `manhaj.css` (100px) so nav and unit-pill jumps land below the sticky header (a unit's title used to sit entirely behind it); below 340px the curriculum header scrolls away instead. Fallback `:focus-visible` ring on the homepage, `::selection` in teal at 22%, teal caret in the forms. Shadow tints moved from the pre-palette navy (8,27,58) to the current one (11,27,51); curriculum button radii 9/11px → 10/12px (the scale's `sm`/`md`). «مجاناً / تماماً / قريباً» → «مجانًا / تمامًا / قريبًا», the form the rest of the page uses | Audit of the homepage and curriculum pages at 375, 768 and 1280px. Deliberately left: the detector's design-system-color/font-size/radius hits (the front matter documents only part of the real scale, so that is a documentation gap for `/impeccable document`, not a defect), its dark-glow and wide-shadow hits (no glow exists; the screenshot shadow is offset with negative spread, per Elevation above) and `privacy.html`, whose header still wraps to 140px |
+| 2026-10-11 | Documented the real scale in the frontmatter instead of changing the CSS: 12 colors (hover navy, chip tint, the on-navy trio, success/error/warning banner colors), a 17-step type scale next to the three roles that existed, three more radii (6, 14 and 16px), and the dark panel and the two form banners as components. Prose merged to match (Colors, Typography, Shapes, Components); `.faq-item` corrected from 20–24px to 16px. Untokenized on purpose: 12.5px, 14.5px, `.92em`, 13px and 3px radii, the `#000` in two CSS masks (the screenshot fade and the banner icons), blog `#EEF3F5`, and the 2px drift between inner pages' h1/h2 clamps | The detector flagged these as off-scale, but every one is a value the site really ships (most used 3–23 times), so the file was wrong, not the CSS. Snapping them (e.g. curriculum cards 14px → 20px) would change ~60 pages visibly and was not chosen. Merged into the existing file; no earlier decision or rule was removed |
