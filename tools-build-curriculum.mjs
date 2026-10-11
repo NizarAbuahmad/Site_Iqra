@@ -122,6 +122,7 @@ const foot = `
   إقرأ — مساعدك في التحضير، ومساحة أكبر للتعليم.
   <br>نسخة تجريبية · الأردن
   <br>للتواصل: <a class="mail" href="mailto:info@iqrra.com">info@iqrra.com</a>
+  <br><a class="mail" href="/#feedback">اقترح ميزة أو أداة تحتاجها</a>
   <br><a href="/privacy">سياسة الخصوصية</a>
 </footer>
 </body>
