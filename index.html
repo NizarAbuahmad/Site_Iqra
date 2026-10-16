@@ -292,92 +292,47 @@
     .hero .cta-row{gap:10px}
   }
 
-  /* Screens are 540x1200; shown full they'd be ~600px tall each and bury the
-     page. Fixed-height window + top crop + a fade at the bottom instead. */
-  .shots{
-    --shot-h:clamp(300px,46vw,520px); --shot-drop:22px;
-    margin-top:56px; display:flex; justify-content:center; align-items:flex-start;
-    gap:clamp(10px,2.6vw,26px);
+  /* The hero video: the real app (web build, demo mode, what app.iqrra.com
+     serves), 16:9 under the headline. Phones get a 9:16 cut of the same tour,
+     so the app's phone layout fills the frame instead of a shrunk desktop.
+     aspect-ratio holds the box before the poster loads (no layout shift). */
+  .hero-video{
+    position:relative; margin:48px auto 0; max-width:1040px; aspect-ratio:16/9;
+    border:1px solid var(--border); border-radius:20px; overflow:hidden; background:var(--card);
+    /* Tucked, not diffuse: the same negative-spread depth as the screenshots. */
+    box-shadow:0 24px 44px -12px rgba(11,27,51,.28);
   }
-  .shots figure{margin:0; width:clamp(150px,22vw,260px)}
-  .shots img, .shots video{
-    display:block; width:100%;
-    height:calc(var(--shot-h) - var(--shot-drop)); margin-top:var(--shot-drop);
-    object-fit:cover; object-position:top center;
-    border:1px solid var(--border); border-bottom:0; border-radius:24px 24px 0 0;
-    /* Tucked, not diffuse: a negative spread pulls the blur in from the edges
-       instead of haloing outward, so the depth reads as a deliberate choice
-       rather than the wide-soft-shadow default every generated UI reaches for. */
-    background:var(--card); box-shadow:0 14px 26px -6px rgba(11,27,51,.22);
-    /* The fade used to sit on the row and clip all three phones at one line.
-       Per image it travels with the card, so the mobile strip keeps it and
-       each caption stays outside the mask, at full contrast. Shorter than the
-       old 66% because a caption now follows: the phone should dissolve just
-       above its label, not a third of the way up it. */
-    -webkit-mask-image:linear-gradient(to bottom,#000 86%,transparent);
-    mask-image:linear-gradient(to bottom,#000 86%,transparent);
+  .hero-video img, .hero-video video{display:block; width:100%; height:100%; object-fit:cover}
+  /* Pause/play: moving content longer than 5 s needs a way to stop it (WCAG
+     2.2.2). Under the frame, at its left edge: inside it, any corner covers a
+     control of the app (the bell, «تغيير الدرس», the save bar). */
+  .video-bar{max-width:1040px; margin:8px auto 0; display:flex; justify-content:flex-end}
+  .video-toggle{
+    display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 10px;
+    border:0; border-radius:10px; background:none; color:var(--muted);
+    font:inherit; font-size:14px; cursor:pointer; transition:color .15s;
   }
-  .shots .lead{width:clamp(176px,27vw,300px)}
-  .shots .lead img, .shots .lead video{height:var(--shot-h); margin-top:0; box-shadow:0 20px 36px -8px rgba(11,27,51,.3)}
-  .shots figcaption{margin-top:10px; font-size:14px; line-height:1.6; color:var(--muted)}
-  .shots figcaption b{display:block; color:var(--navy); font-weight:600}
-  /* Desktop: text on the right, the three screens on the left, so the product
-     is on the first screen instead of 900px down. The wrap caps at 1040px, so
-     the screens column is ~450px at every width this applies to: fixed phone
-     widths, and the side phones' height follows their width so object-fit
-     never crops the sides of a screen. */
+  .video-toggle:hover{color:var(--teal-ink)}
+  .video-toggle:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
+  /* The UA's [hidden] rule covers HTML elements only, not inline SVG. */
+  .video-toggle[hidden], .video-toggle svg[hidden]{display:none}
+  /* The proof line and the Android link sit under the video, so the video
+     starts right after the buttons. */
+  .hero-after{margin-top:4px}
+  .hero .hero-after .android-line{margin-top:4px}
+  @media(max-width:640px){
+    .hero-video{margin-top:32px; max-width:min(100%,340px); aspect-ratio:9/16; border-radius:24px}
+    .video-bar{max-width:min(100%,340px)}
+  }
+  /* Wide screens: the headline fits on one line, which lifts the video by a
+     line's height; together with the moved proof line about half of it is on
+     the first screen at 1440x900. */
   @media(min-width:1024px){
-    .hero{text-align:start; padding:56px 0 64px}
-    .hero .wrap{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:48px; align-items:center}
-    .hero p{margin:0 0 28px; max-width:none}
-    .hero .cta-row{justify-content:flex-start}
-    .hero .stats{margin-inline:0}
-    .shots{margin-top:0; --shot-h:363px; --shot-drop:76px; gap:14px}
-    .shots figure{width:130px}
-    .shots .lead{width:165px}
-    .shots figcaption{font-size:13px; line-height:1.5}
-  }
-
-  /* Mobile: the row used to hide two of the three phones outright. The same
-     markup becomes a snap strip instead, so every screen stays reachable. No
-     auto-advance -- the peeking next card is the affordance, and nothing moves
-     under a teacher who is reading. */
-  @media(max-width:560px){
-    .shots{
-      --shot-drop:0px;
-      display:grid; grid-auto-flow:column; justify-content:start; align-items:start;
-      gap:16px;
-      /* .wrap's gutter is a known 24px, so cancel it and re-add it as padding
-         plus scroll padding: the strip runs edge to edge, and the first card
-         still lines up with the text above it. */
-      margin-inline:-24px; padding-inline:24px; scroll-padding-inline-start:24px;
-      overflow-x:auto; overscroll-behavior-x:contain;
-      scroll-snap-type:x mandatory; scrollbar-width:none;
-    }
-    .shots::-webkit-scrollbar{display:none}
-    .shots figure,.shots .lead{width:min(70vw,250px); scroll-snap-align:start}
-    .shots img, .shots video, .shots .lead img, .shots .lead video{height:clamp(320px,88vw,400px)}
-    /* A peeking phone invites the swipe; a peeking sentence just looks cut in
-       half. Hold the neighbours' captions back so only one is being read.
-       No .is-near means no JS, and then every caption stays at full strength. */
-    .shots figure figcaption{transition:opacity .25s}
-    .shots:has(.is-near) figure:not(.is-near) figcaption{opacity:.3}
-  }
-  /* Built by script, so a strip with no JS simply has no rail under it. */
-  .shot-dots, .shot-hint{display:none}
-  @media(max-width:560px){
-    .shot-dots{display:flex; justify-content:center; gap:0; margin-top:6px}
-    .shot-hint{display:block; text-align:center; color:var(--muted); font-size:14px; margin:14px 0 0}
-    .shot-hint[hidden]{display:none}
-    .shot-dots button{
-      width:44px; height:44px; padding:0; border:0; background:none; cursor:pointer;
-      display:grid; place-items:center;
-    }
-    .shot-dots button::before{
-      content:""; width:8px; height:8px; border-radius:999px;
-      background:var(--border); transition:width .2s,background .2s;
-    }
-    .shot-dots button[aria-current="true"]::before{width:22px; background:var(--teal-ink)}
+    .hero{padding-top:48px}
+    h1 br{display:none}
+    h1{margin-bottom:16px}
+    .hero p{margin-bottom:28px}
+    .hero-video{margin-top:40px}
   }
 
   /* No stranded last word: short blocks balance their lines, paragraphs avoid
@@ -606,13 +561,41 @@
   <div class="wrap">
   <div class="hero-copy">
     <span class="eyebrow">مساعد تحضير للمعلمين وفق المنهاج الأردني</span>
-    <h1>وقت أقل للتحضير.<br>وقت أكثر للتعليم.</h1>
+    <!-- The space after <br> is what separates the two sentences when wide
+         screens hide the break. -->
+    <h1>وقت أقل للتحضير.<br> وقت أكثر للتعليم.</h1>
     <p>خطة الدرس، وورقة العمل، والاختبار — يُعدّها <b class="bn">إقرأ</b> من نتاجات التعلّم في المنهاج الأردني، وأنت تراجعها وتعدّلها لصفّك.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://app.iqrra.com">ابدأ الآن</a>
       <a class="btn btn-ghost" href="/manhaj">تصفَّح المناهج</a>
     </div>
     <p class="note">استمتع بالتجربة مجانًا • متوافق تمامًا مع متصفحات الأجهزة المحمولة والمكتبية</p>
+  </div>
+  <figure class="hero-video">
+    <!-- A silent, looping tour of the real app: the web app in demo mode (what
+         app.iqrra.com serves), recorded 2026-10-16 for the lesson «تركيب
+         الاقترانات» — «اليوم» → lesson plan with the textbook's figures →
+         worksheet → slides shown on screen. Waits for generation are cut, not
+         sped up. hero-desktop.mp4 is 1280x720 (31.6 s), hero-phone.mp4 is
+         720x1280 (34.6 s); each ends on a crossfade into its first frame, so
+         the loop has no seam. The picture is the poster and the still for no
+         JS, prefers-reduced-motion and Save-Data; the script below swaps in
+         the video. -->
+    <picture>
+      <source media="(max-width: 640px)" srcset="img/hero-phone.jpg" width="720" height="1280">
+      <img src="img/hero-desktop.jpg" width="1280" height="720"
+           data-video="img/hero-desktop.mp4" data-video-phone="img/hero-phone.mp4"
+           alt="جولة في إقرأ: من صفحة «اليوم» يُعِدّ المعلّم لدرس «تركيب الاقترانات» خطة درس فيها أشكال من الكتاب المدرسي، ثم ورقة عمل، ثم شرائح يعرضها على الشاشة.">
+    </picture>
+  </figure>
+  <div class="video-bar">
+    <button type="button" class="video-toggle" hidden>
+      <svg class="i-pause" width="14" height="14" viewBox="0 0 18 18" aria-hidden="true"><rect x="3" y="2" width="4" height="14" rx="1" fill="currentColor"/><rect x="11" y="2" width="4" height="14" rx="1" fill="currentColor"/></svg>
+      <svg class="i-play" width="14" height="14" viewBox="0 0 18 18" aria-hidden="true" hidden><path d="M4 2.5 15.5 9 4 15.5z" fill="currentColor"/></svg>
+      <span>إيقاف الفيديو</span>
+    </button>
+  </div>
+  <div class="hero-after">
     <!-- stats:start — written by tools-build-curriculum.mjs from data/curriculum.json; edit the snapshot, not this line -->
     <p class="stats"><b>١٠</b> صفوف · <b>١٣</b> مادة · أكثر من <b>٤٬٥٠٠</b> نتاج تعلّم من مناهج المركز الوطني لتطوير المناهج</p>
     <!-- stats:end -->
@@ -620,31 +603,6 @@
          it has a single call to action. -->
     <a class="android-line" href="#android">تطبيق أندرويد قريبًا — انضم إلى قائمة الدعوات <span aria-hidden="true">←</span></a>
   </div>
-  <div class="shots">
-      <figure>
-        <img src="img/curriculum.jpg" width="540" height="1200"
-             alt="شاشة المنهاج في التطبيق: المواد مرتّبة حسب الصف، وفق المنهاج الأردني.">
-        <figcaption><b>ابدأ من درسِك</b>تصفّح الصفوف والمواد المتاحة، واختر الدرس لترى نتاجات التعلّم الخاصة به</figcaption>
-      </figure>
-      <figure class="lead">
-        <!-- A 9 s silent clip of the real app: the web app in demo mode (what
-             app.iqrra.com serves), recorded 2026-10-08 at 360x800 and scaled
-             1.5x like the two stills beside it — pinned lesson, «أريد خطة درس»
-             typed and sent, the plan appears. The script below swaps it in for
-             this poster unless the reader asked for reduced motion or data
-             saving; it plays once when the card is in view and holds its last
-             frame. -->
-        <img src="img/hero-plan.jpg" width="540" height="1200" data-video="img/hero-plan.mp4"
-             alt="شاشة إقرأ وفي أعلاها الدرس المثبّت «تركيب الاقترانات»: المعلّم يكتب «أريد خطة درس» فتظهر خطة الدرس بأهدافها وموادها.">
-        <figcaption><b>جهّز مواد حصّتك</b>خطط دروس، وأوراق عمل، واختبارات، وشرائح عرض في مكان واحد</figcaption>
-      </figure>
-      <figure>
-        <img src="img/plan-edit.jpg" width="540" height="1200"
-             alt="خطة درس جاهزة في التطبيق: الأهداف والمواد اللازمة والتمهيد، وبجانب كل بند أيقونات للتعديل والحذف وزر لإضافة بند.">
-        <figcaption><b>راجع المحتوى وعدّله</b>عدّل أي بند أو احذفه أو أضف إليه بما يناسب طلبتك</figcaption>
-      </figure>
-    </div>
-    <div class="shot-dots" aria-label="شاشات التطبيق" hidden></div>
   </div>
 </div>
 
@@ -1034,114 +992,54 @@
 </script>
 
 <script>
-  // The lead screenshot becomes a short silent clip of the same screen. The
-  // <img> is the poster and the fallback: no JS, prefers-reduced-motion or
-  // Save-Data all keep the still. It plays once, when the card is in view, and
-  // stops on its last frame, so nothing keeps moving beside the headline.
+  // The hero picture becomes the looping tour of the app. The picture is the
+  // poster and the fallback: no JS, prefers-reduced-motion or Save-Data all
+  // keep the still. Phones get the 9:16 cut, chosen once at load (the same
+  // breakpoint as the <source> above). It plays while on screen and pauses
+  // off screen; the button stops it for good until pressed again.
   (function () {
-    var img = document.querySelector('.shots img[data-video]');
-    if (!img || !('IntersectionObserver' in window)) return;
+    var img = document.querySelector('.hero-video img[data-video]');
+    var btn = document.querySelector('.video-toggle');
+    if (!img || !btn || !('IntersectionObserver' in window)) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var conn = navigator.connection;
     if (conn && conn.saveData) return;
 
+    var phone = window.matchMedia('(max-width: 640px)').matches;
     var video = document.createElement('video');
-    video.src = img.getAttribute('data-video');
-    video.poster = img.getAttribute('src');
-    video.width = img.width; video.height = img.height;
-    video.muted = true; video.playsInline = true; video.preload = 'metadata';
+    video.muted = true; video.loop = true; video.playsInline = true; video.preload = 'metadata';
+    // iOS Safari reads the attributes, not the properties, for inline autoplay.
+    video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
+    video.poster = img.currentSrc || img.src;
+    video.src = img.getAttribute(phone ? 'data-video-phone' : 'data-video');
     video.setAttribute('aria-label', img.alt);
-    img.replaceWith(video);
+    img.parentNode.replaceWith(video);
 
-    var played = false;
-    var io = new IntersectionObserver(function (entries) {
-      if (played || !entries.some(function (e) { return e.isIntersecting; })) return;
-      played = true;
-      io.disconnect();
-      var p = video.play();
-      if (p && p.catch) p.catch(function () { /* autoplay refused: the poster stays */ });
-    }, { threshold: 0.6 });
-    io.observe(video);
-  })();
-
-  // Dots for the mobile screenshot strip. Built here rather than in the markup
-  // so that without JS the strip is still swipeable and simply has no rail
-  // under it, instead of a rail that never lights up.
-  (function () {
-    var strip = document.querySelector('.shots');
-    var rail = document.querySelector('.shot-dots');
-    if (!strip || !rail) return;
-
-    var figures = Array.prototype.slice.call(strip.querySelectorAll('figure'));
-    if (figures.length < 2) return;
-
-    // Matches scroll-padding-inline-start in the stylesheet, so a tapped card
-    // lands exactly where a swiped one snaps.
-    var SNAP_INSET = 24;
-    var still = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var motion = still.matches ? 'auto' : 'smooth';
-    still.addEventListener('change', function (e) { motion = e.matches ? 'auto' : 'smooth'; });
-
-    var dots = figures.map(function (figure) {
-      var dot = document.createElement('button');
-      dot.type = 'button';
-      // The caption's own heading, so the control names the screen it goes to
-      // instead of announcing a slide number.
-      dot.setAttribute('aria-label', figure.querySelector('figcaption b').textContent);
-      dot.addEventListener('click', function () {
-        // scrollIntoView drags the whole page up to meet the card. Scrolling
-        // the strip by a relative amount moves only the strip, and a delta
-        // needs no view on whether RTL scroll offsets count up or down.
-        var delta = figure.getBoundingClientRect().left
-                  - strip.getBoundingClientRect().left - SNAP_INSET;
-        strip.scrollBy({ left: delta, behavior: motion });
-      });
-      rail.appendChild(dot);
-      return dot;
-    });
-    rail.hidden = false;
-
-    // The peeking card and the dots are easy to miss, so say it once. It goes
-    // as soon as the reader has moved off the first card.
-    var hint = document.createElement('p');
-    hint.className = 'shot-hint';
-    hint.textContent = 'اسحب لرؤية بقية الشاشات';
-    rail.after(hint);
-
-    // Whichever card sits nearest the middle of the strip is the current one.
-    // Measuring geometry rather than scrollLeft keeps this clear of the RTL
-    // scroll-origin mess, where the value is 0 at the start in one browser
-    // and negative in the next.
+    var stopped = false;   // the reader pressed pause
+    var pause = btn.querySelector('.i-pause'), play = btn.querySelector('.i-play');
+    var label = btn.querySelector('span');
     function sync() {
-      var middle = strip.getBoundingClientRect().left + strip.clientWidth / 2;
-      var nearest = 0, shortest = Infinity;
-      figures.forEach(function (figure, i) {
-        var box = figure.getBoundingClientRect();
-        var gap = Math.abs(box.left + box.width / 2 - middle);
-        if (gap < shortest) { shortest = gap; nearest = i; }
-      });
-      dots.forEach(function (dot, i) {
-        dot.setAttribute('aria-current', i === nearest ? 'true' : 'false');
-      });
-      figures.forEach(function (figure, i) {
-        figure.classList.toggle('is-near', i === nearest);
-      });
-      if (nearest !== 0) hint.hidden = true;
+      pause.hidden = video.paused; play.hidden = !video.paused;
+      label.textContent = video.paused ? 'تشغيل الفيديو' : 'إيقاف الفيديو';
     }
-
-    // Reading boxes flushes layout, so do it once a frame at most: a swipe on
-    // a cheap Android phone should not pay for it on every scroll tick.
-    var queued = false;
-    function schedule() {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(function () { queued = false; sync(); });
+    function start() {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () { /* autoplay refused: the poster stays, the button offers play */ });
     }
-
-    strip.addEventListener('scroll', schedule, { passive: true });
-    // Rotating the phone resizes the cards without scrolling them.
-    window.addEventListener('resize', schedule);
+    video.addEventListener('play', sync);
+    video.addEventListener('pause', sync);
+    btn.addEventListener('click', function () {
+      stopped = !video.paused;
+      if (stopped) video.pause(); else start();
+    });
+    btn.hidden = false;
     sync();
+
+    new IntersectionObserver(function (entries) {
+      var seen = entries[entries.length - 1].isIntersecting;
+      if (!seen) video.pause();
+      else if (!stopped) start();
+    }, { threshold: 0.25 }).observe(video);
   })();
 
   // The feedback form is collapsed. A link to #feedback (the curriculum pages
