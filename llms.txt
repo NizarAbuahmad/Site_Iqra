@@ -39,6 +39,10 @@ switched off, so they are deliberately absent from this list.
 - [Home](https://www.iqrra.com/): what it is, how it works, FAQ.
 - [Curriculum browser](https://www.iqrra.com/manhaj): every published grade and subject, with units, lessons and official learning outcomes — one page per grade/subject pair.
 - [Blog](https://www.iqrra.com/blog): practical tools for teachers.
+- [كيف تكتب خطة درس ناجحة؟ ٦ عناصر ونموذج جاهز للمعلم](https://www.iqrra.com/blog/how-to-write-a-lesson-plan): ستة عناصر تقوم عليها كل خطة درس: النتاج، والتمهيد، والعرض، والتدريب، والتقويم، والإغلاق، مع نموذج جاهز بالدقائق لحصة من ٤٥ دقيقة ومثالين من الصف العاشر.
+- [ورقة العمل الناجحة: ٧ قواعد لتصميم ورقة تحقق نتاج الدرس](https://www.iqrra.com/blog/how-to-design-a-worksheet): مثال محلول في أولها، وأسئلة متدرجة، ومفتاح راجعته بنفسك: سبع قواعد لتصميم ورقة عمل، مع نموذج كامل من كيمياء الصف العاشر.
+- [كيف تكتب أسئلة اختبار جيدة؟ ٨ قواعد للاختيار من متعدد والصح والخطأ](https://www.iqrra.com/blog/how-to-write-quiz-questions): متن كامل، وخيارات متشابهة، ومشتتات من أخطاء الطلبة الحقيقية: ثماني قواعد لكتابة أسئلة الاختبار القصير، مع مثال كامل من «قانون الجيوب» للصف العاشر.
+- [الذكاء الاصطناعي في تحضير الدروس: ٦ قواعد تحميك من أخطائه](https://www.iqrra.com/blog/using-ai-for-lesson-prep): يوفّر المساعد الذكي مسودة في دقائق، لكنه يخطئ بثقة. ست قواعد للاستفادة منه في التحضير: من ربطه بالدرس إلى حل الأسئلة بنفسك قبل اعتماد المفتاح.
 - [كيف تبدأ الحصة؟ ٨ طرق تشدّ انتباه طلبتك من أول دقيقة](https://www.iqrra.com/blog/how-to-start-a-lesson): نشاط الدقائق الأولى، ومراجعة سريعة، ولغز أو سؤال مفاجئ، إضافة إلى خمس طرق أخرى لبدء الحصة، مع خطة جاهزة لأول خمس دقائق.
 - [كيف تُغلق الحصة؟ ٩ طرق للتأكد من أن طلبتك فهموا](https://www.iqrra.com/blog/how-to-close-a-lesson): بطاقة الخروج، وملخص بجملة واحدة، وسؤال يجيب عنه الجميع، إضافة إلى ست طرق أخرى لإغلاق الحصة في دقيقة إلى خمس دقائق، مع خطة جاهزة لآخر خمس دقائق.
 - [١٠٠ أمر ذكي للمعلم: أوامر جاهزة للتحضير والتقويم](https://www.iqrra.com/blog/100-prompts-for-teachers): مئة أمر جاهز للنسخ: ستون تعمل مع أي مساعد ذكي، وأربعون مكتوبة لمساعد إقرأ مربوطة بدرسك في المنهاج الأردني.
@@ -52,4 +56,4 @@ Iqraa (إقرأ) — Arabic teaching assistant for the Jordanian national curric
 https://www.iqrra.com/ · info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds
-https://www.iqrra.com/manhaj. Last generated: 2026-10-11.
+https://www.iqrra.com/manhaj. Last generated: 2026-10-17.
