@@ -149,6 +149,28 @@ const crumbs = (items) => ({
  */
 const countPair = (units, lessons) => `الوحدات: ${units} · الدروس: ${lessons}`;
 
+/**
+ * The longest suffix that keeps the title under TITLE_MAX characters.
+ *
+ * One fixed suffix ran to 98 characters for the longest subject name, and 55
+ * of the site's 70 titles overran what a results page shows — Google cuts the
+ * tail, and with a right-to-left title the tail is the brand. The subject and
+ * grade are what a teacher searches for, so they never shrink; the descriptive
+ * suffix gives way first, in steps, and the shortest title still names the
+ * subject, the grade and the site. Subjects short enough keep the full wording.
+ */
+const TITLE_MAX = 65;
+const TITLE_SUFFIXES = [
+  ' — الوحدات والدروس ونتاجات التعلّم',
+  ' — الدروس ونتاجات التعلّم',
+  ' — نتاجات التعلّم',
+  '',
+];
+const pageTitle = (p) => {
+  const titles = TITLE_SUFFIXES.map((s) => `منهاج ${p.subjectAr} ${p.gradeAr}${s} | إقرأ`);
+  return titles.find((t) => t.length <= TITLE_MAX) ?? titles.at(-1);
+};
+
 function subjectPage(p) {
   // "لكل درس" only when it is true. Coverage runs from 66% to 100%, and a lede
   // promising outcomes on every lesson of a 66% page is a claim the reader can
@@ -156,7 +178,7 @@ function subjectPage(p) {
   const everyLesson = coverage(p) > 0.95;
   const outcomesPhrase = everyLesson ? 'نتاجات التعلّم لكل درس' : 'نتاجات التعلّم';
 
-  const title = `منهاج ${p.subjectAr} ${p.gradeAr} — الوحدات والدروس ونتاجات التعلّم | إقرأ`;
+  const title = pageTitle(p);
   const desc = `وحدات ودروس منهاج ${p.subjectAr} ${p.gradeAr} في الأردن (${countPair(p.counts.units, p.counts.lessons)}) `
     + `مع ${outcomesPhrase}، وفق مناهج وزارة التربية والتعليم.`;
   const path = `/manhaj/${slug(p)}`;
@@ -364,14 +386,14 @@ const gradeCount = new Set(data.map((p) => p.gradeId)).size;
 const subjectCount = new Set(data.map((p) => p.subjectId)).size;
 const today = new Date().toISOString().slice(0, 10);
 
-writeFileSync(new URL('./llms.txt', root), `# \u0625\u0642\u0631\u0623 (Iqraa)
+writeFileSync(new URL('./llms.txt', root), `# \u0625\u0642\u0631\u0623 (Iqrra)
 
 > \u0645\u0633\u0627\u0639\u062f \u062a\u062d\u0636\u064a\u0631 \u0639\u0631\u0628\u064a \u0644\u0644\u0645\u0639\u0644\u0645\u064a\u0646 \u0641\u064a \u0627\u0644\u0623\u0631\u062f\u0646. \u064a\u062e\u062a\u0627\u0631 \u0627\u0644\u0645\u0639\u0644\u0645 \u0627\u0644\u0635\u0641 \u0648\u0627\u0644\u0645\u0627\u062f\u0629 \u0648\u0627\u0644\u0648\u062d\u062f\u0629
 > \u0648\u0627\u0644\u062f\u0631\u0633\u060c \u0641\u064a\u0628\u0646\u064a \u0625\u0642\u0631\u0623 \u062e\u0637\u0629 \u062f\u0631\u0633 \u0623\u0648 \u0648\u0631\u0642\u0629 \u0639\u0645\u0644 \u0623\u0648 \u0627\u062e\u062a\u0628\u0627\u0631\u064b\u0627 \u0642\u0635\u064a\u0631\u064b\u0627 \u0623\u0648 \u0646\u0634\u0627\u0637\u064b\u0627 \u0635\u0641\u064a\u064b\u0627 \u0623\u0648
 > \u0634\u0631\u0627\u0626\u062d \u0639\u0631\u0636\u060c \u0645\u0628\u0646\u064a\u0629 \u0639\u0644\u0649 \u0646\u062a\u0627\u062c\u0627\u062a \u0627\u0644\u062a\u0639\u0644\u0651\u0645 \u0627\u0644\u0645\u0639\u062a\u0645\u062f\u0629 \u0641\u064a \u0627\u0644\u0645\u0646\u0647\u0627\u062c \u0627\u0644\u0623\u0631\u062f\u0646\u064a.
 >
 > An Arabic-native lesson-preparation assistant for teachers in Jordan. The
-> teacher picks a grade, subject, unit and lesson; Iqraa builds a lesson plan,
+> teacher picks a grade, subject, unit and lesson; Iqrra builds a lesson plan,
 > worksheet, short quiz, classroom activity or slide deck grounded in that
 > lesson's official NCCD learning outcomes, editable and ready to print or
 > project.
@@ -412,7 +434,7 @@ ${blogPosts.map((b) => `- [${b.title}](${SITE}/blog/${b.slug}): ${b.description}
 
 ## For citation
 
-Iqraa (\u0625\u0642\u0631\u0623) \u2014 Arabic teaching assistant for the Jordanian national curriculum.
+Iqrra (\u0625\u0642\u0631\u0623) \u2014 Arabic teaching assistant for the Jordanian national curriculum.
 ${SITE}/ \u00b7 info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds
