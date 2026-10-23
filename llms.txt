@@ -38,6 +38,11 @@ switched off, so they are deliberately absent from this list.
 
 - [Home](https://www.iqrra.com/): what it is, how it works, FAQ.
 - [Curriculum browser](https://www.iqrra.com/manhaj): every published grade and subject, with units, lessons and official learning outcomes — one page per grade/subject pair.
+- [تحضير درس حل نظام مكوَّن من معادلة خطية ومعادلة تربيعية](https://www.iqrra.com/manhaj/grade-10-mathematics/linear-quadratic-system): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
+- [تحضير درس حل نظام مكوَّن من معادلتين تربيعيتين](https://www.iqrra.com/manhaj/grade-10-mathematics/two-quadratics-system): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
+- [تحضير درس تبسيط المقادير الأسية](https://www.iqrra.com/manhaj/grade-10-mathematics/simplify-exponential-expressions): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
+- [تحضير درس حل المعادلة الأسية](https://www.iqrra.com/manhaj/grade-10-mathematics/exponential-equations): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
+- [تحضير درس المتتاليات](https://www.iqrra.com/manhaj/grade-10-mathematics/sequences): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
 - [Blog](https://www.iqrra.com/blog): practical tools for teachers.
 - [كيف تكتب خطة درس ناجحة؟ ٦ عناصر ونموذج جاهز للمعلم](https://www.iqrra.com/blog/how-to-write-a-lesson-plan): ستة عناصر تقوم عليها كل خطة درس: النتاج، والتمهيد، والعرض، والتدريب، والتقويم، والإغلاق، مع نموذج جاهز بالدقائق لحصة من ٤٥ دقيقة ومثالين من الصف العاشر.
 - [ورقة العمل الناجحة: ٧ قواعد لتصميم ورقة تحقق نتاج الدرس](https://www.iqrra.com/blog/how-to-design-a-worksheet): مثال محلول في أولها، وأسئلة متدرجة، ومفتاح راجعته بنفسك: سبع قواعد لتصميم ورقة عمل، مع نموذج كامل من كيمياء الصف العاشر.
