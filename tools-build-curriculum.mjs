@@ -74,6 +74,47 @@ const esc = (s) => String(s)
  */
 const slug = (p) => p.gradeId + '-' + p.subjectId;
 
+/**
+ * Lesson pages: /manhaj/grade-10-mathematics/<lesson>.
+ *
+ * data/practice-grade10-math.json is exported from the Iqraa repo's practice
+ * bank (scripts/export-site-practice.ts there) for the lessons whose bank items
+ * are about that lesson and no other. A lesson page earns its URL the way the
+ * subject pages do: it carries what the ministry's PDF does not — one worked
+ * example and practice questions with the working shown — and a lesson with no
+ * export gets neither a page nor a link. Do not add a lesson here by hand:
+ * the export refuses families shared by two lessons, because two pages
+ * printing the same questions are the thin-content pattern this site avoids.
+ *
+ * The questions are the bank's own, not the textbook's. Nothing on the page
+ * says they were verified by the maths service, because this build has not
+ * asked it.
+ */
+const PRACTICE_SUBJECT = 'grade-10-mathematics';
+const lessonPath = (e) => `/manhaj/${PRACTICE_SUBJECT}/${e.slug}`;
+
+let practiceLessons = [];
+try {
+  practiceLessons = JSON.parse(
+    readFileSync(new URL('./data/practice-grade10-math.json', import.meta.url), 'utf8'),
+  ).lessons;
+} catch (err) {
+  if (err.code !== 'ENOENT') throw err;
+}
+/** title -> export entry, for the subject page to link a lesson that has one. */
+const practiceByTitle = new Map(practiceLessons.map((e) => [e.titleAr, e]));
+{
+  // The export keys lessons by id in the app; this site has titles only. Make
+  // sure each entry still names a lesson of the published subject, so a
+  // renamed or withdrawn lesson cannot leave a page behind.
+  const subject = data.find((p) => slug(p) === PRACTICE_SUBJECT);
+  const titles = new Set(subject ? subject.books.flatMap((b) => b.units.flatMap((u) => u.lessons.map((l) => l.titleAr))) : []);
+  for (const e of practiceLessons) {
+    if (!titles.has(e.titleAr)) throw new Error(`practice export names a lesson not in ${PRACTICE_SUBJECT}: ${e.titleAr}`);
+  }
+  if (practiceByTitle.size !== practiceLessons.length) throw new Error('practice export repeats a lesson title');
+}
+
 const head = (title, desc, path, ld) => `<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -149,6 +190,28 @@ const crumbs = (items) => ({
  */
 const countPair = (units, lessons) => `الوحدات: ${units} · الدروس: ${lessons}`;
 
+/**
+ * The longest suffix that keeps the title under TITLE_MAX characters.
+ *
+ * One fixed suffix ran to 98 characters for the longest subject name, and 55
+ * of the site's 70 titles overran what a results page shows — Google cuts the
+ * tail, and with a right-to-left title the tail is the brand. The subject and
+ * grade are what a teacher searches for, so they never shrink; the descriptive
+ * suffix gives way first, in steps, and the shortest title still names the
+ * subject, the grade and the site. Subjects short enough keep the full wording.
+ */
+const TITLE_MAX = 65;
+const TITLE_SUFFIXES = [
+  ' — الوحدات والدروس ونتاجات التعلّم',
+  ' — الدروس ونتاجات التعلّم',
+  ' — نتاجات التعلّم',
+  '',
+];
+const pageTitle = (p) => {
+  const titles = TITLE_SUFFIXES.map((s) => `منهاج ${p.subjectAr} ${p.gradeAr}${s} | إقرأ`);
+  return titles.find((t) => t.length <= TITLE_MAX) ?? titles.at(-1);
+};
+
 function subjectPage(p) {
   // "لكل درس" only when it is true. Coverage runs from 66% to 100%, and a lede
   // promising outcomes on every lesson of a 66% page is a claim the reader can
@@ -156,7 +219,7 @@ function subjectPage(p) {
   const everyLesson = coverage(p) > 0.95;
   const outcomesPhrase = everyLesson ? 'نتاجات التعلّم لكل درس' : 'نتاجات التعلّم';
 
-  const title = `منهاج ${p.subjectAr} ${p.gradeAr} — الوحدات والدروس ونتاجات التعلّم | إقرأ`;
+  const title = pageTitle(p);
   const desc = `وحدات ودروس منهاج ${p.subjectAr} ${p.gradeAr} في الأردن (${countPair(p.counts.units, p.counts.lessons)}) `
     + `مع ${outcomesPhrase}، وفق مناهج وزارة التربية والتعليم.`;
   const path = `/manhaj/${slug(p)}`;
@@ -208,7 +271,10 @@ function subjectPage(p) {
       if (u.lessons.length) {
         b += `<ol class="lessons">\n`;
         for (const l of u.lessons) {
-          b += `<li>\n<span class="ltitle">${esc(l.titleAr)}</span>\n`;
+          const lp = slug(p) === PRACTICE_SUBJECT ? practiceByTitle.get(l.titleAr) : undefined;
+          b += lp
+            ? `<li>\n<span class="ltitle"><a href="${lessonPath(lp)}">${esc(l.titleAr)}</a><span class="tag">مثال محلول وأسئلة تدريب</span></span>\n`
+            : `<li>\n<span class="ltitle">${esc(l.titleAr)}</span>\n`;
           if (l.objectivesAr.length) {
             b += `<div class="obj"><span class="lbl">نتاجات التعلّم</span>\n<ul>\n`;
             for (const o of l.objectivesAr) b += `<li>${esc(o)}</li>\n`;
@@ -240,6 +306,160 @@ function subjectPage(p) {
   b += `\n<section class="closing">
 <h2>حضّر حصّة من منهاج ${esc(p.subjectAr)}</h2>
 <p>اختر الدرس من شجرة المنهاج، واطلب خطة درس أو ورقة عمل أو اختبارًا قصيرًا — بالعربية، جاهزًا للطباعة.</p>
+<p><a class="btn btn-primary" href="https://app.iqrra.com">جرّب إقرأ مجانًا</a></p>
+</section>
+</main>`;
+
+  return head(title, desc, path, ld) + b + foot;
+}
+
+/**
+ * Maths inside Arabic text.
+ *
+ * The bank stores maths as plain text with Latin letters and digits (`x`, `2^x`,
+ * `a_n`). Dropped into a right-to-left sentence as it is, the neutral
+ * characters between two Latin runs take the paragraph's direction and
+ * «x = 5» is drawn «5 = x». So each run of maths is wrapped in a left-to-right
+ * isolate, and `^`/`_` become real superscripts and subscripts.
+ *
+ * The run is built from maths characters only, so Arabic letters can never be
+ * pulled inside an isolate (they would be laid out backwards). Punctuation
+ * touching a run belongs to the sentence and stays outside it, and a run with
+ * no letter, digit, π or √ in it — a lone «(» or «…» — is left alone.
+ *
+ * Latin x and digits are kept on purpose: this site shows what the bank holds.
+ * The app converts to «س» and Arabic digits at display time; that conversion
+ * lives in the app's renderer and has not been ported, so these pages read
+ * differently from the app on that one point.
+ */
+const MATH_SET = 'A-Za-z0-9^_{}()\\[\\]=+\\-−×÷·/.,:،<>|√π°²³¹⁰-⁹⁺⁻ⁿ∘∩∪≤≥≠⟨⟩…θ%';
+const MATH_RUN = new RegExp(`[${MATH_SET}]+(?:[  ]+[${MATH_SET}]+)*`, 'g');
+const HAS_MATH = /[A-Za-z0-9π√]/;
+const sup = (s) => s
+  .replace(/\^\{([^}]*)\}/g, '<sup>$1</sup>')
+  .replace(/\^\(([^()]*)\)/g, '<sup>$1</sup>')
+  .replace(/\^([A-Za-z0-9]+)/g, '<sup>$1</sup>')
+  .replace(/_\{([^}]*)\}/g, '<sub>$1</sub>')
+  .replace(/_([A-Za-z0-9]+)/g, '<sub>$1</sub>');
+
+function mathText(text) {
+  let out = '';
+  let last = 0;
+  for (const m of text.matchAll(MATH_RUN)) {
+    let run = m[0];
+    let start = m.index;
+    const lead = run.match(/^[.,:،]+/)?.[0] ?? '';
+    run = run.slice(lead.length);
+    start += lead.length;
+    run = run.replace(/[.,:،]+$/, '');
+    if (!run || !HAS_MATH.test(run)) continue;
+    out += esc(text.slice(last, start)) + `<bdi class="m" dir="ltr">${sup(esc(run))}</bdi>`;
+    last = start + run.length;
+  }
+  return out + esc(text.slice(last));
+}
+
+/** A stem: its first line is the ask, any further lines are equations, one per line. */
+function problemHtml(stem) {
+  const [first, ...eqs] = stem.split('\n');
+  return `<p class="prob">${mathText(first)}${eqs.map((q) => `<span class="eq">${mathText(q)}</span>`).join('')}</p>`;
+}
+
+const stepsHtml = (steps) => `<ol class="steps">\n${steps.map((s) => `<li>${mathText(s)}</li>`).join('\n')}\n</ol>`;
+
+/** Longest title that fits; the lesson's own name is never cut, the suffixes give way. */
+const lessonTitle = (e) => {
+  const titles = [
+    `تحضير درس ${e.titleAr} — الصف العاشر | إقرأ`,
+    `تحضير درس ${e.titleAr} — الصف العاشر`,
+    `تحضير درس ${e.titleAr}`,
+  ];
+  return titles.find((t) => t.length <= TITLE_MAX) ?? titles.at(-1);
+};
+
+function lessonPage(e) {
+  const subject = data.find((p) => slug(p) === PRACTICE_SUBJECT);
+  const path = lessonPath(e);
+  const title = lessonTitle(e);
+  const desc = `تحضير درس «${e.titleAr}» للصف العاشر في الأردن: نتاجات التعلّم الرسمية، `
+    + 'ومثال محلول بخطواته، وأسئلة تدريب مع الحل، وفق مناهج وزارة التربية والتعليم.';
+  const { '@context': _ctx, ...trail } = crumbs([
+    { name: 'إقرأ', path: '/' },
+    { name: 'المناهج', path: '/manhaj' },
+    { name: `${subject.subjectAr} ${subject.gradeAr}`, path: `/manhaj/${PRACTICE_SUBJECT}` },
+    { name: e.titleAr, path },
+  ]);
+  const ld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      trail,
+      {
+        '@type': 'LearningResource',
+        name: `تحضير درس ${e.titleAr}`,
+        description: desc,
+        url: SITE + path,
+        inLanguage: 'ar',
+        isAccessibleForFree: true,
+        learningResourceType: 'ورقة تدريب',
+        educationalLevel: subject.gradeAr,
+        teaches: e.objectivesAr,
+        publisher: { '@type': 'Organization', name: 'إقرأ', url: SITE + '/' },
+      },
+    ],
+  };
+
+  const others = practiceLessons.filter((o) => o.slug !== e.slug);
+  let b = `<main class="wrap">
+<nav class="crumbs" aria-label="مسار التنقل">
+  <a href="/">الرئيسية</a> <span aria-hidden="true">←</span> <a href="/manhaj">المناهج</a> <span aria-hidden="true">←</span> <a href="/manhaj/${PRACTICE_SUBJECT}">${esc(subject.subjectAr)} ${esc(subject.gradeAr)}</a> <span aria-hidden="true">←</span> <span class="here">${esc(e.titleAr)}</span>
+</nav>
+<h1>تحضير درس: ${esc(e.titleAr)}</h1>
+<p class="lede">
+  من وحدة «${esc(e.unitAr)}» — ${esc(e.semesterAr)}، منهاج ${esc(subject.subjectAr)} ${esc(subject.gradeAr)}.
+  هنا نتاجات الدرس الرسمية، ومثال محلول بخطواته، وأسئلة تدريب مع الحل.
+</p>
+<p class="cta-inline"><a class="btn btn-primary" href="https://app.iqrra.com">حضّر هذا الدرس في إقرأ</a></p>
+
+<section class="blk">
+<h2>نتاجات التعلّم</h2>
+<ul class="outcomes">
+${e.objectivesAr.map((o) => `<li>${esc(o)}</li>`).join('\n')}
+</ul>
+<p class="note">كما ترد في منهاج المركز الوطني لتطوير المناهج.</p>
+</section>
+
+<section class="blk">
+<h2>مثال محلول</h2>
+${problemHtml(e.worked.problem)}
+${stepsHtml(e.worked.steps)}
+</section>
+
+<section class="blk">
+<h2>أسئلة للتدريب</h2>
+<p class="note">حاول الحل أولًا، ثم افتح الإجابة والحل لتقارن.</p>
+<ol class="qs">
+${e.practice.map((q) => `<li>
+${problemHtml(q.problem)}
+<details>
+<summary>الإجابة والحل</summary>
+<p class="ans"><span class="lbl">الإجابة</span>${mathText(q.answer)}</p>
+${stepsHtml(q.steps)}
+</details>
+</li>`).join('\n')}
+</ol>
+<p class="note">أسئلة التدريب من بنك إقرأ وليست من نص الكتاب المدرسي. راجع الإجابات قبل اعتمادها مع طلبتك.</p>
+</section>
+`;
+
+  if (others.length) {
+    b += `\n<section class="siblings">\n<h2>دروس أخرى فيها أسئلة تدريب</h2>\n<ul class="pills">\n`;
+    for (const o of others) b += `<li><a href="${lessonPath(o)}">${esc(o.titleAr)}</a></li>\n`;
+    b += `</ul>\n<p class="note"><a href="/manhaj/${PRACTICE_SUBJECT}">كل دروس منهاج ${esc(subject.subjectAr)} ${esc(subject.gradeAr)}</a></p>\n</section>\n`;
+  }
+
+  b += `\n<section class="closing">
+<h2>حضّر هذا الدرس بنفسك</h2>
+<p>اختر الدرس في إقرأ واطلب خطة درس أو ورقة عمل أو اختبارًا قصيرًا — بالعربية، جاهزًا للطباعة.</p>
 <p><a class="btn btn-primary" href="https://app.iqrra.com">جرّب إقرأ مجانًا</a></p>
 </section>
 </main>`;
@@ -304,6 +524,10 @@ writeFileSync(new URL('./manhaj.html', root), indexPage(), 'utf8');
 for (const p of data) {
   writeFileSync(new URL(`./manhaj/${slug(p)}.html`, root), subjectPage(p), 'utf8');
 }
+if (practiceLessons.length) mkdirSync(new URL(`./manhaj/${PRACTICE_SUBJECT}/`, root), { recursive: true });
+for (const e of practiceLessons) {
+  writeFileSync(new URL(`.${lessonPath(e)}.html`, root), lessonPage(e), 'utf8');
+}
 
 // The sitemap is generated here so it cannot drift from what was written.
 // /download and /editorial stay out: both are noindex, and listing a noindex
@@ -330,6 +554,7 @@ const urls = [
   '/', '/manhaj', '/privacy', '/blog',
   ...blogPosts.map((p) => `/blog/${p.slug}`),
   ...data.map((p) => `/manhaj/${slug(p)}`),
+  ...practiceLessons.map(lessonPath),
 ];
 writeFileSync(new URL('./sitemap.xml', root),
   `<?xml version="1.0" encoding="UTF-8"?>
@@ -364,14 +589,14 @@ const gradeCount = new Set(data.map((p) => p.gradeId)).size;
 const subjectCount = new Set(data.map((p) => p.subjectId)).size;
 const today = new Date().toISOString().slice(0, 10);
 
-writeFileSync(new URL('./llms.txt', root), `# \u0625\u0642\u0631\u0623 (Iqraa)
+writeFileSync(new URL('./llms.txt', root), `# \u0625\u0642\u0631\u0623 (Iqrra)
 
 > \u0645\u0633\u0627\u0639\u062f \u062a\u062d\u0636\u064a\u0631 \u0639\u0631\u0628\u064a \u0644\u0644\u0645\u0639\u0644\u0645\u064a\u0646 \u0641\u064a \u0627\u0644\u0623\u0631\u062f\u0646. \u064a\u062e\u062a\u0627\u0631 \u0627\u0644\u0645\u0639\u0644\u0645 \u0627\u0644\u0635\u0641 \u0648\u0627\u0644\u0645\u0627\u062f\u0629 \u0648\u0627\u0644\u0648\u062d\u062f\u0629
 > \u0648\u0627\u0644\u062f\u0631\u0633\u060c \u0641\u064a\u0628\u0646\u064a \u0625\u0642\u0631\u0623 \u062e\u0637\u0629 \u062f\u0631\u0633 \u0623\u0648 \u0648\u0631\u0642\u0629 \u0639\u0645\u0644 \u0623\u0648 \u0627\u062e\u062a\u0628\u0627\u0631\u064b\u0627 \u0642\u0635\u064a\u0631\u064b\u0627 \u0623\u0648 \u0646\u0634\u0627\u0637\u064b\u0627 \u0635\u0641\u064a\u064b\u0627 \u0623\u0648
 > \u0634\u0631\u0627\u0626\u062d \u0639\u0631\u0636\u060c \u0645\u0628\u0646\u064a\u0629 \u0639\u0644\u0649 \u0646\u062a\u0627\u062c\u0627\u062a \u0627\u0644\u062a\u0639\u0644\u0651\u0645 \u0627\u0644\u0645\u0639\u062a\u0645\u062f\u0629 \u0641\u064a \u0627\u0644\u0645\u0646\u0647\u0627\u062c \u0627\u0644\u0623\u0631\u062f\u0646\u064a.
 >
 > An Arabic-native lesson-preparation assistant for teachers in Jordan. The
-> teacher picks a grade, subject, unit and lesson; Iqraa builds a lesson plan,
+> teacher picks a grade, subject, unit and lesson; Iqrra builds a lesson plan,
 > worksheet, short quiz, classroom activity or slide deck grounded in that
 > lesson's official NCCD learning outcomes, editable and ready to print or
 > project.
@@ -404,6 +629,7 @@ switched off, so they are deliberately absent from this list.
 
 - [Home](${SITE}/): what it is, how it works, FAQ.
 - [Curriculum browser](${SITE}/manhaj): every published grade and subject, with units, lessons and official learning outcomes \u2014 one page per grade/subject pair.
+${practiceLessons.map((e) => `- [تحضير درس ${e.titleAr}](${SITE}${lessonPath(e)}): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).`).join('\n')}
 - [Blog](${SITE}/blog): practical tools for teachers.
 ${blogPosts.map((b) => `- [${b.title}](${SITE}/blog/${b.slug}): ${b.description}`).join('\n')}
 - [The app](https://app.iqrra.com): the product itself.
@@ -412,7 +638,7 @@ ${blogPosts.map((b) => `- [${b.title}](${SITE}/blog/${b.slug}): ${b.description}
 
 ## For citation
 
-Iqraa (\u0625\u0642\u0631\u0623) \u2014 Arabic teaching assistant for the Jordanian national curriculum.
+Iqrra (\u0625\u0642\u0631\u0623) \u2014 Arabic teaching assistant for the Jordanian national curriculum.
 ${SITE}/ \u00b7 info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds
