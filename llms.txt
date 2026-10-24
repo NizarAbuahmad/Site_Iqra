@@ -44,6 +44,11 @@ switched off, so they are deliberately absent from this list.
 - [تحضير درس حل المعادلة الأسية](https://www.iqrra.com/manhaj/grade-10-mathematics/exponential-equations): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
 - [تحضير درس المتتاليات](https://www.iqrra.com/manhaj/grade-10-mathematics/sequences): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
 - [Blog](https://www.iqrra.com/blog): practical tools for teachers.
+- [٥ أخطاء يقع فيها طلبة العاشر في حل نظام معادلة خطية وتربيعية](https://www.iqrra.com/blog/linear-quadratic-system-common-errors): خمسة أخطاء متكررة في حل نظام مكوَّن من معادلة خطية وأخرى تربيعية، لكل منها مثال محلول وعلاج، مع نشاط «جد الخطأ» وجدول لعدد الحلول.
+- [كيف تشرح قانون الجيوب وجيب التمام؟ ٤ حالات لحل المثلث وخطة من حصتين](https://www.iqrra.com/blog/teaching-law-of-sines-and-cosines): متى نستعمل قانون الجيوب ومتى جيب التمام؟ أربع حالات لحل المثلث، وخطة حصتين من ٤٥ دقيقة، ومثال محلول لكل حالة، والحالة الملتبسة، وأخطاء شائعة.
+- [المول والكتلة المولية: كيف تشرحه لطلبة العاشر في ٣ خطوات](https://www.iqrra.com/blog/teaching-the-mole-and-molar-mass): ثلاث خطوات لشرح المول: الكتلة المولية، ثم المولات، ثم الجسيمات. مثال محلول، وخطة حصة من ٤٥ دقيقة، ونشاط «وزن مول»، وأخطاء شائعة.
+- [كيف تُعدّ اختبار نهاية الفصل؟ ٦ خطوات من جدول المواصفات إلى مفتاح التصحيح](https://www.iqrra.com/blog/how-to-prepare-an-end-of-semester-exam): ست خطوات لإعداد اختبار نهاية الفصل: النتاجات، وجدول المواصفات، والأسئلة، والترتيب، ومفتاح التصحيح، والتحليل. مع مثال من وحدة «الأسس والمعادلات» للصف العاشر.
+- [معجم المعلم: ١٠ مصطلحات تربوية بتعريف مختصر ومثال](https://www.iqrra.com/blog/teacher-glossary): عشرة مصطلحات يحتاج إليها المعلم في التحضير والتقويم: نتاج التعلم، والتقويم التكويني والختامي، والتغذية الراجعة، والتمايز، وجدول المواصفات وغيرها، بتعريف في جملة ومثال.
 - [كيف تكتب خطة درس ناجحة؟ ٦ عناصر ونموذج جاهز للمعلم](https://www.iqrra.com/blog/how-to-write-a-lesson-plan): ستة عناصر تقوم عليها كل خطة درس: النتاج، والتمهيد، والعرض، والتدريب، والتقويم، والإغلاق، مع نموذج جاهز بالدقائق لحصة من ٤٥ دقيقة ومثالين من الصف العاشر.
 - [ورقة العمل الناجحة: ٧ قواعد لتصميم ورقة تحقق نتاج الدرس](https://www.iqrra.com/blog/how-to-design-a-worksheet): مثال محلول في أولها، وأسئلة متدرجة، ومفتاح راجعته بنفسك: سبع قواعد لتصميم ورقة عمل، مع نموذج كامل من كيمياء الصف العاشر.
 - [كيف تكتب أسئلة اختبار جيدة؟ ٨ قواعد للاختيار من متعدد والصح والخطأ](https://www.iqrra.com/blog/how-to-write-quiz-questions): متن كامل، وخيارات متشابهة، ومشتتات من أخطاء الطلبة الحقيقية: ثماني قواعد لكتابة أسئلة الاختبار القصير، مع مثال كامل من «قانون الجيوب» للصف العاشر.
@@ -61,4 +66,4 @@ Iqrra (إقرأ) — Arabic teaching assistant for the Jordanian national curric
 https://www.iqrra.com/ · info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds
-https://www.iqrra.com/manhaj. Last generated: 2026-10-23.
+https://www.iqrra.com/manhaj. Last generated: 2026-10-24.
