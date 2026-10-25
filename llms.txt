@@ -44,6 +44,11 @@ switched off, so they are deliberately absent from this list.
 - [تحضير درس حل المعادلة الأسية](https://www.iqrra.com/manhaj/grade-10-mathematics/exponential-equations): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
 - [تحضير درس المتتاليات](https://www.iqrra.com/manhaj/grade-10-mathematics/sequences): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
 - [Blog](https://www.iqrra.com/blog): practical tools for teachers.
+- [مراجعة نهاية الفصل الأول لرياضيات العاشر: خطة ١٠ أيام وورقة بإجاباتها](https://www.iqrra.com/blog/grade-10-semester-1-math-review): جدول مراجعة من عشرة أيام لوحدات الفصل الأول في رياضيات الصف العاشر، وشكل ثابت لحصة المراجعة، وورقة من ١٢ سؤالًا بإجاباتها الكاملة.
+- [تبسيط المقادير الأسية وحل المعادلة الأسية: ٥ أخطاء وكيف تعالجها](https://www.iqrra.com/blog/teaching-exponents-and-exponential-equations): قواعد الأسس في جدول، وخمسة أخطاء يكررها طلبة العاشر في تبسيط المقادير الأسية وحل المعادلات والأنظمة الأسية، لكل منها مثال محلول وعلاج.
+- [جهّز فصلك الثاني: خطة أول أسبوعين من ١٠ حصص](https://www.iqrra.com/blog/plan-the-first-two-weeks-of-semester-two): ثلاث أولويات لأول أسبوعين من الفصل الثاني، وجدول من عشر حصص، واختباران تشخيصيان قصيران لرياضيات الصف العاشر وكيمياء الصف نفسه بإجاباتهما، وروتينات لأول أسبوع.
+- [حصة رمضانية في ٣٠ دقيقة: كيف تضغط الدرس دون أن تُضعف النتاج](https://www.iqrra.com/blog/ramadan-30-minute-lesson): خمس خطوات لتحويل حصة من 45 دقيقة إلى 30 دون المساس بالنتاج: ما نُبقيه وما نحذفه، ونموذج من درس المول والكتلة المولية، وثلاثة أنشطة قصيرة.
+- [من أين يأتي محتوى إقرأ؟ نتاجات المنهاج الأردني وحدودها](https://www.iqrra.com/blog/where-iqra-content-comes-from): يبني إقرأ للمعلمين مادته على نتاجات التعلّم المنشورة لكل درس في مناهج المركز الوطني لتطوير المناهج. كم يغطي اليوم، وما الذي لم يُنشر بعد، وما مسؤوليتك.
 - [٥ أخطاء يقع فيها طلبة العاشر في حل نظام معادلة خطية وتربيعية](https://www.iqrra.com/blog/linear-quadratic-system-common-errors): خمسة أخطاء متكررة في حل نظام مكوَّن من معادلة خطية وأخرى تربيعية، لكل منها مثال محلول وعلاج، مع نشاط «جد الخطأ» وجدول لعدد الحلول.
 - [كيف تشرح قانون الجيوب وجيب التمام؟ ٤ حالات لحل المثلث وخطة من حصتين](https://www.iqrra.com/blog/teaching-law-of-sines-and-cosines): متى نستعمل قانون الجيوب ومتى جيب التمام؟ أربع حالات لحل المثلث، وخطة حصتين من ٤٥ دقيقة، ومثال محلول لكل حالة، والحالة الملتبسة، وأخطاء شائعة.
 - [المول والكتلة المولية: كيف تشرحه لطلبة العاشر في ٣ خطوات](https://www.iqrra.com/blog/teaching-the-mole-and-molar-mass): ثلاث خطوات لشرح المول: الكتلة المولية، ثم المولات، ثم الجسيمات. مثال محلول، وخطة حصة من ٤٥ دقيقة، ونشاط «وزن مول»، وأخطاء شائعة.
@@ -66,4 +71,4 @@ Iqrra (إقرأ) — Arabic teaching assistant for the Jordanian national curric
 https://www.iqrra.com/ · info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds
-https://www.iqrra.com/manhaj. Last generated: 2026-10-24.
+https://www.iqrra.com/manhaj. Last generated: 2026-10-25.
