@@ -180,3 +180,17 @@ ul.refs li{margin:9px 0}
   .filters{flex-direction:row; align-items:center; justify-content:space-between}
   .search{min-width:260px}
 }
+
+/* Real screenshots and clips of the app (DESIGN.md: phone frames 24px, offset soft shadow). Clips are never autoplayed. */
+.shots{display:flex; gap:16px; justify-content:center; margin:26px 0 10px; padding:2px 4px 14px}
+.shots figure{margin:0; flex:0 1 232px; min-width:0}
+.shots img, .shots video{display:block; width:100%; height:auto; border-radius:24px; border:1px solid var(--border); background:var(--card); box-shadow:0 14px 26px -6px rgba(11,27,51,.22)}
+.shots figcaption{margin:12px 4px 0; color:var(--muted); font-size:14px; line-height:1.65; text-align:center}
+.shots.one figure{flex-basis:260px}
+.shot-cta{text-align:center; margin:6px 0 28px}
+.tech .shots{margin-top:16px}
+@media (max-width:640px){
+  .shots:not(.one){justify-content:flex-start; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch}
+  .shots:not(.one) figure{flex:0 0 68%; scroll-snap-align:center}
+  .shots.one figure{flex-basis:72%}
+}
