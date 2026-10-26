@@ -32,7 +32,7 @@ main{padding-top:8px}
   padding:1px 6px; font-size:.92em; font-family:inherit;
 }
 
-/* Tabs. Two sets on one page: a general set and an Iqraa set. Buttons rather
+/* Tabs. Two sets on one page: a general set and an Iqrra set. Buttons rather
    than links because switching must not add a history entry per tap. */
 .tabs{display:flex; gap:8px; margin:34px 0 0; flex-wrap:wrap}
 .tab{

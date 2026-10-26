@@ -147,7 +147,7 @@ components:
 
 **Creative North Star:** Show, don't decorate — the product's own screens are the persuasion, so the page gets out of their way.
 
-**Product context:** إقرأ (Iqraa) — an Arabic-native AI assistant that helps Jordanian teachers prepare lesson plans, worksheets, quizzes, and slides aligned to the NCCD/MoE national curriculum. This site is the free-trial marketing funnel; audience is teachers and schools in Jordan, read right-to-left in Arabic.
+**Product context:** إقرأ (Iqrra) — an Arabic-native AI assistant that helps Jordanian teachers prepare lesson plans, worksheets, quizzes, and slides aligned to the NCCD/MoE national curriculum. This site is the free-trial marketing funnel; audience is teachers and schools in Jordan, read right-to-left in Arabic.
 
 **Mode per surface:** Persuade (this site) — evidence-led, not hype-led. The in-app product (separate repo, shared color system) is Operate mode.
 
