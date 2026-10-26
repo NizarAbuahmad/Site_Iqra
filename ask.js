@@ -47,7 +47,9 @@
 
   function str(v) { return v == null ? "" : String(v); }
 
-  function hasArabic(text) { return /[؀-ۿ]/.test(str(text)); }
+  // Arabic, Arabic Supplement, and the two presentation-form blocks (text pasted
+  // from some sources arrives as already-joined forms).
+  function hasArabic(text) { return /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/.test(str(text)); }
 
   // The language of a message: Arabic when it has any Arabic letter, English when
   // it has text without one, Arabic when it is empty (the page is Arabic).
@@ -62,15 +64,18 @@
   // refuse (another role, empty text) is dropped here, so one odd entry can
   // never make a whole question fail with a 400.
   function buildRequest(message, turns) {
-    var history = [];
-    (turns || []).slice(-HISTORY_MAX).forEach(function (turn) {
+    var valid = [];
+    // Filter FIRST, then keep the last HISTORY_MAX valid turns, so a junk entry
+    // never takes a slot from a real earlier turn.
+    (Array.isArray(turns) ? turns : []).forEach(function (turn) {
       if (!turn || typeof turn !== "object") return;
       if (turn.role !== "user" && turn.role !== "assistant") return;
-      var content = str(turn.content).trim();
+      if (typeof turn.content !== "string") return;
+      var content = turn.content.trim();
       if (!content) return;
-      history.push({ role: turn.role, content: content.slice(0, turn.role === "user" ? MESSAGE_MAX : REPLY_MAX) });
+      valid.push({ role: turn.role, content: content.slice(0, turn.role === "user" ? MESSAGE_MAX : REPLY_MAX) });
     });
-    return { message: normalizeMessage(message), history: history };
+    return { message: normalizeMessage(message), history: valid.slice(-HISTORY_MAX) };
   }
 
   // What a reply means for the visitor. Either an answer, or ONE friendly notice;
