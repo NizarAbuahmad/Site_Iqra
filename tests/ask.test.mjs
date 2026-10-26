@@ -229,11 +229,12 @@ test("the client gives up after 30 s: the server's worst case is 5 s of facts pl
 const plain = (text) => [{ text }];
 const joined = (segments) => segments.map((x) => x.text).join("");
 
-test("linkify: the real answer for the second chip ends with a link, and the full stop stays outside it", () => {
-  const text = "نغطي مواد المنهاج الأردني من الصف الأول إلى العاشر. تصفّح المناهج: https://www.iqrra.com/manhaj.";
+test("linkify: the curated answer for the second chip (verbatim from siteAskAnswers.ts) ends with a link, and a full stop added after it stays outside the link", () => {
+  const head = "تضم المنصّة مواد من الصف الأول إلى الصف العاشر، ومنها الرياضيات والعلوم والفيزياء والكيمياء والأحياء واللغتان العربية والإنجليزية والتربية الإسلامية والمهارات الرقمية. تختلف التغطية بحسب الصف والمادة؛ تصفّح صفحة المناهج للاطلاع على المتاح: ";
+  const text = head + "https://www.iqrra.com/manhaj.";
   const out = core.linkify(text);
   assert.deepEqual(out, [
-    { text: "نغطي مواد المنهاج الأردني من الصف الأول إلى العاشر. تصفّح المناهج: " },
+    { text: head },
     { text: "https://www.iqrra.com/manhaj", href: "https://www.iqrra.com/manhaj" },
     { text: "." },
   ]);
