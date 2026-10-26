@@ -23,9 +23,11 @@
   var REPLY_MAX = 1200;
   var HISTORY_MAX = 4;
 
-  // The server waits up to 5 s for its facts and 20 s for the model; this is
-  // that plus a margin. Past it the visitor gets the "unavailable" notice.
-  var TIMEOUT_MS = 25000;
+  // The server waits up to 5 s for its facts and then up to 20 s for the model:
+  // 25 s in the worst case, before the network. This is that plus a 5 s margin.
+  // A slower reply than that (a cold start on top of the worst case) is given up
+  // on: the visitor gets the "unavailable" notice even if the server answers later.
+  var TIMEOUT_MS = 30000;
 
   var EMAIL = "info@iqrra.com";
 
@@ -99,6 +101,40 @@
     return { kind: "notice", text: TEXT[l].unavailable, reason: "unavailable" };
   }
 
+  // The only hosts an answer may link to. A token becomes a link only when ALL of it
+  // (after the punctuation around it is peeled off) is https://iqrra.com or
+  // https://www.iqrra.com followed by nothing, or by a path/query/fragment. Anything
+  // else (another host, a lookalike, user-info, http:, javascript:, an uppercase
+  // scheme) stays plain text.
+  var LINK_RE = /^https:\/\/(?:www\.)?iqrra\.com(?:[\/?#][A-Za-z0-9\-._~%!$&*+,;=:@\/?#]*)?$/;
+  var LEAD_PUNCT = "(«\"'[";
+  var TRAIL_PUNCT = ".,;:!?)»\"']\u060C\u061B\u061F\u2026";
+
+  // text -> [{ text }, { text, href }, ...]; the texts joined give the input back.
+  function linkify(text) {
+    var out = [];
+    function push(t, href) {
+      if (!t) return;
+      var last = out[out.length - 1];
+      if (!href && last && !last.href) last.text += t;
+      else out.push(href ? { text: t, href: href } : { text: t });
+    }
+    str(text).split(/(\s+)/).forEach(function (chunk) {
+      var start = 0, end = chunk.length;
+      while (start < end && LEAD_PUNCT.indexOf(chunk.charAt(start)) !== -1) start++;
+      while (end > start && TRAIL_PUNCT.indexOf(chunk.charAt(end - 1)) !== -1) end--;
+      var candidate = chunk.slice(start, end);
+      if (candidate && LINK_RE.test(candidate)) {
+        push(chunk.slice(0, start));
+        push(candidate, candidate);
+        push(chunk.slice(end));
+      } else {
+        push(chunk);
+      }
+    });
+    return out;
+  }
+
   var core = {
     ENDPOINT: ENDPOINT,
     MESSAGE_MAX: MESSAGE_MAX,
@@ -111,7 +147,8 @@
     langOf: langOf,
     normalizeMessage: normalizeMessage,
     buildRequest: buildRequest,
-    interpret: interpret
+    interpret: interpret,
+    linkify: linkify
   };
 
   if (typeof module !== "undefined" && module.exports) module.exports = core;
@@ -155,7 +192,7 @@
     var turns = [];      // earlier question/answer pairs, in this page's memory only
     var busy = false;
 
-    var box = el("div", "iqchat");
+    var box = el("div", "iqchat ph-no-capture");   // PostHog autocapture skips an element with this class and everything inside it
     box.id = "iqchat";
 
     var launcher = el("button", "iqchat-launcher");
@@ -240,18 +277,49 @@
       if (open) input.focus(); else launcher.focus();
     }
 
-    function addMessage(className, text) {
+    // Keep the newest thing in view: the bottom of the log.
+    function toBottom() { log.scrollTop = log.scrollHeight; }
+
+    function addMessage(className, text, lang) {
       var message = el("div", "iqchat-msg " + className);
       message.setAttribute("dir", "auto");     // an English answer sits left-aligned inside this RTL page
+      if (lang) message.setAttribute("lang", lang);   // so a screen reader uses the right voice on this lang="ar" page
       message.textContent = text;
       log.appendChild(message);
-      log.scrollTop = log.scrollHeight;
+      toBottom();
+      return message;
+    }
+
+    // An answer: the text, with a link only where linkify() found one of ours. Every
+    // piece goes in as a text node or textContent; the href comes from a segment
+    // that matched https://iqrra.com or https://www.iqrra.com and nothing else.
+    // A reader starts at the beginning, so a long answer is shown from its top.
+    function addAnswer(text, lang) {
+      var message = el("div", "iqchat-msg iqchat-bot");
+      message.setAttribute("dir", "auto");
+      message.setAttribute("lang", lang);
+      linkify(text).forEach(function (segment) {
+        if (!segment.href) { message.appendChild(document.createTextNode(segment.text)); return; }
+        var link = el("a", "iqchat-link", segment.text);
+        link.href = segment.href;
+        link.target = "_blank";
+        link.rel = "noopener";
+        message.appendChild(link);
+      });
+      log.appendChild(message);
+      if (message.offsetHeight > log.clientHeight) {
+        var padTop = parseFloat(window.getComputedStyle(log).paddingTop) || 0;
+        log.scrollTop += message.getBoundingClientRect().top - log.getBoundingClientRect().top - padTop;
+      } else {
+        toBottom();
+      }
       return message;
     }
 
     function addNotice(text, lang) {
       var message = el("div", "iqchat-msg iqchat-notice");
       message.setAttribute("dir", "auto");
+      message.setAttribute("lang", lang);
       message.appendChild(document.createTextNode(text));
       var line = el("p");
       var link = el("a", null, lang === "en" ? "Leave a note" : "اكتب اقتراحك");
@@ -260,22 +328,24 @@
       line.appendChild(link);
       message.appendChild(line);
       log.appendChild(message);
-      log.scrollTop = log.scrollHeight;
+      toBottom();
     }
 
     // fromInput: true when the text was typed (the box is cleared once it is sent),
     // false for a chip (whatever the visitor has half typed stays where it is).
     function send(raw, fromInput) {
       var message = normalizeMessage(raw);
-      if (!message || busy) return;
+      if (busy) return;
+      if (!message) { input.focus(); return; }   // an empty send: no request, the cursor stays where the visitor types
       busy = true;
       sendButton.disabled = true;
       chips.hidden = true;
-      addMessage("iqchat-user", message);
+      if (!fromInput) input.focus();            // the tapped chip has just been hidden: do not let focus fall to <body> during the wait
+      var lang = langOf(message);
+      addMessage("iqchat-user", message, lang);
       if (fromInput) input.value = "";
 
-      var lang = langOf(message);
-      var typing = addMessage("iqchat-bot iqchat-typing", lang === "en" ? "Typing…" : "جارٍ الكتابة…");
+      var typing = addMessage("iqchat-bot iqchat-typing", lang === "en" ? "Typing…" : "جارٍ الكتابة…", lang);
 
       var settled = false;
       var controller = typeof AbortController === "function" ? new AbortController() : null;
@@ -288,7 +358,7 @@
         if (typing.parentNode) typing.parentNode.removeChild(typing);
         var outcome = interpret(result.status, result.body, lang);
         if (outcome.kind === "answer") {
-          addMessage("iqchat-bot", outcome.text);
+          addAnswer(outcome.text, lang);
           turns.push({ role: "user", content: message }, { role: "assistant", content: outcome.text });
         } else {
           addNotice(outcome.text, lang);
@@ -330,14 +400,15 @@
     launcher.addEventListener("click", function () { setOpen(true, true); });
     closeButton.addEventListener("click", function () { setOpen(false, true); });
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && !event.isComposing && !panel.hidden) setOpen(false, true);
+      // Only an Esc pressed inside the panel: elsewhere it belongs to the page (its menu, its suggestion form).
+      if (event.key === "Escape" && !event.isComposing && !panel.hidden && panel.contains(event.target)) setOpen(false, true);
     });
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       send(input.value, true);
     });
 
-    addMessage("iqchat-bot", "أهلًا بك! اسألني عن إقرأ، أو اختر سؤالًا من الأسفل.");
+    addMessage("iqchat-bot", "أهلًا بك! اسألني عن إقرأ، أو اختر سؤالًا من الأسفل.", "ar");
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

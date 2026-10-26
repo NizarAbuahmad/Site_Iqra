@@ -14,6 +14,9 @@ test("langOf: any Arabic letter makes it Arabic, otherwise English, empty defaul
   assert.equal(core.langOf("هل Android متاح"), "ar");
   assert.equal(core.langOf(""), "ar");
   assert.equal(core.langOf("   "), "ar");
+  // Text with no letters at all is not Arabic: it counts as English.
+  assert.equal(core.langOf("123"), "en");
+  assert.equal(core.langOf("??"), "en");
   assert.equal(core.langOf(null), "ar");
   assert.equal(core.langOf(undefined), "ar");
 });
@@ -132,6 +135,21 @@ test("interpret: a real answer, curated or AI, trimmed", () => {
   assert.equal(core.interpret(200, { answered: true, content: "Yes" }, "en").source, "ai");
 });
 
+test("interpret: only a 200 that says answered === true with text is an answer", () => {
+  assert.equal(core.interpret(500, { answered: true, content: "x" }, "en").kind, "notice");
+  assert.equal(core.interpret(429, { answered: true, content: "x" }, "en").kind, "notice");
+  assert.equal(core.interpret(200, { answered: "true", content: "x" }, "en").kind, "notice");
+  assert.equal(core.interpret(200, { answered: 1, content: "x" }, "en").kind, "notice");
+  assert.equal(core.interpret(200, { content: "x" }, "en").kind, "notice");
+});
+
+test("interpret: an unknown source string is treated as the AI's", () => {
+  assert.equal(core.interpret(200, { answered: true, content: "x", source: "curated" }, "en").source, "curated");
+  assert.equal(core.interpret(200, { answered: true, content: "x", source: "CURATED" }, "en").source, "ai");
+  assert.equal(core.interpret(200, { answered: true, content: "x", source: "something-new" }, "en").source, "ai");
+  assert.equal(core.interpret(200, { answered: true, content: "x", source: 5 }, "en").source, "ai");
+});
+
 test("interpret: an answer with no text is not an answer", () => {
   for (const body of [{ answered: true, content: "" }, { answered: true, content: "   " }, { answered: true }, { answered: true, content: 5 }]) {
     const out = core.interpret(200, body, "en");
@@ -167,7 +185,9 @@ test("interpret: the visitor never gets a status code or a raw reason", () => {
     for (const lang of ["ar", "en"]) {
       const out = core.interpret(status, { error: "Failed to load", code: "rate_limited" }, lang);
       assert.equal(out.kind, "notice");
-      assert.doesNotMatch(out.text, new RegExp(String(status === 0 ? "ZZZ" : status)));
+      // No digit at all (Latin or Arabic-Indic) in a notice, so no status code can be in it.
+      assert.doesNotMatch(out.text, /[0-9٠-٩]/);
+      assert.ok(out.text.length > 10);
       assert.doesNotMatch(out.text, /rate_limited|Failed to load|error/i);
     }
   }
@@ -198,4 +218,101 @@ test("the endpoint is the API the site already uses, and nothing in the file bui
   const { readFileSync } = await import("node:fs");
   const source = readFileSync(new URL("../ask.js", import.meta.url), "utf8");
   assert.doesNotMatch(source, /innerHTML|outerHTML|insertAdjacentHTML|document\.write/);
+});
+
+test("the client gives up after 30 s: the server's worst case is 5 s of facts plus 20 s of model", () => {
+  assert.equal(core.TIMEOUT_MS, 30000);
+  assert.ok(core.TIMEOUT_MS >= 25000 + 5000);
+});
+
+// ── linkify: the only links an answer may carry are ones to this site ────────────────────────────────
+const plain = (text) => [{ text }];
+const joined = (segments) => segments.map((x) => x.text).join("");
+
+test("linkify: the real answer for the second chip ends with a link, and the full stop stays outside it", () => {
+  const text = "نغطي مواد المنهاج الأردني من الصف الأول إلى العاشر. تصفّح المناهج: https://www.iqrra.com/manhaj.";
+  const out = core.linkify(text);
+  assert.deepEqual(out, [
+    { text: "نغطي مواد المنهاج الأردني من الصف الأول إلى العاشر. تصفّح المناهج: " },
+    { text: "https://www.iqrra.com/manhaj", href: "https://www.iqrra.com/manhaj" },
+    { text: "." },
+  ]);
+  assert.equal(joined(out), text);
+});
+
+test("linkify: trailing ) » ? ! ; : , and the Arabic ، ؛ ؟ stay outside the link; a leading ( or « too", () => {
+  for (const tail of [")", "»", "?", "!", ";", ":", ",", "،", "؛", "؟", ".)", ").", "…"]) {
+    const out = core.linkify("(https://iqrra.com/manhaj" + tail);
+    assert.deepEqual(out[1], { text: "https://iqrra.com/manhaj", href: "https://iqrra.com/manhaj" }, tail);
+    assert.equal(out[0].text, "(");
+    assert.equal(joined(out), "(https://iqrra.com/manhaj" + tail);
+  }
+  assert.deepEqual(core.linkify("«https://www.iqrra.com/a»"), [{ text: "«" }, { text: "https://www.iqrra.com/a", href: "https://www.iqrra.com/a" }, { text: "»" }]);
+});
+
+test("linkify: both hosts, with or without a path, query and fragment; several links; whitespace kept", () => {
+  assert.deepEqual(core.linkify("https://iqrra.com"), [{ text: "https://iqrra.com", href: "https://iqrra.com" }]);
+  assert.deepEqual(core.linkify("https://www.iqrra.com/"), [{ text: "https://www.iqrra.com/", href: "https://www.iqrra.com/" }]);
+  const q = "https://www.iqrra.com/manhaj?grade=10&subject=math#top";
+  assert.deepEqual(core.linkify(q), [{ text: q, href: q }]);
+  const two = "a https://iqrra.com/x\n\nb  https://www.iqrra.com/y c";
+  const out = core.linkify(two);
+  assert.equal(out.filter((x) => x.href).length, 2);
+  assert.equal(joined(out), two);
+});
+
+test("linkify: text with no link comes back as one plain segment, and non-strings are tolerated", () => {
+  assert.deepEqual(core.linkify("إقرأ مجاني للبدء"), plain("إقرأ مجاني للبدء"));
+  assert.deepEqual(core.linkify(""), []);
+  assert.deepEqual(core.linkify(null), []);
+  assert.deepEqual(core.linkify(undefined), []);
+  assert.deepEqual(core.linkify(42), plain("42"));
+});
+
+test("linkify: anything that is not exactly this site stays plain text", () => {
+  const tricks = [
+    "https://evil.com/manhaj",
+    "http://www.iqrra.com/manhaj",
+    "http://iqrra.com",
+    "javascript:alert(1)",
+    "JAVASCRIPT:alert(1)",
+    "data:text/html,<script>alert(1)</script>",
+    "iqrra.com.evil.com",
+    "www.iqrra.com/manhaj",
+    "iqrra.com/manhaj",
+    "https://iqrra.com.evil.com/",
+    "https://www.iqrra.com.evil.com/",
+    "https://evil-iqrra.com/",
+    "https://eviliqrra.com/",
+    "https://www.iqrra.com@evil.com",
+    "https://www.iqrra.com@evil.com/x",
+    "https://user:pass@www.iqrra.com/",
+    "https://www.iqrra.com:8080/",
+    "https://www.iqrra.com\\@evil.com",
+    "HTTPS://www.iqrra.com/manhaj",
+    "Https://www.iqrra.com/manhaj",
+    "https://WWW.IQRRA.COM/manhaj",
+    "https://www.iqrra.com.",
+    "https://www.iqrra.com-evil.com/",
+    "https://sub.iqrra.com/",
+    "//www.iqrra.com/manhaj",
+    "https://evil.com/?u=https://www.iqrra.com/x",
+  ];
+  for (const t of tricks) {
+    const out = core.linkify(t);
+    // "https://www.iqrra.com." is the one that is a link with a stripped full stop: not a trick, a plain link.
+    if (t === "https://www.iqrra.com.") { assert.deepEqual(out, [{ text: "https://www.iqrra.com", href: "https://www.iqrra.com" }, { text: "." }]); continue; }
+    assert.equal(out.filter((x) => x.href).length, 0, t);
+    assert.equal(joined(out), t);
+  }
+});
+
+test("linkify: a link next to an untrusted one links only ours; every href is exactly its text and on the allow-list", () => {
+  const text = "see https://evil.com/x and https://www.iqrra.com/manhaj and javascript:alert(1)";
+  const out = core.linkify(text);
+  const links = out.filter((x) => x.href);
+  assert.equal(links.length, 1);
+  assert.equal(links[0].href, "https://www.iqrra.com/manhaj");
+  assert.equal(joined(out), text);
+  for (const l of links) { assert.equal(l.href, l.text); assert.match(l.href, /^https:\/\/(www\.)?iqrra\.com(\/|\?|#|$)/); }
 });
