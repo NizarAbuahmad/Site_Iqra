@@ -95,11 +95,26 @@
 @media (max-width: 640px) {
   .iqchat-panel {
     inset-inline: 0; inset-block-end: 0; width: auto;
-    max-height: min(82vh, 620px);   /* fallback for browsers without dvh */
-    max-height: min(82dvh, 620px);
+    max-height: min(82vh, 620px, calc(100vh - 80px));   /* fallback for browsers without dvh; 80px: the sticky header */
+    max-height: min(82dvh, 620px, calc(100dvh - 80px));
     border-radius: 24px 24px 0 0; border-inline-width: 0; border-block-end-width: 0;
     padding-block-end: env(safe-area-inset-bottom);
   }
+}
+
+/* Short screens (a phone on its side): the panel cannot be taller than the
+   screen (the sheet also stays under the 70px site header), so the parts that
+   must stay (title, input, privacy note) are tightened and the log is the one
+   that gives. Without this the panel overflowed, and focusing the input
+   scrolled the title out of sight. */
+@media (max-height: 520px) {
+  .iqchat-head { padding-block: 6px; }   /* 6px: the close button's -6px margin must not poke out of the panel */
+  .iqchat-log { min-height: 0; padding-block: 10px; }
+  .iqchat-chips { flex-wrap: nowrap; overflow-x: auto; padding-block-end: 6px; }   /* one row that scrolls, not two that eat the log */
+  .iqchat-chip { flex: none; white-space: nowrap; }
+  .iqchat-form { padding-block-start: 8px; }
+  .iqchat-label { margin-bottom: 4px; }
+  .iqchat-fine { display: flex; flex-wrap: wrap; align-items: center; column-gap: 4px; padding-block: 2px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
