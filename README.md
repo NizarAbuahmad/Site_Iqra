@@ -99,3 +99,36 @@ The redirect is deliberately **temporary** (`"permanent": false` → 307). A 301
 would be cached by browsers indefinitely and would keep sending people to the
 old APK even after this file changed — which is the exact failure the redirect
 exists to prevent. Do not "tidy" it into a permanent one.
+
+## The question assistant («اسأل إقرأ»)
+
+A launcher in the bottom-left corner of the home page opens a small chat panel.
+It is two files, `ask.js` and `ask.css`, loaded by two lines in `index.html`, with
+no build step. It makes one call, `POST /api/site/ask` on the Iqrra API (the
+address is the `ENDPOINT` constant at the top of `ask.js`; it is the same API
+`api/_store.mjs` reports to). The API answers from a reviewed list of fixed
+answers first, with no AI, and uses an AI only for what that list does not
+cover; the page does not need to know which. The site stores nothing a visitor
+types and sends none of it to analytics. The conversation (the last few turns
+are sent along with each question) lives in the page's memory and is gone when
+the page is reloaded.
+
+- **Tests:** `node --test tests/*.test.mjs` runs the pure logic (what is sent,
+  what a reply means, the copy), which `ask.js` exports for Node. Use the glob:
+  on Node 22 `node --test tests/` fails with "Cannot find module". The DOM layer
+  (panel layout, focus, Esc, phones) was checked in a real browser with the API
+  stubbed; that script is not in the repo, and there is no automated browser
+  test here.
+- **Change the starter questions:** edit `CHIPS` in `ask.js`. Each one should be a
+  question the API answers from its fixed answers (ask the API's owner), or it
+  will cost an AI call.
+- **If the API address changes:** edit `ENDPOINT`. The API only accepts calls from
+  `https://www.iqrra.com` and `https://iqrra.com`, so a Vercel preview URL shows
+  the friendly "couldn't answer" message instead of an answer. That is expected.
+- **Switch it off without touching the API:** delete the `<link href="/ask.css">`
+  and `<script src="/ask.js">` lines from `index.html` and push.
+- **Privacy:** `privacy.html` §6 describes what happens to a question. Change it
+  when the behaviour changes.
+- **Look:** see the question assistant entry under Components in `DESIGN.md`. All
+  its classes start with `iqchat-`, because the page already uses `.ask` for the
+  suggestion card.
