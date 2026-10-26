@@ -131,14 +131,14 @@
 
 /* Where the panel covers the site header (measured at 1280px wide, 85px header; the
    header's own wrap at ~720-1000px is not accounted for):
-   - desktop-width window (over 640px): the 360px card covers the header's
-     left-hand buttons when the window is shorter than 560px before the first
-     question and shorter than 641px once a conversation has filled it (the card
-     then grows to its 560px maximum); it covers the header band itself below
-     581px and 661px. The compact layout (up to 520px high) is short enough to
-     clear the header between ~450px and 520px only before the first question; once
-     a conversation has filled the panel it covers the header's buttons at every
-     height below ~641px and the band below ~661px, 450-520px included.
+   - desktop-width window (over 640px): before the first question the card
+     covers the header's left-hand buttons at window heights of about 521-559px
+     and again below about 429px, and the header band itself at 521-580px and
+     below about 450px; it clears them at 429-520px (the compact layout, up to
+     520px high) and from 560px (buttons) / 581px (band) upward. Once a
+     conversation has filled the card (it then grows to its 560px maximum) it
+     covers the buttons at every height below ~641px and the band below ~661px,
+     the compact range included.
    - phone sheet (640px wide or less): under the 70px header at 353px of height
      and above; at 352px and below the tightened layout still needs about 270px
      and the header would leave less (360x345: the privacy note was clipped by
