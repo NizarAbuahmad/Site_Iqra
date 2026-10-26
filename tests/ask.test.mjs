@@ -298,6 +298,33 @@ test("linkify: anything that is not exactly this site stays plain text", () => {
     "https://sub.iqrra.com/",
     "//www.iqrra.com/manhaj",
     "https://evil.com/?u=https://www.iqrra.com/x",
+    // the web app's origin is allowed; its lookalikes are not
+    "https://evil.iqrra.com",
+    "https://evil.iqrra.com/",
+    "https://app.iqrra.com.evil.com",
+    "https://app.iqrra.com.evil.com/x",
+    "https://app.iqrra.com@evil.com",
+    "https://app.iqrra.com@evil.com/x",
+    "https://user:pass@app.iqrra.com/",
+    "https://xapp.iqrra.com",
+    "https://app2.iqrra.com",
+    "https://app.app.iqrra.com",
+    "https://app-iqrra.com",
+    "https://appiqrra.com",
+    "https://app.iqrra.com:443",
+    "https://app.iqrra.com:443/x",
+    "https://app.iqrra.com\\@evil.com",
+    "HTTPS://APP.IQRRA.COM",
+    "HTTPS://app.iqrra.com",
+    "https://APP.iqrra.com",
+    "https://app.IQRRA.com/x",
+    "http://app.iqrra.com",
+    "http://app.iqrra.com/x",
+    "//app.iqrra.com/x",
+    "app.iqrra.com",
+    "https://www.app.iqrra.com",
+    "https://app.iqrra.com-evil.com/",
+    "https://evil.com/?u=https://app.iqrra.com/x",
   ];
   for (const t of tricks) {
     const out = core.linkify(t);
@@ -316,4 +343,72 @@ test("linkify: a link next to an untrusted one links only ours; every href is ex
   assert.equal(links[0].href, "https://www.iqrra.com/manhaj");
   assert.equal(joined(out), text);
   for (const l of links) { assert.equal(l.href, l.text); assert.match(l.href, /^https:\/\/(www\.)?iqrra\.com(\/|\?|#|$)/); }
+});
+
+// ── app.iqrra.com: the third allow-listed origin ──────────────────────────────────────────────────────
+// The four real fixed answers that contain it, copied verbatim from the API's siteAskAnswers.ts
+// (the app-needed answer and the iPhone answer, each in both languages). The URL is followed by a full stop.
+const REAL_APP_ANSWERS = [
+  "There is no need to install anything: you can use Iqrra directly in the browser on a computer, phone or tablet at https://app.iqrra.com. The Android app is in closed testing on Google Play, and you can join the early-access list on the home page.",
+  "لا حاجة إلى تنزيل تطبيق: يمكنك استخدام إقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي عبر https://app.iqrra.com. وتطبيق أندرويد في مرحلة الاختبار المغلق على Google Play، ويمكنك الانضمام إلى قائمة الدعوات من الصفحة الرئيسية.",
+  "تطبيق آيفون قيد التطوير. وفي الوقت الحالي يمكنك استخدام إقرأ من المتصفح على هاتفك عبر https://app.iqrra.com.",
+  "The iPhone app is in development. In the meantime you can use Iqrra in the browser on your phone at https://app.iqrra.com.",
+];
+
+test("linkify: app.iqrra.com is a link, bare, with a path, and with a query and fragment (href is the text, exactly)", () => {
+  assert.deepEqual(core.linkify("https://app.iqrra.com"), [{ text: "https://app.iqrra.com", href: "https://app.iqrra.com" }]);
+  assert.deepEqual(core.linkify("https://app.iqrra.com/"), [{ text: "https://app.iqrra.com/", href: "https://app.iqrra.com/" }]);
+  const q = "https://app.iqrra.com/lesson/12?grade=10&subject=math#top";
+  assert.deepEqual(core.linkify(q), [{ text: q, href: q }]);
+  assert.deepEqual(core.linkify("(https://app.iqrra.com)"), [{ text: "(" }, { text: "https://app.iqrra.com", href: "https://app.iqrra.com" }, { text: ")" }]);
+});
+
+test("linkify: the real answers that contain app.iqrra.com link it, and the full stop after it stays outside the link", () => {
+  for (const text of REAL_APP_ANSWERS) {
+    const out = core.linkify(text);
+    const links = out.filter((x) => x.href);
+    assert.equal(links.length, 1, text);
+    assert.deepEqual(links[0], { text: "https://app.iqrra.com", href: "https://app.iqrra.com" });
+    assert.equal(joined(out), text);
+    const at = out.findIndex((x) => x.href);
+    assert.ok(out[at + 1] && out[at + 1].text.startsWith("."), "the full stop is the start of the next segment: " + text);
+  }
+  // the iPhone answers end with the link and its full stop
+  for (const text of [REAL_APP_ANSWERS[2], REAL_APP_ANSWERS[3]]) {
+    const out = core.linkify(text);
+    assert.deepEqual(out.slice(-2), [{ text: "https://app.iqrra.com", href: "https://app.iqrra.com" }, { text: "." }]);
+  }
+});
+
+test("linkify: https://app.iqrra.com. inside running text links only the origin", () => {
+  assert.deepEqual(core.linkify("open https://app.iqrra.com. Then sign in."), [{ text: "open " }, { text: "https://app.iqrra.com", href: "https://app.iqrra.com" }, { text: ". Then sign in." }]);
+  assert.deepEqual(core.linkify("https://app.iqrra.com.evil.com. and https://app.iqrra.com."), [{ text: "https://app.iqrra.com.evil.com. and " }, { text: "https://app.iqrra.com", href: "https://app.iqrra.com" }, { text: "." }]);
+});
+
+test("linkify: exactly three origins, a fixed list and not a wildcard", () => {
+  for (const host of ["iqrra.com", "www.iqrra.com", "app.iqrra.com"]) assert.equal(core.linkify("https://" + host + "/x").filter((x) => x.href).length, 1, host);
+  for (const host of ["api.iqrra.com", "blog.iqrra.com", "mail.iqrra.com", "a.iqrra.com", "app.www.iqrra.com", "www.www.iqrra.com", "ap.iqrra.com", "apps.iqrra.com", "Wapp.iqrra.com", "iqrra.com.iqrra.com"]) assert.equal(core.linkify("https://" + host + "/x").filter((x) => x.href).length, 0, host);
+});
+
+test("linkify: a fuzz of 200000 random strings built from URL pieces: every link is on the allow-list, href equals its text, the segments rejoin to the input", () => {
+  let seed = 12345;
+  const rnd = (n) => { seed = (seed * 1664525 + 1013904223) % 4294967296; return Math.floor((seed / 4294967296) * n); };
+  const pieces = ["https://", "http://", "HTTPS://", "//", "www.", "app.", "evil.", "xapp.", "iqrra.com", "iqrra.co", "iqrra.com.evil.com", ".", "@", ":", ":443", "/", "/x", "/manhaj", "?", "?a=b&c=d", "#", "#top", " ", "  ", "\n", "(", ")", "«", "»", "،", "؛", "؟", "!", ",", ";", "\"", "'", "[", "]", "…", "javascript:", "data:", "user:pass@", "\\", "-", "_", "%2F", "إقرأ", "ab", "1", "https://app.iqrra.com", "https://www.iqrra.com/", "https://iqrra.com"];
+  const origin = /^https:\/\/(iqrra\.com|www\.iqrra\.com|app\.iqrra\.com)(?=[\/?#]|$)/;
+  let links = 0;
+  for (let i = 0; i < 200000; i++) {
+    let t = "";
+    for (let n = 1 + rnd(9); n > 0; n--) t += pieces[rnd(pieces.length)];
+    const out = core.linkify(t);
+    assert.equal(joined(out), t);
+    for (const seg of out) {
+      if (!seg.href) continue;
+      links++;
+      assert.equal(seg.href, seg.text, t);
+      assert.match(seg.href, origin, t);
+      assert.doesNotMatch(seg.href, /[\s<>"'`\\]/, t);
+      assert.equal(new URL(seg.href).origin, seg.href.match(origin)[0], t);   // the browser agrees on which origin it is
+    }
+  }
+  assert.ok(links > 1000, "the fuzz must actually produce links: " + links);
 });

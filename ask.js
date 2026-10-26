@@ -101,12 +101,14 @@
     return { kind: "notice", text: TEXT[l].unavailable, reason: "unavailable" };
   }
 
-  // The only hosts an answer may link to. A token becomes a link only when ALL of it
-  // (after the punctuation around it is peeled off) is https://iqrra.com or
-  // https://www.iqrra.com followed by nothing, or by a path/query/fragment. Anything
+  // The only origins an answer may link to, a hardcoded list of exactly three:
+  // https://iqrra.com, https://www.iqrra.com and https://app.iqrra.com (the web app).
+  // Not a wildcard: any other subdomain is not on it. A token becomes a link only when
+  // ALL of it (after the punctuation around it is peeled off) is one of those origins
+  // followed by nothing, or by a path/query/fragment. Anything
   // else (another host, a lookalike, user-info, http:, javascript:, an uppercase
   // scheme) stays plain text.
-  var LINK_RE = /^https:\/\/(?:www\.)?iqrra\.com(?:[\/?#][A-Za-z0-9\-._~%!$&*+,;=:@\/?#]*)?$/;
+  var LINK_RE = /^https:\/\/(?:(?:www|app)\.)?iqrra\.com(?:[\/?#][A-Za-z0-9\-._~%!$&*+,;=:@\/?#]*)?$/;
   var LEAD_PUNCT = "(«\"'[";
   var TRAIL_PUNCT = ".,;:!?)»\"']\u060C\u061B\u061F\u2026";
 
@@ -292,7 +294,7 @@
 
     // An answer: the text, with a link only where linkify() found one of ours. Every
     // piece goes in as a text node or textContent; the href comes from a segment
-    // that matched https://iqrra.com or https://www.iqrra.com and nothing else.
+    // that matched one of the three allow-listed origins (see LINK_RE) and nothing else.
     // A reader starts at the beginning, so a long answer is shown from its top.
     function addAnswer(text, lang) {
       var message = el("div", "iqchat-msg iqchat-bot");
