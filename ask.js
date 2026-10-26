@@ -117,5 +117,210 @@
   if (typeof module !== "undefined" && module.exports) module.exports = core;
   else root.IqrraAsk = core;
 
-  // DOM layer: added below. Nothing above this line touches the page.
+  // ── DOM layer ───────────────────────────────────────────────────────────────
+  // Only in a browser. Node (the tests) stops here.
+  if (typeof document === "undefined") return;
+
+  // Hand-built icons, as DESIGN.md requires (no emoji, no icon font).
+  var BUBBLE = "M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z";
+  var CLOSE = "M6 6l12 12M18 6L6 18";
+
+  function el(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function icon(pathData) {
+    var ns = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(ns, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    var path = document.createElementNS(ns, "path");
+    path.setAttribute("d", pathData);
+    svg.appendChild(path);
+    return svg;
+  }
+
+  function init() {
+    if (document.getElementById("iqchat")) return;
+
+    var turns = [];      // earlier question/answer pairs, in this page's memory only
+    var busy = false;
+
+    var box = el("div", "iqchat");
+    box.id = "iqchat";
+
+    var launcher = el("button", "iqchat-launcher");
+    launcher.type = "button";
+    launcher.setAttribute("aria-label", "اسأل إقرأ");
+    launcher.setAttribute("aria-haspopup", "dialog");
+    launcher.setAttribute("aria-expanded", "false");
+    launcher.setAttribute("aria-controls", "iqchat-panel");
+    launcher.appendChild(icon(BUBBLE));
+
+    var panel = el("section", "iqchat-panel");
+    panel.id = "iqchat-panel";
+    panel.hidden = true;
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-modal", "false");
+    panel.setAttribute("aria-labelledby", "iqchat-title");
+
+    var head = el("div", "iqchat-head");
+    var title = el("h2", "iqchat-title", "اسأل إقرأ");
+    title.id = "iqchat-title";
+    var closeButton = el("button", "iqchat-close");
+    closeButton.type = "button";
+    closeButton.setAttribute("aria-label", "إغلاق");
+    closeButton.appendChild(icon(CLOSE));
+    head.appendChild(title);
+    head.appendChild(closeButton);
+
+    var log = el("div", "iqchat-log");
+    log.setAttribute("role", "log");
+    log.setAttribute("aria-live", "polite");
+    log.setAttribute("aria-relevant", "additions");
+
+    var chips = el("div", "iqchat-chips");
+    CHIPS.forEach(function (text) {
+      var chip = el("button", "iqchat-chip", text);
+      chip.type = "button";
+      chip.addEventListener("click", function () { send(text); });
+      chips.appendChild(chip);
+    });
+
+    var form = el("form", "iqchat-form");
+    form.setAttribute("autocomplete", "off");
+    var label = el("label", "iqchat-label", "اكتب سؤالك");
+    label.setAttribute("for", "iqchat-input");
+    var row = el("div", "iqchat-row");
+    var input = el("input", "iqchat-input");
+    input.id = "iqchat-input";
+    input.type = "text";
+    input.name = "q";
+    input.maxLength = MESSAGE_MAX;
+    input.setAttribute("dir", "auto");
+    input.setAttribute("enterkeyhint", "send");
+    input.setAttribute("autocomplete", "off");
+    var sendButton = el("button", "iqchat-send", "إرسال");
+    sendButton.type = "submit";
+    row.appendChild(input);
+    row.appendChild(sendButton);
+    form.appendChild(label);
+    form.appendChild(row);
+
+    var fine = el("p", "iqchat-fine");
+    fine.appendChild(document.createTextNode("تُعالَج الأسئلة التي لا تغطيها الإجابات الجاهزة بواسطة مزوّد ذكاء اصطناعي، فلا تكتب بيانات شخصية. "));
+    var privacy = el("a", null, "الخصوصية");
+    privacy.href = "/privacy";
+    fine.appendChild(privacy);
+
+    panel.appendChild(head);
+    panel.appendChild(log);
+    panel.appendChild(chips);
+    panel.appendChild(form);
+    panel.appendChild(fine);
+    box.appendChild(launcher);
+    box.appendChild(panel);
+    document.body.appendChild(box);
+
+    function setOpen(open, moveFocus) {
+      panel.hidden = !open;
+      launcher.setAttribute("aria-expanded", open ? "true" : "false");
+      if (!moveFocus) return;
+      if (open) input.focus(); else launcher.focus();
+    }
+
+    function addMessage(className, text) {
+      var message = el("div", "iqchat-msg " + className);
+      message.setAttribute("dir", "auto");     // an English answer sits left-aligned inside this RTL page
+      message.textContent = text;
+      log.appendChild(message);
+      log.scrollTop = log.scrollHeight;
+      return message;
+    }
+
+    function addNotice(text, lang) {
+      var message = el("div", "iqchat-msg iqchat-notice");
+      message.setAttribute("dir", "auto");
+      message.appendChild(document.createTextNode(text));
+      var line = el("p");
+      var link = el("a", null, lang === "en" ? "Leave a note" : "اكتب اقتراحك");
+      link.href = "#feedback";                  // the page opens the suggestion form on this hash
+      link.addEventListener("click", function () { setOpen(false, false); });
+      line.appendChild(link);
+      message.appendChild(line);
+      log.appendChild(message);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function send(raw) {
+      var message = normalizeMessage(raw);
+      if (!message || busy) return;
+      busy = true;
+      sendButton.disabled = true;
+      log.setAttribute("aria-busy", "true");
+      chips.hidden = true;
+      addMessage("iqchat-user", message);
+      input.value = "";
+
+      var lang = langOf(message);
+      var typing = addMessage("iqchat-bot iqchat-typing", lang === "en" ? "Typing…" : "جارٍ الكتابة…");
+
+      var controller = typeof AbortController === "function" ? new AbortController() : null;
+      var timer = setTimeout(function () { if (controller) controller.abort(); }, TIMEOUT_MS);
+
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildRequest(message, turns)),
+        credentials: "omit",
+        signal: controller ? controller.signal : undefined
+      })
+        .then(function (response) {
+          return response.json().then(
+            function (body) { return { status: response.status, body: body }; },
+            function () { return { status: response.status, body: null }; }
+          );
+        })
+        .catch(function () { return { status: 0, body: null }; })
+        .then(function (result) {
+          clearTimeout(timer);
+          if (typing.parentNode) typing.parentNode.removeChild(typing);
+          var outcome = interpret(result.status, result.body, lang);
+          if (outcome.kind === "answer") {
+            addMessage("iqchat-bot", outcome.text);
+            turns.push({ role: "user", content: message }, { role: "assistant", content: outcome.text });
+          } else {
+            addNotice(outcome.text, lang);
+          }
+          busy = false;
+          sendButton.disabled = false;
+          log.removeAttribute("aria-busy");
+          input.focus();
+        });
+    }
+
+    launcher.addEventListener("click", function () { setOpen(true, true); });
+    closeButton.addEventListener("click", function () { setOpen(false, true); });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !panel.hidden) setOpen(false, true);
+    });
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      send(input.value);
+    });
+
+    addMessage("iqchat-bot", "أهلًا بك! اسألني عن إقرأ، أو اختر سؤالًا من الأسفل.");
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
 })(typeof window !== "undefined" ? window : this);
