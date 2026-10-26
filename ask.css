@@ -51,7 +51,7 @@
 .iqchat-log { flex: 1 1 auto; display: flex; flex-direction: column; gap: 10px; min-height: 120px; padding: 16px; overflow-y: auto; overscroll-behavior: contain; }
 .iqchat-msg { max-width: 88%; padding: 10px 14px; border-radius: 16px; font-size: 15.5px; line-height: 1.75; overflow-wrap: anywhere; white-space: pre-wrap; }
 .iqchat-bot { align-self: flex-start; background: var(--card, #fff); border: 1px solid var(--border, #E6E3DB); }
-/* A link inside an answer (only https://iqrra.com and https://www.iqrra.com ones are made; see linkify in ask.js). */
+/* A link inside an answer (only links to https://iqrra.com, https://www.iqrra.com and https://app.iqrra.com are made; see linkify in ask.js). */
 .iqchat-link { color: var(--teal-ink, #006D65); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
 .iqchat-link:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; border-radius: 4px; }
 .iqchat-user { align-self: flex-end; background: var(--teal-ink, #006D65); color: #fff; }
