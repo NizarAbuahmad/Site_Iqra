@@ -109,7 +109,9 @@ address is the `ENDPOINT` constant at the top of `ask.js`; it is the same API
 `api/_store.mjs` reports to). The API answers from a reviewed list of fixed
 answers first, with no AI, and uses an AI only for what that list does not
 cover; the page does not need to know which. The site stores nothing a visitor
-types and sends none of it to analytics. The conversation (the last few turns
+types and sends none of it to analytics: the widget's root element carries
+PostHog's `ph-no-capture` class, which stops autocapture from recording even the
+fixed starter questions. The conversation (the last few turns
 are sent along with each question) lives in the page's memory and is gone when
 the page is reloaded.
 
