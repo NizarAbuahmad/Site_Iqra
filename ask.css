@@ -25,7 +25,11 @@
 .iqchat-panel {
   position: fixed; inset-block-end: max(16px, env(safe-area-inset-bottom)); inset-inline-end: 16px; z-index: 21;
   display: flex; flex-direction: column;
-  width: min(360px, calc(100vw - 32px)); max-height: min(560px, calc(100dvh - 32px));
+  /* The page styles every bare <section> with 64px of padding; the panel is one. */
+  padding: 0;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(560px, calc(100vh - 32px));   /* fallback for browsers without dvh */
+  max-height: min(560px, calc(100dvh - 32px));
   background: var(--card, #fff); border: 1px solid var(--border, #E6E3DB); border-radius: 24px; overflow: hidden;
   box-shadow: 0 14px 26px -6px rgba(11, 27, 51, .22);
   animation: iqchat-in .2s ease-out;
@@ -41,7 +45,7 @@
   color: var(--navy, #0B1B33); cursor: pointer;
 }
 .iqchat-close:hover { color: var(--teal-ink, #006D65); }
-.iqchat-close:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 2px; }
+.iqchat-close:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; }
 .iqchat-close svg { width: 22px; height: 22px; }
 
 .iqchat-log { flex: 1 1 auto; display: flex; flex-direction: column; gap: 10px; min-height: 120px; padding: 16px; overflow-y: auto; overscroll-behavior: contain; }
@@ -50,11 +54,12 @@
 .iqchat-user { align-self: flex-end; background: var(--teal-ink, #006D65); color: #fff; }
 .iqchat-typing { color: var(--muted, #5C6675); }
 /* A notice is the site's error banner: tint + border + text, so the colour is
-   never the only signal (the words say it too). */
+   never the only signal (the words say it too). Its link's focus ring is the
+   banner's own red (#9B1C22), not teal: teal on the red tint would not read. */
 .iqchat-notice { align-self: stretch; max-width: 100%; background: #FDECEC; border: 1px solid #F3C4C6; border-radius: 14px; color: #9B1C22; font-size: 15px; line-height: 1.6; }
 .iqchat-notice p { margin: 8px 0 0; }
-.iqchat-notice a { color: inherit; font-weight: 600; text-underline-offset: 3px; }
-.iqchat-notice a:focus-visible { outline: 3px solid #9B1C22; outline-offset: 2px; border-radius: 6px; }
+.iqchat-notice a { display: flex; align-items: center; width: fit-content; min-height: 44px; color: inherit; font-weight: 600; text-underline-offset: 3px; }
+.iqchat-notice a:focus-visible { outline: 3px solid #9B1C22; outline-offset: 3px; border-radius: 6px; }
 
 .iqchat-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 12px; }
 .iqchat-chips[hidden] { display: none; }
@@ -63,7 +68,7 @@
   background: #E3F2EF; color: var(--teal-ink, #006D65); font: inherit; font-size: 14px; font-weight: 600;
 }
 .iqchat-chip:hover { box-shadow: inset 0 0 0 1px var(--teal-ink, #006D65); }
-.iqchat-chip:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 2px; }
+.iqchat-chip:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; }
 
 .iqchat-form { padding: 12px 16px 0; border-top: 1px solid var(--border, #E6E3DB); }
 .iqchat-label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
@@ -73,7 +78,7 @@
   background: var(--bg, #F6F5F1); border: 1px solid var(--border, #E6E3DB); border-radius: 12px;
   color: var(--navy, #0B1B33); caret-color: var(--teal-ink, #006D65); font: inherit; font-size: 16px;
 }
-.iqchat-input:focus { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 2px; border-color: var(--teal-ink, #006D65); }
+.iqchat-input:focus { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; border-color: var(--teal-ink, #006D65); }
 .iqchat-send {
   flex: none; min-height: 44px; padding: 0 18px; border: 1px solid transparent; border-radius: 12px; cursor: pointer;
   background: var(--teal-ink, #006D65); color: #fff; font: inherit; font-size: 15px; font-weight: 600;
@@ -82,13 +87,16 @@
 .iqchat-send:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; }
 .iqchat-send[disabled] { opacity: .6; cursor: default; }
 
-.iqchat-fine { margin: 0; padding: 8px 16px 14px; color: var(--muted, #5C6675); font-size: 13px; line-height: 1.5; }
-.iqchat-fine a { color: var(--teal-ink, #006D65); }
+.iqchat-fine { margin: 0; padding: 8px 16px 6px; color: var(--muted, #5C6675); font-size: 13px; line-height: 1.5; }
+/* The link sits on its own line so its hit area can be 44px tall. */
+.iqchat-fine a { display: flex; align-items: center; width: fit-content; min-height: 44px; color: var(--teal-ink, #006D65); }
 
 /* Phones: a sheet across the bottom of the screen. */
 @media (max-width: 640px) {
   .iqchat-panel {
-    inset-inline: 0; inset-block-end: 0; width: auto; max-height: min(82dvh, 620px);
+    inset-inline: 0; inset-block-end: 0; width: auto;
+    max-height: min(82vh, 620px);   /* fallback for browsers without dvh */
+    max-height: min(82dvh, 620px);
     border-radius: 24px 24px 0 0; border-inline-width: 0; border-block-end-width: 0;
     padding-block-end: env(safe-area-inset-bottom);
   }

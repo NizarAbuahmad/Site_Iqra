@@ -192,7 +192,7 @@
     CHIPS.forEach(function (text) {
       var chip = el("button", "iqchat-chip", text);
       chip.type = "button";
-      chip.addEventListener("click", function () { send(text); });
+      chip.addEventListener("click", function () { send(text, false); });
       chips.appendChild(chip);
     });
 
@@ -220,6 +220,8 @@
     fine.appendChild(document.createTextNode("تُعالَج الأسئلة التي لا تغطيها الإجابات الجاهزة بواسطة مزوّد ذكاء اصطناعي، فلا تكتب بيانات شخصية. "));
     var privacy = el("a", null, "الخصوصية");
     privacy.href = "/privacy";
+    privacy.target = "_blank";                  // a new tab, so this in-memory conversation is not lost
+    privacy.rel = "noopener";
     fine.appendChild(privacy);
 
     panel.appendChild(head);
@@ -261,61 +263,78 @@
       log.scrollTop = log.scrollHeight;
     }
 
-    function send(raw) {
+    // fromInput: true when the text was typed (the box is cleared once it is sent),
+    // false for a chip (whatever the visitor has half typed stays where it is).
+    function send(raw, fromInput) {
       var message = normalizeMessage(raw);
       if (!message || busy) return;
       busy = true;
       sendButton.disabled = true;
-      log.setAttribute("aria-busy", "true");
       chips.hidden = true;
       addMessage("iqchat-user", message);
-      input.value = "";
+      if (fromInput) input.value = "";
 
       var lang = langOf(message);
       var typing = addMessage("iqchat-bot iqchat-typing", lang === "en" ? "Typing…" : "جارٍ الكتابة…");
 
+      var settled = false;
       var controller = typeof AbortController === "function" ? new AbortController() : null;
-      var timer = setTimeout(function () { if (controller) controller.abort(); }, TIMEOUT_MS);
 
-      fetch(ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildRequest(message, turns)),
-        credentials: "omit",
-        signal: controller ? controller.signal : undefined
-      })
-        .then(function (response) {
-          return response.json().then(
-            function (body) { return { status: response.status, body: body }; },
-            function () { return { status: response.status, body: null }; }
-          );
+      // Runs once, whichever of the reply, a failure or the timeout comes first.
+      function finish(result) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        if (typing.parentNode) typing.parentNode.removeChild(typing);
+        var outcome = interpret(result.status, result.body, lang);
+        if (outcome.kind === "answer") {
+          addMessage("iqchat-bot", outcome.text);
+          turns.push({ role: "user", content: message }, { role: "assistant", content: outcome.text });
+        } else {
+          addNotice(outcome.text, lang);
+        }
+        busy = false;
+        sendButton.disabled = false;
+        // Hand the cursor back only if it is still ours: not when the visitor has gone to another part of the page.
+        var active = document.activeElement;
+        if (!panel.hidden && (!active || active === document.body || panel.contains(active))) input.focus();
+      }
+
+      // The timeout does not depend on AbortController existing.
+      var timer = setTimeout(function () {
+        if (controller) controller.abort();
+        finish({ status: 0, body: null });
+      }, TIMEOUT_MS);
+
+      try {
+        fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(buildRequest(message, turns)),
+          credentials: "omit",
+          signal: controller ? controller.signal : undefined
         })
-        .catch(function () { return { status: 0, body: null }; })
-        .then(function (result) {
-          clearTimeout(timer);
-          if (typing.parentNode) typing.parentNode.removeChild(typing);
-          var outcome = interpret(result.status, result.body, lang);
-          if (outcome.kind === "answer") {
-            addMessage("iqchat-bot", outcome.text);
-            turns.push({ role: "user", content: message }, { role: "assistant", content: outcome.text });
-          } else {
-            addNotice(outcome.text, lang);
-          }
-          busy = false;
-          sendButton.disabled = false;
-          log.removeAttribute("aria-busy");
-          input.focus();
-        });
+          .then(function (response) {
+            return response.json().then(
+              function (body) { return { status: response.status, body: body }; },
+              function () { return { status: response.status, body: null }; }
+            );
+          })
+          .catch(function () { return { status: 0, body: null }; })
+          .then(finish);
+      } catch (error) {
+        finish({ status: 0, body: null });   // no fetch at all, or it threw before sending
+      }
     }
 
     launcher.addEventListener("click", function () { setOpen(true, true); });
     closeButton.addEventListener("click", function () { setOpen(false, true); });
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && !panel.hidden) setOpen(false, true);
+      if (event.key === "Escape" && !event.isComposing && !panel.hidden) setOpen(false, true);
     });
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      send(input.value);
+      send(input.value, true);
     });
 
     addMessage("iqchat-bot", "أهلًا بك! اسألني عن إقرأ، أو اختر سؤالًا من الأسفل.");
