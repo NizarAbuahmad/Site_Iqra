@@ -190,12 +190,12 @@
 <p>
   لا نحفظ نصّ أسئلتك ولا نصّ الردود في قاعدة بياناتنا ولا في سجلّاتنا، ولا نطلب منك اسمًا أو بريدًا.
   أما ما تحتفظ به OpenAI فتحكمه شروطها الخاصة (انظر صفّ OpenAI في الجدول أدناه)، وقد تحتفظ سجلّات
-  منصة الاستضافة ببيانات وصفية عن الطلب مثل عنوان IP، دون نصّ السؤال. وتبقى المحادثة في ذاكرة متصفحك
-  فقط وتزول حين تغلق الصفحة أو تُعيد تحميلها.
+  منصة الاستضافة وسجلّات خوادمنا ببيانات وصفية عن الطلب مثل عنوان IP، دون نصّ السؤال. وتبقى المحادثة
+  في ذاكرة متصفحك فقط وتزول حين تغلق الصفحة أو تُعيد تحميلها.
 </p>
 <p>
   ولمنع الإساءة نحتفظ في قاعدة بياناتنا (لدى Neon، ألمانيا (فرانكفورت)) بعدّاد لكل عنوان IP خلال نافذة
-  الساعة الواحدة. يبقى سجلّ العدّاد حتى تزيله عملية تنظيف دورية، ولا تزيل هذه العملية إلا السجلّات التي
+  الساعة الواحدة. يبقى سجلّ العدّاد حتى تزيله عملية تنظيف تجري من حين لآخر، ولا تزيل هذه العملية إلا السجلّات التي
   مضى على انتهاء ساعتها 24 ساعة على الأقل، فقد يُحفَظ العنوان يومًا أو أكثر. لا يحوي العدّاد نصّ أي سؤال
   ولا يُربَط بما كتبته. لذلك لا تكتب بيانات شخصية في هذا المساعد.
 </p>
@@ -224,7 +224,7 @@
   <tbody>
     <tr><td>OpenAI</td><td>توليد المحتوى التعليمي وتفريغ الصوت، والردّ على أسئلة مساعد الموقع</td><td>نصّ طلبك وسياق الدرس، والمقاطع الصوتية إن استخدمت الإدخال الصوتي، وأسئلة مساعد الموقع التي لا تغطيها الإجابات الجاهزة، مع آخر أربع رسائل من المحادثة</td></tr>
     <tr><td>Google</td><td>تسجيل الدخول بحساب Google، وتشغيل الخوادم</td><td>بيانات الدخول التي توافق عليها، وبيانات التطبيق أثناء المعالجة</td></tr>
-    <tr><td>Neon</td><td>قاعدة البيانات</td><td>بيانات الحساب والصفوف والمواد المحفوظة</td></tr>
+    <tr><td>Neon</td><td>قاعدة البيانات</td><td>بيانات الحساب والصفوف والمواد المحفوظة، وعدّادات الطلبات لكل عنوان IP لمنع الإساءة (ومنها عدّاد مساعد الموقع)</td></tr>
     <tr><td>Cloudflare R2</td><td>تخزين الملفات والوسائط</td><td>الملفات التي ترفعها</td></tr>
     <tr><td>PostHog</td><td>تحليلات الاستخدام</td><td>أحداث الاستخدام المذكورة أعلاه</td></tr>
     <tr><td>Resend</td><td>رسائل الخدمة، ونموذج التواصل، وقائمة انتظار تطبيق أندرويد</td><td>عنوان بريدك، وما تكتبه في نموذج التواصل</td></tr>
@@ -240,7 +240,7 @@
   بياناتك تُخزَّن وتُعالَج خارج الأردن. بالتحديد:
 </p>
 <ul>
-  <li><strong>قاعدة البيانات</strong> — حسابك وصفوفك وموادّك المحفوظة: ألمانيا (فرانكفورت).</li>
+  <li><strong>قاعدة البيانات</strong> — حسابك وصفوفك وموادّك المحفوظة وعدّادات الطلبات: ألمانيا (فرانكفورت).</li>
   <li><strong>خوادم المعالجة</strong> — التي تُشغّل التطبيق: بلجيكا.</li>
   <li><strong>الملفات والوسائط</strong> — التي ترفعها: شبكة تخزين Cloudflare.</li>
   <li><strong>توليد المحتوى وتفريغ الصوت والردّ على أسئلة مساعد الموقع</strong>: الولايات المتحدة.</li>
@@ -257,7 +257,7 @@
   <li>النُّسخ الاحتياطية: قد تبقى نسخة من بياناتك في النسخ الاحتياطية بعد الحذف مدّةً محدودة
       قبل أن تُستبدَل تلقائيًّا — ولا تتجاوز ثلاثين يومًا.</li>
   <li>عدّادات الطلبات لكل عنوان IP (لمنع الإساءة): تبقى خلال نافذة الساعة الواحدة وحتى تزيلها عملية تنظيف
-      دورية، ولا تزيل إلا ما مضى على انتهاء ساعته 24 ساعة على الأقل.</li>
+      تجري من حين لآخر، ولا تزيل إلا ما مضى على انتهاء ساعته 24 ساعة على الأقل.</li>
   <li>أسئلة مساعد الموقع: لا نحفظ نصّها ولا نصّ الردود عليها في قاعدة بياناتنا ولا في سجلّاتنا.</li>
 </ul>
 
@@ -415,13 +415,13 @@
 <p>
   We do not save the text of your questions or of the replies in our database or our logs, and we do
   not ask for a name or an email address. What OpenAI keeps is governed by its own terms (see the
-  OpenAI row in the table below), and our hosting platform's logs may hold request metadata such as
-  the IP address, but not the text of the question. The conversation stays in your browser's memory
+  OpenAI row in the table below), and our hosting platform's logs and our own server logs may hold
+  request metadata such as the IP address, but not the text of the question. The conversation stays in your browser's memory
   only and disappears when you close or reload the page.
 </p>
 <p>
   To prevent abuse we keep a counter for each IP address in our database (with Neon, Germany
-  (Frankfurt)) for the one-hour window. The counter's record is kept until a periodic clean-up
+  (Frankfurt)) for the one-hour window. The counter's record is kept until an occasional clean-up
   removes it, and that clean-up only removes records at least 24 hours after their hour has ended, so
   the IP address may be kept for a day or more. The counter holds no question text and is not linked
   to what you typed. For this reason, please do not type personal data into the assistant.
@@ -452,7 +452,7 @@
   <tbody>
     <tr><td>OpenAI</td><td>Generating educational content, transcribing audio, and replying to site assistant questions</td><td>The text of your request and lesson context, audio clips if you use voice input, and questions typed into the site assistant that the ready-made answers do not cover, with the last four messages of the conversation</td></tr>
     <tr><td>Google</td><td>Google Sign-In, running servers</td><td>Sign-in data you approve, and app data during processing</td></tr>
-    <tr><td>Neon</td><td>Database</td><td>Account, class, and saved material data</td></tr>
+    <tr><td>Neon</td><td>Database</td><td>Account, class, and saved material data, and per-IP request counters used to limit abuse (including for the site assistant)</td></tr>
     <tr><td>Cloudflare R2</td><td>File and media storage</td><td>Files you upload</td></tr>
     <tr><td>PostHog</td><td>Usage analytics</td><td>Usage events listed above</td></tr>
     <tr><td>Resend</td><td>Service emails, the contact form, and the Android waiting list</td><td>Your email address, and what you write in the contact form</td></tr>
@@ -468,7 +468,7 @@
   Your data is stored and processed outside Jordan. Specifically:
 </p>
 <ul>
-  <li><strong>Database</strong> — your account, classes, and saved materials: Germany (Frankfurt).</li>
+  <li><strong>Database</strong> — your account, classes, saved materials, and request counters: Germany (Frankfurt).</li>
   <li><strong>Processing servers</strong> — running the app: Belgium.</li>
   <li><strong>Files and media</strong> you upload: Cloudflare's storage network.</li>
   <li><strong>Content generation, audio transcription and replies to site assistant questions:</strong> United States.</li>
@@ -485,8 +485,8 @@
   <li>On account deletion: account data and linked classes, conversations, materials, and uploaded files are deleted.</li>
   <li>Backups: a copy of your data may remain in backups after deletion for a limited time before being
       automatically replaced — not exceeding thirty days.</li>
-  <li>Request counters per IP address (to prevent abuse): kept for the one-hour window and until a
-      periodic clean-up removes them, which only removes records at least 24 hours after their hour has ended.</li>
+  <li>Request counters per IP address (to prevent abuse): kept for the one-hour window and until an
+      occasional clean-up removes them, which only removes records at least 24 hours after their hour has ended.</li>
   <li>Site assistant questions: we do not store their text, or the text of the replies, in our database or our logs.</li>
 </ul>
 
