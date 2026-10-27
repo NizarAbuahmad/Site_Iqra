@@ -70,8 +70,24 @@ the later launch announcement (any email works). Before pasting contacts into
 the Play tester list, check each is a Google account and email the ones that
 are not to ask for the address on their phone. When it is time to invite: export the contacts from the Resend
 dashboard, paste them into the Play console's tester list, and send the invite
-as a Resend broadcast to the same contacts. Once the app is on the store, swap
+from the app's admin screen (below), not as a Resend broadcast. Once the app is on the store, swap
 the card for a Play link.
+
+**Messaging the list (since 2026-10-25).** `api/_store.mjs` also copies every
+signup into the app's `site_signups` table, and the app's admin screen
+(app.iqrra.com → حسابي → لوحة الإدارة → المسجّلون → «راسل قائمة الانتظار») sends the
+invite, the launch notice and later news to it. It records who was invited,
+adds an unsubscribe link to every mail, and skips anyone who unsubscribed. That
+screen is the only place that knows who unsubscribed — a Resend broadcast would
+mail them again.
+
+**What people agreed to.** Until the wording below went live the form promised
+the address would be used «لإرسال دعوة التجربة وإشعار الإطلاق فقط». The app
+enforces that: *news* mail reaches only people who signed up **after** this
+wording (`UPDATES_CONSENT_FROM` in the app's `lib/siteMail.ts`, which stays
+`null` — news disabled — until that date is set). Set it to the day this change
+deploys. Anyone who signed up earlier gets the invite and the launch notice and
+nothing else. Change the form's wording and that constant together.
 
 If signups arrive in the inbox as «طلب دعوة لتطبيق أندرويد» emails rather
 than as contacts, the key on Vercel is sending-only: create a full-access key
