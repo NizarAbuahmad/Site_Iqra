@@ -152,7 +152,7 @@ ${JSON.stringify(ld, null, 1)}
     </a>
     <div class="head-cta">
       <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ الآن</a>
-      <a class="btn-sm" href="/#android"><span class="lg">انضم لتجربة أندرويد</span><span class="sm">تجربة أندرويد</span></a>
+      <a class="btn-sm" href="https://play.google.com/store/apps/details?id=com.iqra.teachingassistant"><span class="lg">حمّل تطبيق أندرويد</span><span class="sm">التطبيق</span></a>
     </div>
   </div>
 </header>
@@ -530,7 +530,7 @@ for (const e of practiceLessons) {
 }
 
 // The sitemap is generated here so it cannot drift from what was written.
-// /download and /editorial stay out: both are noindex, and listing a noindex
+// /editorial stays out: it is noindex, and listing a noindex
 // URL in a sitemap is a contradiction Search Console reports as an error.
 // /privacy is hand-written rather than generated, but it belongs in the
 // sitemap: Google Play requires a reachable privacy URL, and a page nothing
@@ -608,7 +608,7 @@ writeFileSync(new URL('./llms.txt', root), `# \u0625\u0642\u0631\u0623 (Iqrra)
 - Product language: Arabic-native, right-to-left. Not a translation of an English tool.
 - User: the teacher. Students reach assessments through a link the teacher shares.
 - Price: free beta for teachers. 0 JOD.
-- Platforms: browser (desktop, phone, tablet). Android app in closed testing on Google Play; teachers can join the early-access list on the home page. iPhone app in development.
+- Platforms: browser (desktop, phone, tablet). Android app on Google Play (https://play.google.com/store/apps/details?id=com.iqra.teachingassistant). iPhone app in development.
 - Status: beta.
 
 ## What it produces
@@ -633,7 +633,7 @@ ${practiceLessons.map((e) => `- [تحضير درس ${e.titleAr}](${SITE}${lesson
 - [Blog](${SITE}/blog): practical tools for teachers.
 ${blogPosts.map((b) => `- [${b.title}](${SITE}/blog/${b.slug}): ${b.description}`).join('\n')}
 - [The app](https://app.iqrra.com): the product itself.
-- [Android early access](${SITE}/#android): leave an email to be invited to the Google Play closed test and told when the app is on the store.
+- [Android app on Google Play](https://play.google.com/store/apps/details?id=com.iqra.teachingassistant): the same account works in the app and in the browser.
 - [Privacy policy](${SITE}/privacy)
 
 ## For citation
