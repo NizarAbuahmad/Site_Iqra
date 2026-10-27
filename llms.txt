@@ -1,11 +1,11 @@
-# إقرأ (Iqraa)
+# إقرأ (Iqrra)
 
 > مساعد تحضير عربي للمعلمين في الأردن. يختار المعلم الصف والمادة والوحدة
 > والدرس، فيبني إقرأ خطة درس أو ورقة عمل أو اختبارًا قصيرًا أو نشاطًا صفيًا أو
 > شرائح عرض، مبنية على نتاجات التعلّم المعتمدة في المنهاج الأردني.
 >
 > An Arabic-native lesson-preparation assistant for teachers in Jordan. The
-> teacher picks a grade, subject, unit and lesson; Iqraa builds a lesson plan,
+> teacher picks a grade, subject, unit and lesson; Iqrra builds a lesson plan,
 > worksheet, short quiz, classroom activity or slide deck grounded in that
 > lesson's official NCCD learning outcomes, editable and ready to print or
 > project.
@@ -38,7 +38,31 @@ switched off, so they are deliberately absent from this list.
 
 - [Home](https://www.iqrra.com/): what it is, how it works, FAQ.
 - [Curriculum browser](https://www.iqrra.com/manhaj): every published grade and subject, with units, lessons and official learning outcomes — one page per grade/subject pair.
+- [تحضير درس حل نظام مكوَّن من معادلة خطية ومعادلة تربيعية](https://www.iqrra.com/manhaj/grade-10-mathematics/linear-quadratic-system): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
+- [تحضير درس حل نظام مكوَّن من معادلتين تربيعيتين](https://www.iqrra.com/manhaj/grade-10-mathematics/two-quadratics-system): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
+- [تحضير درس تبسيط المقادير الأسية](https://www.iqrra.com/manhaj/grade-10-mathematics/simplify-exponential-expressions): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
+- [تحضير درس حل المعادلة الأسية](https://www.iqrra.com/manhaj/grade-10-mathematics/exponential-equations): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
+- [تحضير درس المتتاليات](https://www.iqrra.com/manhaj/grade-10-mathematics/sequences): official learning outcomes, one worked example and practice questions with solutions (Grade 10 mathematics).
 - [Blog](https://www.iqrra.com/blog): practical tools for teachers.
+- [مكتبة إقرأ للمعلمين: كتب المنهاج والصور والأدوات في مكان واحد](https://www.iqrra.com/blog/iqra-library-for-teachers): ما أقسام مكتبة إقرأ للمعلمين، وكيف تصل إلى الدرس الذي تريده فيها في دقيقة، وما الذي تنزّله أو تطبعه منها، وما الذي يُفتح دون حساب وما يحتاج إلى حساب مجاني.
+- [زاوية الرياضيات في إقرأ: ٥ أدوات تفتحها على الشاشة في حصتك](https://www.iqrra.com/blog/math-corner-tools-for-class): حاسبة علمية، وراسم اقترانات، ولوحة هندسة، ومحوّل وحدات، وورقة قوانين للصف العاشر: ما تفعله كل أداة، ومثال تجرّبه معها، وما لا تغطيه.
+- [تمارين الدروس في إقرأ: ٣ طرق لاستعمالها في حصة الرياضيات](https://www.iqrra.com/blog/math-lesson-exercises-in-class): لكل درس رياضيات عشرة أسئلة اختيار من متعدد في وضعين، تعلّم واختبر نفسك. ثلاث طرق لاستعمالها في حصتك، وما تراجعه قبل أن تعتمد الأسئلة.
+- [صور الكتاب في إقرأ: ٥ أفكار لتدريس الدرس بصورته](https://www.iqrra.com/blog/book-images-in-teaching): مجلدات صور كتب الطالب في مكتبة إقرأ مرتبة بالصف والمادة والدرس: كيف تصل إليها، وخمس أفكار لاستعمالها في الحصة، وما لا تغطيه المجموعة بعد.
+- [مختبر إقرأ للصف العاشر: جدول دوري وحاسبة مول ومتجهات للعرض في الحصة](https://www.iqrra.com/blog/science-lab-grade-10-tools): سبع أدوات في مختبر إقرأ للصف العاشر: جدول دوري للعناصر ١–٢٠، وحاسبة المول والكتلة المولية، وإضافة المتجهات، وأربع بطاقات قوانين، بأمثلة تجرّبها.
+- [مراجعة نهاية الفصل الأول لرياضيات العاشر: خطة ١٠ أيام وورقة بإجاباتها](https://www.iqrra.com/blog/grade-10-semester-1-math-review): جدول مراجعة من عشرة أيام لوحدات الفصل الأول في رياضيات الصف العاشر، وشكل ثابت لحصة المراجعة، وورقة من ١٢ سؤالًا بإجاباتها الكاملة.
+- [تبسيط المقادير الأسية وحل المعادلة الأسية: ٥ أخطاء وكيف تعالجها](https://www.iqrra.com/blog/teaching-exponents-and-exponential-equations): قواعد الأسس في جدول، وخمسة أخطاء يكررها طلبة العاشر في تبسيط المقادير الأسية وحل المعادلات والأنظمة الأسية، لكل منها مثال محلول وعلاج.
+- [جهّز فصلك الثاني: خطة أول أسبوعين من ١٠ حصص](https://www.iqrra.com/blog/plan-the-first-two-weeks-of-semester-two): ثلاث أولويات لأول أسبوعين من الفصل الثاني، وجدول من عشر حصص، واختباران تشخيصيان قصيران لرياضيات الصف العاشر وكيمياء الصف نفسه بإجاباتهما، وروتينات لأول أسبوع.
+- [حصة رمضانية في ٣٠ دقيقة: كيف تضغط الدرس دون أن تُضعف النتاج](https://www.iqrra.com/blog/ramadan-30-minute-lesson): خمس خطوات لتحويل حصة من 45 دقيقة إلى 30 دون المساس بالنتاج: ما نُبقيه وما نحذفه، ونموذج من درس المول والكتلة المولية، وثلاثة أنشطة قصيرة.
+- [من أين يأتي محتوى إقرأ؟ نتاجات المنهاج الأردني وحدودها](https://www.iqrra.com/blog/where-iqra-content-comes-from): يبني إقرأ للمعلمين مادته على نتاجات التعلّم المنشورة لكل درس في مناهج المركز الوطني لتطوير المناهج. كم يغطي اليوم، وما الذي لم يُنشر بعد، وما مسؤوليتك.
+- [٥ أخطاء يقع فيها طلبة العاشر في حل نظام معادلة خطية وتربيعية](https://www.iqrra.com/blog/linear-quadratic-system-common-errors): خمسة أخطاء متكررة في حل نظام مكوَّن من معادلة خطية وأخرى تربيعية، لكل منها مثال محلول وعلاج، مع نشاط «جد الخطأ» وجدول لعدد الحلول.
+- [كيف تشرح قانون الجيوب وجيب التمام؟ ٤ حالات لحل المثلث وخطة من حصتين](https://www.iqrra.com/blog/teaching-law-of-sines-and-cosines): متى نستعمل قانون الجيوب ومتى جيب التمام؟ أربع حالات لحل المثلث، وخطة حصتين من ٤٥ دقيقة، ومثال محلول لكل حالة، والحالة الملتبسة، وأخطاء شائعة.
+- [المول والكتلة المولية: كيف تشرحه لطلبة العاشر في ٣ خطوات](https://www.iqrra.com/blog/teaching-the-mole-and-molar-mass): ثلاث خطوات لشرح المول: الكتلة المولية، ثم المولات، ثم الجسيمات. مثال محلول، وخطة حصة من ٤٥ دقيقة، ونشاط «وزن مول»، وأخطاء شائعة.
+- [كيف تُعدّ اختبار نهاية الفصل؟ ٦ خطوات من جدول المواصفات إلى مفتاح التصحيح](https://www.iqrra.com/blog/how-to-prepare-an-end-of-semester-exam): ست خطوات لإعداد اختبار نهاية الفصل: النتاجات، وجدول المواصفات، والأسئلة، والترتيب، ومفتاح التصحيح، والتحليل. مع مثال من وحدة «الأسس والمعادلات» للصف العاشر.
+- [معجم المعلم: ١٠ مصطلحات تربوية بتعريف مختصر ومثال](https://www.iqrra.com/blog/teacher-glossary): عشرة مصطلحات يحتاج إليها المعلم في التحضير والتقويم: نتاج التعلم، والتقويم التكويني والختامي، والتغذية الراجعة، والتمايز، وجدول المواصفات وغيرها، بتعريف في جملة ومثال.
+- [كيف تكتب خطة درس ناجحة؟ ٦ عناصر ونموذج جاهز للمعلم](https://www.iqrra.com/blog/how-to-write-a-lesson-plan): ستة عناصر تقوم عليها كل خطة درس: النتاج، والتمهيد، والعرض، والتدريب، والتقويم، والإغلاق، مع نموذج جاهز بالدقائق لحصة من ٤٥ دقيقة ومثالين من الصف العاشر.
+- [ورقة العمل الناجحة: ٧ قواعد لتصميم ورقة تحقق نتاج الدرس](https://www.iqrra.com/blog/how-to-design-a-worksheet): مثال محلول في أولها، وأسئلة متدرجة، ومفتاح راجعته بنفسك: سبع قواعد لتصميم ورقة عمل، مع نموذج كامل من كيمياء الصف العاشر.
+- [كيف تكتب أسئلة اختبار جيدة؟ ٨ قواعد للاختيار من متعدد والصح والخطأ](https://www.iqrra.com/blog/how-to-write-quiz-questions): متن كامل، وخيارات متشابهة، ومشتتات من أخطاء الطلبة الحقيقية: ثماني قواعد لكتابة أسئلة الاختبار القصير، مع مثال كامل من «قانون الجيوب» للصف العاشر.
+- [الذكاء الاصطناعي في تحضير الدروس: ٦ قواعد تحميك من أخطائه](https://www.iqrra.com/blog/using-ai-for-lesson-prep): يوفّر المساعد الذكي مسودة في دقائق، لكنه يخطئ بثقة. ست قواعد للاستفادة منه في التحضير: من ربطه بالدرس إلى حل الأسئلة بنفسك قبل اعتماد المفتاح.
 - [كيف تبدأ الحصة؟ ٨ طرق تشدّ انتباه طلبتك من أول دقيقة](https://www.iqrra.com/blog/how-to-start-a-lesson): نشاط الدقائق الأولى، ومراجعة سريعة، ولغز أو سؤال مفاجئ، إضافة إلى خمس طرق أخرى لبدء الحصة، مع خطة جاهزة لأول خمس دقائق.
 - [كيف تُغلق الحصة؟ ٩ طرق للتأكد من أن طلبتك فهموا](https://www.iqrra.com/blog/how-to-close-a-lesson): بطاقة الخروج، وملخص بجملة واحدة، وسؤال يجيب عنه الجميع، إضافة إلى ست طرق أخرى لإغلاق الحصة في دقيقة إلى خمس دقائق، مع خطة جاهزة لآخر خمس دقائق.
 - [١٠٠ أمر ذكي للمعلم: أوامر جاهزة للتحضير والتقويم](https://www.iqrra.com/blog/100-prompts-for-teachers): مئة أمر جاهز للنسخ: ستون تعمل مع أي مساعد ذكي، وأربعون مكتوبة لمساعد إقرأ مربوطة بدرسك في المنهاج الأردني.
@@ -48,8 +72,8 @@ switched off, so they are deliberately absent from this list.
 
 ## For citation
 
-Iqraa (إقرأ) — Arabic teaching assistant for the Jordanian national curriculum.
+Iqrra (إقرأ) — Arabic teaching assistant for the Jordanian national curriculum.
 https://www.iqrra.com/ · info@iqrra.com
 
 Coverage figures generated from the same curriculum snapshot that builds
-https://www.iqrra.com/manhaj. Last generated: 2026-10-11.
+https://www.iqrra.com/manhaj. Last generated: 2026-10-25.

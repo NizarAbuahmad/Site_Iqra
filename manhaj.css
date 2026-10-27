@@ -111,6 +111,34 @@ ul.cards .soon .cname{color:var(--muted)}
 .cname{display:block; font-weight:600; font-size:17px; margin-bottom:3px}
 .cmeta{display:block; color:var(--muted); font-size:13.5px}
 
+/* Lesson pages (/manhaj/grade-10-mathematics/<lesson>). Same card as .unit;
+   colours are the existing tokens, so nothing here adds to the palette. */
+.ltitle a{color:var(--teal-ink); text-decoration:none}
+.ltitle a:hover{text-decoration:underline}
+.tag{display:inline-block; margin-inline-start:10px; padding:1px 10px; border-radius:999px;
+     background:#E3F2EF; color:var(--teal-ink); font-size:12.5px; font-weight:600}
+
+.blk{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px 22px; margin:18px 0}
+.blk > h2{font-size:clamp(20px,2.6vw,24px); margin:0 0 10px}
+ul.outcomes{margin:0; padding-inline-start:22px}
+ul.outcomes li{margin:4px 0}
+.note{margin:12px 0 0; color:var(--muted); font-size:14px}
+.note a{color:var(--teal-ink); font-weight:600}
+.prob{margin:0 0 6px; font-weight:600}
+.prob .eq{display:block; margin-top:2px}
+ol.steps{margin:8px 0 0; padding-inline-start:24px}
+ol.steps li{margin:6px 0}
+ol.steps li::marker{color:var(--teal-ink); font-weight:700}
+ol.qs{margin:12px 0 0; padding-inline-start:26px}
+ol.qs > li{margin:0 0 20px; padding-inline-start:4px}
+ol.qs > li::marker{color:var(--teal-ink); font-weight:700}
+details{margin-top:6px}
+summary{cursor:pointer; font-weight:600; color:var(--teal-ink); padding:10px 0; min-height:44px}
+.ans{margin:4px 0 0; font-weight:700}
+.ans .lbl{display:inline; margin:0 0 0 8px}
+bdi.m{font-variant-numeric:lining-nums}
+sup,sub{line-height:0}
+
 .closing{margin:46px 0 0; padding:28px 24px; background:var(--card);
          border:1px solid var(--border); border-radius:16px}
 .closing h2{margin:0 0 8px; font-size:21px}

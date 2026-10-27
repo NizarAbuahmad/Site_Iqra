@@ -51,9 +51,16 @@
       "@type": "Organization",
       "@id": "https://www.iqrra.com/#org",
       "name": "إقرأ",
-      "alternateName": "IQRA",
+      "alternateName": ["Iqrra", "إقرأ للمعلمين"],
       "url": "https://www.iqrra.com/",
       "logo": "https://www.iqrra.com/icon-192.png",
+      "email": "info@iqrra.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "info@iqrra.com",
+        "availableLanguage": "ar"
+      },
       "description": "مساعد تحضير عربي لمعلمي الأردن، يساعدهم على تحضير الحصص وفق مناهج وزارة التربية والتعليم.",
       "areaServed": {
         "@type": "Country",
@@ -72,6 +79,7 @@
       "@id": "https://www.iqrra.com/#website",
       "url": "https://www.iqrra.com/",
       "name": "إقرأ",
+      "alternateName": ["Iqrra", "إقرأ للمعلمين"],
       "inLanguage": "ar",
       "publisher": {
         "@id": "https://www.iqrra.com/#org"
@@ -180,6 +188,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/ask.css">
 <style>
   :root{
     /* The app's palette (artifacts/mobile/constants/colors.ts), so the site
@@ -529,6 +538,7 @@
   .closing .bn{color:var(--aqua)}
 </style>
 <script src="/ph.js" defer></script>
+<script src="/ask.js" defer></script>
 </head>
 <body>
 
@@ -711,27 +721,26 @@
     <p class="sub">أفكار عملية للمعلم، مكتوبة للصف الأردني.</p>
     <ul class="blog-strip">
       <li>
-        <a href="/blog/how-to-start-a-lesson">
-          <span class="bs-thumb" aria-hidden="true"><span class="bs-num">٨</span><span class="bs-unit">طرق</span></span>
-          <span class="bs-kicker">طرق التدريس</span>
-          <b>كيف تبدأ الحصة؟ ٨ طرق تشدّ انتباه طلبتك من أول دقيقة</b>
-          <span class="bs-desc">نشاط الدقائق الأولى، ومراجعة سريعة، ولغز أو سؤال مفاجئ، إضافة إلى خمس طرق أخرى لبدء الحصة، مع خطة جاهزة لأول خمس دقائق.</span>
+        <a href="/blog/iqra-library-for-teachers">
+          <span class="bs-kicker">المكتبة</span>
+          <b>مكتبة إقرأ للمعلمين: كتب المنهاج والصور والأدوات في مكان واحد</b>
+          <span class="bs-desc">ما أقسام مكتبة إقرأ للمعلمين، وكيف تصل إلى الدرس الذي تريده فيها في دقيقة، وما الذي تنزّله أو تطبعه منها، وما الذي يُفتح دون حساب وما يحتاج إلى حساب مجاني.</span>
         </a>
       </li>
       <li>
-        <a href="/blog/how-to-close-a-lesson">
-          <span class="bs-thumb" aria-hidden="true"><span class="bs-num">٩</span><span class="bs-unit">طرق</span></span>
-          <span class="bs-kicker">طرق التدريس</span>
-          <b>كيف تُغلق الحصة؟ ٩ طرق للتأكد من أن طلبتك فهموا</b>
-          <span class="bs-desc">بطاقة الخروج، وملخص بجملة واحدة، وسؤال يجيب عنه الجميع، إضافة إلى ست طرق أخرى لإغلاق الحصة في دقيقة إلى خمس دقائق، مع خطة جاهزة لآخر خمس دقائق.</span>
+        <a href="/blog/math-corner-tools-for-class">
+          <span class="bs-thumb" aria-hidden="true"><span class="bs-num">٥</span><span class="bs-unit">أدوات</span></span>
+          <span class="bs-kicker">المكتبة</span>
+          <b>زاوية الرياضيات في إقرأ: ٥ أدوات تفتحها على الشاشة في حصتك</b>
+          <span class="bs-desc">حاسبة علمية، وراسم اقترانات، ولوحة هندسة، ومحوّل وحدات، وورقة قوانين للصف العاشر: ما تفعله كل أداة، ومثال تجرّبه معها، وما لا تغطيه.</span>
         </a>
       </li>
       <li>
-        <a href="/blog/100-prompts-for-teachers">
-          <span class="bs-thumb" aria-hidden="true"><span class="bs-num">١٠٠</span><span class="bs-unit">أمر</span></span>
-          <span class="bs-kicker">أدوات للمعلم</span>
-          <b>١٠٠ أمر ذكي للمعلم: أوامر جاهزة للتحضير والتقويم</b>
-          <span class="bs-desc">مئة أمر جاهز للنسخ: ستون تعمل مع أي مساعد ذكي، وأربعون مكتوبة لمساعد إقرأ مربوطة بدرسك في المنهاج الأردني.</span>
+        <a href="/blog/math-lesson-exercises-in-class">
+          <span class="bs-thumb" aria-hidden="true"><span class="bs-num">٣</span><span class="bs-unit">طرق</span></span>
+          <span class="bs-kicker">المكتبة</span>
+          <b>تمارين الدروس في إقرأ: ٣ طرق لاستعمالها في حصة الرياضيات</b>
+          <span class="bs-desc">لكل درس رياضيات عشرة أسئلة اختيار من متعدد في وضعين، تعلّم واختبر نفسك. ثلاث طرق لاستعمالها في حصتك، وما تراجعه قبل أن تعتمد الأسئلة.</span>
         </a>
       </li>
     </ul>

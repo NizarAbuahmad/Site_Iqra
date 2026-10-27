@@ -1,0 +1,155 @@
+/* «اسأل إقرأ» — the question assistant. See the question assistant entry under Components in DESIGN.md.
+   Every class is prefixed iqchat- (the page already uses .ask for the suggestion
+   card). Tokens come from the page's :root, with the literal value as fallback so
+   the file works on its own. Light mode only, like the site. */
+
+.iqchat, .iqchat * { box-sizing: border-box; }
+.iqchat { font-family: inherit; color: var(--navy, #0B1B33); }
+
+/* Launcher: round, 56px, bottom-left on this RTL page (= inline-end). Hidden
+   while the panel is open: the panel's own close button replaces it. */
+.iqchat-launcher {
+  position: fixed; inset-block-end: max(16px, env(safe-area-inset-bottom)); inset-inline-end: 16px; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+  background: var(--teal-ink, #006D65); color: #fff;
+  box-shadow: 0 14px 26px -6px rgba(11, 27, 51, .22);
+  transition: background-color .15s ease-out;
+}
+.iqchat-launcher:hover { background: #00564F; }
+.iqchat-launcher:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; }
+.iqchat-launcher svg { width: 26px; height: 26px; }
+.iqchat-launcher[aria-expanded="true"] { display: none; }
+
+/* Panel: a card (24px), 360px, anchored where the launcher was. */
+.iqchat-panel {
+  position: fixed; inset-block-end: max(16px, env(safe-area-inset-bottom)); inset-inline-end: 16px; z-index: 21;
+  display: flex; flex-direction: column;
+  /* The page styles every bare <section> with 64px of padding; the panel is one. */
+  padding: 0;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(560px, calc(100vh - 32px));   /* fallback for browsers without dvh */
+  max-height: min(560px, calc(100dvh - 32px));
+  background: var(--card, #fff); border: 1px solid var(--border, #E6E3DB); border-radius: 24px; overflow: hidden;
+  box-shadow: 0 14px 26px -6px rgba(11, 27, 51, .22);
+  animation: iqchat-in .2s ease-out;
+}
+.iqchat-panel[hidden] { display: none; }
+@keyframes iqchat-in { from { opacity: 0; transform: translateY(8px); } }
+
+.iqchat-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px 10px; border-bottom: 1px solid var(--border, #E6E3DB); }
+.iqchat-title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.4; }
+.iqchat-close {
+  display: flex; align-items: center; justify-content: center; flex: none;
+  width: 44px; height: 44px; margin: -6px; padding: 0; border: 0; border-radius: 10px; background: transparent;
+  color: var(--navy, #0B1B33); cursor: pointer;
+}
+.iqchat-close:hover { color: var(--teal-ink, #006D65); }
+.iqchat-close:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; }
+.iqchat-close svg { width: 22px; height: 22px; }
+
+.iqchat-log { flex: 1 1 auto; display: flex; flex-direction: column; gap: 10px; min-height: 120px; padding: 16px; overflow-y: auto; overscroll-behavior: contain; }
+.iqchat-msg { max-width: 88%; padding: 10px 14px; border-radius: 16px; font-size: 15.5px; line-height: 1.75; overflow-wrap: anywhere; white-space: pre-wrap; }
+.iqchat-bot { align-self: flex-start; background: var(--card, #fff); border: 1px solid var(--border, #E6E3DB); }
+/* A link inside an answer (only links to https://iqrra.com, https://www.iqrra.com and https://app.iqrra.com are made; see linkify in ask.js). */
+.iqchat-link { color: var(--teal-ink, #006D65); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.iqchat-link:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; border-radius: 4px; }
+.iqchat-user { align-self: flex-end; background: var(--teal-ink, #006D65); color: #fff; }
+.iqchat-typing { color: var(--muted, #5C6675); }
+/* A notice is the site's error banner: tint + border + text, so the colour is
+   never the only signal (the words say it too). Its link's focus ring is the
+   banner's own red (#9B1C22), not teal: teal on the red tint would not read. */
+.iqchat-notice { align-self: stretch; max-width: 100%; background: #FDECEC; border: 1px solid #F3C4C6; border-radius: 14px; color: #9B1C22; font-size: 15px; line-height: 1.6; }
+.iqchat-notice p { margin: 8px 0 0; }
+.iqchat-notice a { display: flex; align-items: center; width: fit-content; min-height: 44px; color: inherit; font-weight: 600; text-underline-offset: 3px; }
+.iqchat-notice a:focus-visible { outline: 3px solid #9B1C22; outline-offset: 3px; border-radius: 6px; }
+
+.iqchat-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 12px; }
+.iqchat-chips[hidden] { display: none; }
+.iqchat-chip {
+  min-height: 44px; padding: 8px 14px; border: 0; border-radius: 999px; cursor: pointer;
+  background: #E3F2EF; color: var(--teal-ink, #006D65); font: inherit; font-size: 14px; font-weight: 600;
+}
+.iqchat-chip:hover { box-shadow: inset 0 0 0 1px var(--teal-ink, #006D65); }
+.iqchat-chip:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; }
+
+.iqchat-form { padding: 12px 16px 0; border-top: 1px solid var(--border, #E6E3DB); }
+.iqchat-label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+.iqchat-row { display: flex; gap: 8px; }
+.iqchat-input {
+  flex: 1 1 auto; min-width: 0; padding: 12px 14px;
+  background: var(--bg, #F6F5F1); border: 1px solid var(--border, #E6E3DB); border-radius: 12px;
+  color: var(--navy, #0B1B33); caret-color: var(--teal-ink, #006D65); font: inherit; font-size: 16px;
+}
+.iqchat-input:focus { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; border-color: var(--teal-ink, #006D65); }
+.iqchat-send {
+  flex: none; min-height: 44px; padding: 0 18px; border: 1px solid transparent; border-radius: 12px; cursor: pointer;
+  background: var(--teal-ink, #006D65); color: #fff; font: inherit; font-size: 15px; font-weight: 600;
+}
+.iqchat-send:hover { background: #00564F; }
+.iqchat-send:focus-visible { outline: 3px solid var(--teal-ink, #006D65); outline-offset: 3px; }
+.iqchat-send[disabled] { opacity: .6; cursor: default; }
+
+.iqchat-fine { margin: 0; padding: 8px 16px 6px; color: var(--muted, #5C6675); font-size: 13px; line-height: 1.5; }
+/* The link sits on its own line so its hit area can be 44px tall. */
+.iqchat-fine a { display: flex; align-items: center; width: fit-content; min-height: 44px; color: var(--teal-ink, #006D65); }
+
+/* Phones: a sheet across the bottom of the screen. */
+@media (max-width: 640px) {
+  .iqchat-panel {
+    inset-inline: 0; inset-block-end: 0; width: auto;
+    max-height: min(82vh, 620px, calc(100vh - 80px));   /* fallback for browsers without dvh; 80px: the sticky header */
+    max-height: min(82dvh, 620px, calc(100dvh - 80px));
+    border-radius: 24px 24px 0 0; border-inline-width: 0; border-block-end-width: 0;
+    padding-block-end: env(safe-area-inset-bottom);
+  }
+}
+
+/* Short screens (a phone on its side, or a phone with its browser bars showing:
+   the sheet's content needs about 480px and the 82dvh cap gives less below 584px):
+   the panel cannot be taller than the screen (the sheet also stays under the 70px site header), so the parts that
+   must stay (title, input, privacy note) are tightened and the log is the one
+   that gives. Without this the panel overflowed, and focusing the input
+   scrolled the title out of sight. */
+@media (max-height: 520px), (max-width: 640px) and (max-height: 600px) {
+  /* The close button's -6px margin and 3px ring: 9px above, 3px below keeps the ring inside the panel (overflow: hidden
+     would cut it) at the same 44px head height. */
+  .iqchat-head { padding-block: 9px 3px; }
+  .iqchat-close:focus-visible { outline-offset: 0; }
+  .iqchat-log { min-height: 0; padding-block: 10px; }
+  /* One row, not two that eat the log. Tighter chips so all three fit a 360px card; if one ever does not,
+     the row scrolls, and the padding keeps a focused chip's 3px ring and a scrolled-to chip inside it.
+     flex: none, or the row (overflow auto) is squeezed below its chips. */
+  .iqchat-chips { flex: none; flex-wrap: nowrap; overflow-x: auto; gap: 6px; padding-block: 6px; scroll-padding-inline: 16px; }
+  .iqchat-chip { flex: none; white-space: nowrap; padding-inline: 8px; font-size: 13px; }
+  .iqchat-chip:focus-visible { outline-offset: 2px; }   /* ring = 3 + 2 = 5px, inside the row's 6px padding */
+  .iqchat-form { padding-block-start: 6px; }
+  .iqchat-label { margin-bottom: 2px; line-height: 1.3; }
+  .iqchat-input { padding-block: 6px; }
+  .iqchat-fine { display: flex; flex-wrap: wrap; align-items: center; column-gap: 4px; padding-block: 0; line-height: 1.3; }
+}
+
+/* Where the panel covers the site header (measured at 1280px wide, 85px header; the
+   header's own wrap at ~720-1000px is not accounted for):
+   - desktop-width window (over 640px): before the first question the card
+     covers the header's left-hand buttons at window heights of about 521-559px
+     and again below about 429px, and the header band itself at 521-580px and
+     below about 450px; it clears them at 429-520px (the compact layout, up to
+     520px high) and from 560px (buttons) / 581px (band) upward. Once a
+     conversation has filled the card (it then grows to its 560px maximum) it
+     covers the buttons at every height below ~641px and the band below ~661px,
+     the compact range included.
+   - phone sheet (640px wide or less): under the 70px header at 353px of height
+     and above; at 352px and below the tightened layout still needs about 270px
+     and the header would leave less (360x345: the privacy note was clipped by
+     6px), so the panel covers it (it is above it in z-order, and closes with X
+     or Esc) instead of clipping the note. */
+@media (max-height: 352px) {
+  .iqchat-panel { max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iqchat-panel { animation: none; }
+  .iqchat-launcher { transition: none; }
+}
+@media print { .iqchat { display: none; } }
