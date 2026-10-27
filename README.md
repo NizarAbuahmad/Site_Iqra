@@ -4,10 +4,10 @@ The marketing site. Static HTML, no build step. Vercel serves it; a push to
 `main` deploys.
 
 - `index.html` — the live page
-- `download.html` — served at `/download`
 - `editorial.html` — an alternate layout, kept for comparison
 - `api/feedback.mjs` — receives the contact form
-- `api/waitlist.mjs` — receives the Android early-access form. Stores the
+- `api/waitlist.mjs` — received the Android early-access form (removed from the
+  page 2026-10-27, see below; the endpoint is kept). Stores the
   address as a Resend contact; if Resend refuses (a sending-only key cannot
   write contacts) it mails the address to `FEEDBACK_TO` instead, so nothing
   is lost. Check it with `node --test tests/waitlist.test.mjs`
@@ -59,19 +59,20 @@ sender. Receiving works too: the domain's MX records point at Zoho (checked
 2026-09-30), so replies to `info@iqrra.com` arrive. The form's from-address
 `feedback@iqrra.com` only sends.
 
-## The Android app is not linked from the site (since 2026-09-30)
+## The Android app is on Google Play (since 2026-10-27)
 
-The app is in Google Play's closed test, so nothing on the site points at
-`/download` any more. Instead the home page collects an email (hero field and
-`#android` card) and `api/waitlist.mjs` stores it as a Resend contact. Any
-address is accepted: the list serves the closed test (Play admits testers by
-Google account, so that address is *preferred* and asked for in the hint) and
-the later launch announcement (any email works). Before pasting contacts into
-the Play tester list, check each is a Google account and email the ones that
-are not to ask for the address on their phone. When it is time to invite: export the contacts from the Resend
-dashboard, paste them into the Play console's tester list, and send the invite
-from the app's admin screen (below), not as a Resend broadcast. Once the app is on the store, swap
-the card for a Play link.
+Every Android link on the site goes straight to the store listing,
+https://play.google.com/store/apps/details?id=com.iqra.teachingassistant — the header button on every page, the hero's
+text link, the `#android` card on the home page, the FAQ and the blog posts. The
+`#android` id stays on that card because older posts and shares link to it.
+
+`/download` and `/app.apk` used to serve a sideloaded APK; both are now
+temporary redirects to the listing in `vercel.json`, so old messages, slides and
+QR codes still land on the store. `download.html` is gone. There is no APK
+link to update after a build any more: Play delivers updates.
+
+The early-access form is gone from the home page. `api/waitlist.mjs` and the
+contacts it collected stay (the app's admin screen mails that list).
 
 **Messaging the list (since 2026-10-25).** `api/_store.mjs` also copies every
 signup into the app's `site_signups` table, and the app's admin screen
@@ -93,28 +94,6 @@ If signups arrive in the inbox as «طلب دعوة لتطبيق أندرويد�
 than as contacts, the key on Vercel is sending-only: create a full-access key
 in Resend and replace `RESEND_API_KEY`. The function's log line
 `waitlist: contacts refused` carries Resend's exact reason.
-
-`/download` itself still works for anyone holding the link (and is still
-`noindex`), so the procedure below still applies to it.
-
-## After every Android build, change one line
-
-`/download` is the only Android link that should ever appear anywhere — on
-this site, in a message to a teacher, on a slide. It serves `download.html`,
-which starts the download and explains how to install it. The file itself
-comes from `/app.apk`, a redirect to the APK named in `vercel.json`.
-
-EAS gives each build a **new artifact URL**, so that line goes stale on every
-`eas build`. Nothing breaks visibly when it does: the page keeps serving the
-previous binary, and the only symptom is teachers running an old app.
-
-So when a build finishes, edit `destination` in `vercel.json` and push. That
-is the whole procedure.
-
-The redirect is deliberately **temporary** (`"permanent": false` → 307). A 301
-would be cached by browsers indefinitely and would keep sending people to the
-old APK even after this file changed — which is the exact failure the redirect
-exists to prevent. Do not "tidy" it into a permanent one.
 
 ## The question assistant («اسأل إقرأ»)
 

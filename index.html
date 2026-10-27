@@ -90,7 +90,8 @@
       "@id": "https://www.iqrra.com/#app",
       "name": "إقرأ — مساعد تحضير الحصص",
       "applicationCategory": "EducationalApplication",
-      "operatingSystem": "Web",
+      "operatingSystem": "Web, Android",
+      "installUrl": "https://play.google.com/store/apps/details?id=com.iqra.teachingassistant",
       "inLanguage": "ar",
       "url": "https://www.iqrra.com/",
       "publisher": {
@@ -168,7 +169,7 @@
           "name": "هل أحتاج إلى تنزيل تطبيق؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "لا. يمكنك استخدام إقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي. ولتجربة تطبيق أندرويد مبكرًا ولنُعلمك حين ينزل على متجر Play، سجّل بريدك، ويُفضَّل بريد حساب Google الذي تستخدمه على هاتفك. تطبيق آيفون قيد التطوير."
+            "text": "لا. يمكنك استخدام إقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي. وإن فضّلت تطبيقًا على هاتفك، فتطبيق إقرأ لأندرويد متوفر الآن على Google Play. تطبيق آيفون قيد التطوير."
           }
         },
         {
@@ -474,30 +475,17 @@
   .field textarea{min-height:130px; resize:vertical}
   .field input:focus, .field textarea:focus{outline:3px solid var(--teal-ink); outline-offset:2px; border-color:var(--teal-ink)}
   .ask button{font:inherit; cursor:pointer; width:100%}
-  /* The feedback form is behind a button: the page already asks for an email
-     twice, and a four-field form is the longest block on a phone. */
+  /* The feedback form is behind a button: a four-field form is the longest
+     block on a phone. */
   .ask-more>summary{display:block; width:max-content; max-width:100%; list-style:none; cursor:pointer; text-align:center; margin:0 auto}
   .ask-more>summary::-webkit-details-marker{display:none}
   .ask-more[open]>summary{display:none}
   .ask-more>summary:focus-visible{outline:3px solid var(--teal-ink); outline-offset:3px}
   .ask button[disabled]{opacity:.6; cursor:default}
-  /* The Android waitlist: one field and one button share a line where there
-     is room, and wrap on a phone. The button's vertical padding matches the
-     input's so the two sit at one height. */
-  .inline{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap}
-  /* display:flex above outranks the UA's [hidden]{display:none}, so without
-     this the form stayed on screen under its own success message. */
-  .inline[hidden]{display:none}
-  .inline .field{flex:1 1 240px; margin:0}
-  .inline button{width:auto; flex:0 0 auto; padding-block:12px; font:inherit; cursor:pointer}
-  .inline button[disabled]{opacity:.6; cursor:default}
-  .inline .say{flex-basis:100%; margin-top:4px}
-  /* Once the button has wrapped under the field, full width reads as the
-     feedback form's button does, not as a stray chip. */
-  @media(max-width:560px){.inline button{width:100%}}
-  /* The privacy line sits in the status slot: an error or success replaces it,
-     and it needs no height of its own. */
-  .say.fine{color:var(--muted); font-size:13px; line-height:1.5}
+  /* The Android card: one store button, centered like the card's heading. */
+  .get-app{text-align:center}
+  .get-app .btn{display:inline-flex; align-items:center; gap:10px}
+  .get-app .alt{margin:18px 0 0; font-size:14px; color:var(--muted)}
   /* Bots fill what they cannot see; people never reach it. */
   /* Visually hidden without an off-canvas position: a large negative `left`
      still extends the page's scrollable area to include it (position:absolute
@@ -554,11 +542,11 @@
       <a href="#how">كيف يعمل إقرأ؟</a>
       <a href="#faq">الأسئلة الشائعة</a>
       <a href="/blog">المدونة</a>
-      <a class="nav-android" href="#android">انضم لتجربة أندرويد</a>
+      <a class="nav-android" href="https://play.google.com/store/apps/details?id=com.iqra.teachingassistant">حمّل تطبيق أندرويد</a>
     </nav>
     <div class="head-cta">
       <a class="btn-sm btn-sm-primary" href="https://app.iqrra.com">ابدأ الآن</a>
-      <a class="btn-sm" href="#android">انضم لتجربة أندرويد</a>
+      <a class="btn-sm" href="https://play.google.com/store/apps/details?id=com.iqra.teachingassistant">حمّل تطبيق أندرويد</a>
       <button class="menu-btn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="site-nav">
         <svg class="bars" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         <svg class="x" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
@@ -609,9 +597,9 @@
     <!-- stats:start — written by tools-build-curriculum.mjs from data/curriculum.json; edit the snapshot, not this line -->
     <p class="stats"><b>١٠</b> صفوف · <b>١٣</b> مادة · أكثر من <b>٤٬٥٠٠</b> نتاج تعلّم من مناهج المركز الوطني لتطوير المناهج</p>
     <!-- stats:end -->
-    <!-- The Android waitlist form lives in #android; the hero keeps one line so
-         it has a single call to action. -->
-    <a class="android-line" href="#android">تطبيق أندرويد قريبًا — انضم إلى قائمة الدعوات <span aria-hidden="true">←</span></a>
+    <!-- The Android app is a secondary path, so one text link, not a second
+         solid button beside «ابدأ الآن». -->
+    <a class="android-line" href="https://play.google.com/store/apps/details?id=com.iqra.teachingassistant">تطبيق أندرويد متوفر الآن على Google Play <span aria-hidden="true">←</span></a>
   </div>
   </div>
 </div>
@@ -704,7 +692,7 @@
       </details>
       <details class="faq-item">
         <summary>هل أحتاج إلى تنزيل تطبيق؟<span class="chevron" aria-hidden="true"></span></summary>
-        <p>لا. يمكنك استخدام <b class="bn">إقرأ</b> مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي. ولتجربة تطبيق أندرويد مبكرًا ولنُعلمك حين ينزل على متجر Play، <a href="#android">سجّل بريدك</a>، ويُفضَّل بريد حساب Google الذي تستخدمه على هاتفك. تطبيق آيفون قيد التطوير.</p>
+        <p>لا. يمكنك استخدام <b class="bn">إقرأ</b> مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي. وإن فضّلت تطبيقًا على هاتفك، فتطبيق إقرأ لأندرويد متوفر الآن على <a href="https://play.google.com/store/apps/details?id=com.iqra.teachingassistant">Google Play</a>. تطبيق آيفون قيد التطوير.</p>
       </details>
       <details class="faq-item">
         <summary>هل استخدام إقرأ مجاني؟<span class="chevron" aria-hidden="true"></span></summary>
@@ -749,28 +737,17 @@
 </section>
 <!-- blog:latest:end -->
 
-<!-- The list serves two purposes: the closed test on Google Play admits testers
-     by Google account, so that address is PREFERRED; the launch announcement
-     works with any email, so nothing else is refused. Stored as a Resend
-     contact by api/waitlist.mjs; nothing on the site links to /download any
-     more (see README). -->
+<!-- #android stays the id: older posts, shares and the manhaj pages linked to it. -->
 <section id="android">
   <div class="wrap">
-    <div class="ask">
-      <h2>كن من أوائل المعلّمين الذين يجرّبون تطبيق إقرأ</h2>
-      <p class="sub">تجربة جديدة بانتظارك قريبًا على أندرويد! اشترك الآن لتكون من أوائل من يختبر التطبيق، وسنعلمك لحظة توفره على متجر Play. يُفضَّل بريد حساب Google الذي تستخدمه على هاتفك، فالتجربة المبكرة تُفتح عبر ذلك الحساب.</p>
-      <form class="inline" data-waitlist novalidate>
-        <label class="field">
-          <span>البريد الإلكتروني</span>
-          <input name="email" type="email" required maxlength="200" autocomplete="email" inputmode="email" dir="ltr" placeholder="name@example.com">
-        </label>
-        <label class="trap" aria-hidden="true">
-          لا تملأ هذا الحقل
-          <input name="website" tabindex="-1" autocomplete="off">
-        </label>
-        <button class="btn btn-primary" type="submit">انضم لتجربة أندرويد الحصرية</button>
-        <p class="say fine" role="status" aria-live="polite">سنستخدم بريدك لإرسال دعوة التجربة وإشعار الإطلاق وأخبار تطبيق إقرأ، ويمكنك إلغاء الاشتراك في أي وقت.</p>
-      </form>
+    <div class="ask get-app">
+      <h2>إقرأ على هاتفك</h2>
+      <p class="sub">تطبيق <b class="bn">إقرأ</b> لأندرويد متوفر الآن على Google Play. حسابك نفسه يعمل في التطبيق وفي المتصفح.</p>
+      <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.iqra.teachingassistant">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+        حمّل التطبيق من Google Play
+      </a>
+      <p class="alt">على آيفون؟ التطبيق قيد التطوير، ونسخة المتصفح فيها كل شيء: <a href="https://app.iqrra.com">app.iqrra.com</a></p>
     </div>
   </div>
 </section>
@@ -942,60 +919,6 @@
           say.textContent = 'تعذّر الإرسال. حاول مرة أخرى بعد قليل — ما كتبته ما زال موجودًا.';
         })
         .then(function () { button.disabled = false; });
-    });
-  })();
-</script>
-
-<script>
-  // The Android waitlist: one form in the hero, one in the #android card.
-  // Both post to /api/waitlist, and one success replaces both — a teacher who
-  // has signed up should not be asked again a screen further down.
-  (function () {
-    var forms = Array.prototype.slice.call(document.querySelectorAll('form[data-waitlist]'));
-
-    function done() {
-      forms.forEach(function (f) {
-        var say = f.querySelector('.say');
-        say.className = 'say ok';
-        say.textContent = 'وصلنا بريدك، شكرًا لك. سنراسلك بدعوة التجربة، ثم نُعلمك حين ينزل التطبيق على متجر Play.';
-        // The status line moves out first, or hiding the form would hide it too.
-        f.after(say);
-        f.hidden = true;
-      });
-    }
-
-    forms.forEach(function (form) {
-      var say = form.querySelector('.say');
-      var button = form.querySelector('button');
-      var email = form.querySelector('input[name=email]');
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-          say.className = 'say bad';
-          say.textContent = 'اكتب بريدًا إلكترونيًّا صحيحًا.';
-          return;
-        }
-
-        button.disabled = true;
-        say.className = 'say';
-        say.textContent = 'جارٍ التسجيل…';
-
-        fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(Object.fromEntries(new FormData(form).entries()))
-        })
-          .then(function (r) {
-            if (!r.ok) throw new Error(r.status);
-            done();
-          })
-          .catch(function () {
-            say.className = 'say bad';
-            say.textContent = 'تعذّر التسجيل. حاول مرة أخرى بعد قليل، أو راسلنا على info@iqrra.com';
-          })
-          .then(function () { button.disabled = false; });
-      });
     });
   })();
 </script>

@@ -2,8 +2,13 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/download",
+      "destination": "https://play.google.com/store/apps/details?id=com.iqra.teachingassistant",
+      "permanent": false
+    },
+    {
       "source": "/app.apk",
-      "destination": "https://expo.dev/artifacts/eas/qnkVpEx08ynYT2mO_9lakatGpZfZYkntYQdDRuCNwlo.apk",
+      "destination": "https://play.google.com/store/apps/details?id=com.iqra.teachingassistant",
       "permanent": false
     },
     {

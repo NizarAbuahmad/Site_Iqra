@@ -349,8 +349,8 @@ test("linkify: a link next to an untrusted one links only ours; every href is ex
 // The four real fixed answers that contain it, copied verbatim from the API's siteAskAnswers.ts
 // (the app-needed answer and the iPhone answer, each in both languages). The URL is followed by a full stop.
 const REAL_APP_ANSWERS = [
-  "There is no need to install anything: you can use Iqrra directly in the browser on a computer, phone or tablet at https://app.iqrra.com. The Android app is in closed testing on Google Play, and you can join the early-access list on the home page.",
-  "لا حاجة إلى تنزيل تطبيق: يمكنك استخدام إقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي عبر https://app.iqrra.com. وتطبيق أندرويد في مرحلة الاختبار المغلق على Google Play، ويمكنك الانضمام إلى قائمة الدعوات من الصفحة الرئيسية.",
+  "There is no need to install anything: you can use Iqrra directly in the browser on a computer, phone or tablet at https://app.iqrra.com. If you prefer an app, the Android app is also available on Google Play.",
+  "لا حاجة إلى تنزيل تطبيق: يمكنك استخدام إقرأ مباشرة من المتصفح على الحاسوب أو الهاتف أو الجهاز اللوحي عبر https://app.iqrra.com. وإن فضّلت تطبيقًا، فتطبيق أندرويد متاح أيضًا على Google Play.",
   "تطبيق آيفون قيد التطوير. وفي الوقت الحالي يمكنك استخدام إقرأ من المتصفح على هاتفك عبر https://app.iqrra.com.",
   "The iPhone app is in development. In the meantime you can use Iqrra in the browser on your phone at https://app.iqrra.com.",
 ];
