@@ -301,6 +301,16 @@
     .hero p{margin-bottom:24px}
     .hero .cta-row{gap:10px}
   }
+  /* Phones: the header keeps «ابدأ الآن», so the hero leads with the app.
+     «حمّل التطبيق» becomes the solid button, the browser version the outlined
+     one, and the curriculum link (also in the menu) steps out of the row.
+     iPhones (.ios, set before paint) keep the desktop pair. */
+  .btn-app{display:none}
+  @media(max-width:640px){
+    html:not(.ios) .btn-app{display:inline-flex; align-items:center; gap:8px}
+    html:not(.ios) .hero .btn-web{background:var(--card); color:var(--navy); border-color:var(--border)}
+    html:not(.ios) .hero .btn-manhaj{display:none}
+  }
 
   /* The hero video: the real app (web build, demo mode, what app.iqrra.com
      serves), 16:9 under the headline. Phones get a 9:16 cut of the same tour,
@@ -525,6 +535,11 @@
   .bn{color:var(--teal-ink); font-weight:700; white-space:nowrap}
   .closing .bn{color:var(--aqua)}
 </style>
+<script>
+  // iPhones and iPads get no Android button (iPadOS reports a Mac with touch).
+  if (/iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1))
+    document.documentElement.classList.add('ios');
+</script>
 <script src="/ph.js" defer></script>
 <script src="/ask.js" defer></script>
 </head>
@@ -564,8 +579,12 @@
     <h1>وقت أقل للتحضير.<br> وقت أكثر للتعليم.</h1>
     <p>خطة الدرس، وورقة العمل، والاختبار — يُعدّها <b class="bn">إقرأ</b> من نتاجات التعلّم في المنهاج الأردني، وأنت تراجعها وتعدّلها لصفّك.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="https://app.iqrra.com">ابدأ الآن</a>
-      <a class="btn btn-ghost" href="/manhaj">تصفَّح المناهج</a>
+      <a class="btn btn-primary btn-app" href="https://play.google.com/store/apps/details?id=com.iqra.teachingassistant">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+        حمّل التطبيق
+      </a>
+      <a class="btn btn-primary btn-web" href="https://app.iqrra.com">ابدأ الآن</a>
+      <a class="btn btn-ghost btn-manhaj" href="/manhaj">تصفَّح المناهج</a>
     </div>
     <p class="note">استمتع بالتجربة مجانًا • متوافق تمامًا مع متصفحات الأجهزة المحمولة والمكتبية</p>
   </div>
